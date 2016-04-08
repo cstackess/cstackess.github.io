@@ -1,0 +1,428 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Express4实例：实时弹幕 | Stackess</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    
+    <meta name="author" content="cstackess">
+    
+    <meta name="description" content="看院新年晚会的时候，发现最大的乐趣就是微信上墙了，但是量大了要等好久才能看见自己发的，为什么不是弹幕的形式呢？当时是那么想的。然后我寒假有空的时候搜罗了一下如何实现，最后算是变成Node.js的Express4框架实例了，又名基于Socket.IO的实时弹幕系统的设计与实现。">
+    
+    
+    
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/pacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/pacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.svg" alt="Stackess" title="Stackess"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Stackess">Stackess</a></h1>
+				<h2 class="blog-motto">cstackess&#39;s blog</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+					<li>
+					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:www.stackess.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/danmaku/" title="Express4实例：实时弹幕" itemprop="url">Express4实例：实时弹幕</a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="http://www.stackess.com" title="cstackess">cstackess</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2015-03-07T03:34:00.000Z" itemprop="datePublished">2015-03-07</time>
+    更新日期:<time datetime="2016-04-08T07:04:05.476Z" itemprop="dateModified">2016-04-08</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一、Express"><span class="toc-number">1.</span> <span class="toc-text">一、Express</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、路由"><span class="toc-number">2.</span> <span class="toc-text">二、路由</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#三、屏幕客户端"><span class="toc-number">3.</span> <span class="toc-text">三、屏幕客户端</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-静态"><span class="toc-number">3.1.</span> <span class="toc-text">1. 静态</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-动态（服务端）"><span class="toc-number">3.2.</span> <span class="toc-text">2. 动态（服务端）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#四、发射客户端"><span class="toc-number">4.</span> <span class="toc-text">四、发射客户端</span></a></li></ol>
+		</div>
+		
+		<p>看院新年晚会的时候，发现最大的乐趣就是微信上墙了，但是量大了要等好久才能看见自己发的，为什么不是弹幕的形式呢？当时是那么想的。然后我寒假有空的时候搜罗了一下如何实现，最后算是变成Node.js的Express4框架实例了，又名基于Socket.IO的实时弹幕系统的设计与实现。</p>
+<a id="more"></a>
+<h2 id="一、Express"><a href="#一、Express" class="headerlink" title="一、Express"></a>一、Express</h2><p>Express是Node.js最流行的一款web框架，小而灵活。Node.js和npm的安装配置可以参考<a href="http://www.stackess.com/index.php/archives/7/">这里</a>。</p>
+<p>可以通过npm安装Express<a href="http://expressjs.com/starter/installing.html" target="_blank" rel="external">（参考）</a>，也可以使用Express application generator快速产生一个Express样例<a href="http://expressjs.com/starter/generator.html" target="_blank" rel="external">（参考）</a>。</p>
+<p>对于Express初学者，用Express application generator生成样例更有利于快速上手。因此就以此为例:</p>
+<figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># install Express application generator </span></span><br><span class="line"><span class="variable">$ </span>npm install express-generator -g</span><br><span class="line"></span><br><span class="line"><span class="comment"># create an Express app named danmaku</span></span><br><span class="line"><span class="variable">$ </span>express danmaku</span><br><span class="line"></span><br><span class="line"><span class="comment"># install dependencies</span></span><br><span class="line"><span class="variable">$ </span>cd danmaku</span><br><span class="line"><span class="variable">$ </span>npm install</span><br><span class="line"></span><br><span class="line"><span class="comment"># run the app on Windows</span></span><br><span class="line"><span class="variable">$ </span>set DEBUG=danmaku &amp; node .\bin\www</span><br><span class="line"><span class="comment"># or</span></span><br><span class="line"><span class="variable">$ </span>npm start</span><br></pre></td></tr></table></figure>
+<p>关于<code>set DEBUG=danmaku</code>可以见<a href="http://expressjs.com/guide/debugging.html" target="_blank" rel="external">此文</a>。<br>可以用<code>npm start</code>启动服务器是因为在packege.json中有了这么一段：<br><figure class="highlight xquery"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"scripts"</span>: &#123;</span><br><span class="line">  <span class="string">"start"</span>: <span class="string">"node ./bin/www"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>Express的4比之3，把服务器配置和服务器启动做了分离，原来都在app.js里，现在将启动代码放到了www中。<br>现在，浏览一遍这个Express样例，对这框架就可以知道个大概了。</p>
+<ul>
+<li>bin：存放启动项目的脚本文件</li>
+<li>node_modules：存放所有的项目依赖库</li>
+<li>public：静态文件(css、js、img等)</li>
+<li>routes：路由文件(MVC中的C，controller)</li>
+<li>views：页面文件(jade或ejs模板)</li>
+<li>package.json：项目依赖配置及开发者信息</li>
+<li>app.js：应用核心配置文件</li>
+</ul>
+<p>更多参考：</p>
+<ol>
+<li><a href="http://blog.fens.me/nodejs-express3/" target="_blank" rel="external">Node.js开发框架Express3.0开发手记–从零开始</a></li>
+<li><a href="http://blog.fens.me/nodejs-express4/" target="_blank" rel="external">Node.js开发框架Express4.x</a></li>
+<li><a href="https://github.com/strongloop/express/tree/master/examples" target="_blank" rel="external">Express实例</a></li>
+</ol>
+<hr>
+<h2 id="二、路由"><a href="#二、路由" class="headerlink" title="二、路由"></a>二、路由</h2><p>将实时弹幕系统实际上是分为三个角色：</p>
+<ul>
+<li>服务端：监听客户端连接、弹幕事件等并响应。</li>
+<li>发射客户端：由用户发射弹幕。以emitCtrl.js作为emit页面的controller。</li>
+<li>屏幕客户端：接收弹幕并显示。以indexCtrl.js作为index页面的controller。</li>
+</ul>
+<p><img src="http://7vzozf.com1.z0.glb.clouddn.com/2015/03/319145763.png" alt="structure.png"></p>
+<p>添加 <strong>routes/indexCtrl.js</strong><br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> express = <span class="built_in">require</span>(<span class="string">'express'</span>);</span><br><span class="line"><span class="keyword">var</span> router = express.Router();</span><br><span class="line"></span><br><span class="line"><span class="comment">/* GET home page. */</span></span><br><span class="line">router.get(<span class="string">'/'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">req, res, next</span>) </span>&#123;</span><br><span class="line">  res.render(<span class="string">'index'</span>,&#123;title:<span class="string">"danmaku"</span>&#125;);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = router;</span><br></pre></td></tr></table></figure></p>
+<p>添加 <strong>routes/emitCtrl.js</strong><br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> express = <span class="built_in">require</span>(<span class="string">'express'</span>);</span><br><span class="line"><span class="keyword">var</span> router = express.Router();</span><br><span class="line"></span><br><span class="line"><span class="comment">/* GET emit page. */</span></span><br><span class="line">router.get(<span class="string">'/'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">req, res, next</span>) </span>&#123;</span><br><span class="line">  res.render(<span class="string">'emit'</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = router;</span><br></pre></td></tr></table></figure></p>
+<p>修改 <strong>app.js</strong><br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> indexCtrl = <span class="built_in">require</span>(<span class="string">'./routes/indexCtrl'</span>);</span><br><span class="line"><span class="keyword">var</span> emitCtrl = <span class="built_in">require</span>(<span class="string">'./routes/emitCtrl'</span>);</span><br><span class="line">...</span><br><span class="line">app.use(<span class="string">'/'</span>, indexCtrl);</span><br><span class="line">app.use(<span class="string">'/emit'</span>, emitCtrl);</span><br></pre></td></tr></table></figure></p>
+<p>启动后可查看到index页面。<br><img src="http://7vzozf.com1.z0.glb.clouddn.com/2015/03/232876660.png" alt="index_0.png"></p>
+<p>在后面还会对emitCtrl.js增加弹幕配置的文件config.json的读取。</p>
+<hr>
+<h2 id="三、屏幕客户端"><a href="#三、屏幕客户端" class="headerlink" title="三、屏幕客户端"></a>三、屏幕客户端</h2><h3 id="1-静态"><a href="#1-静态" class="headerlink" title="1. 静态"></a>1. 静态</h3><p><a href="https://github.com/jabbany/CommentCoreLibrary" target="_blank" rel="external">CommentCoreLibrary</a>是GitHub上开源的JS弹幕模块核心，提供从基本骨架到高级弹幕的支持。</p>
+<p><s>考虑到实际，感觉并不应该引入外部库。如果作为外部库用，需要</s></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm <span class="keyword">install</span> <span class="keyword">comment</span>-core-<span class="keyword">library</span> <span class="comment">--save</span></span><br></pre></td></tr></table></figure>
+<p>使用时（去除public）<br><figure class="highlight lasso"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&lt;<span class="keyword">link</span> rel=<span class="string">"stylesheet"</span> href=<span class="string">"/node_modules/comment-core-library/build/style.css"</span> /&gt;</span><br><span class="line">&lt;script src=<span class="string">"/node_modules/comment-core-library/build/CommentCoreLibrary.js"</span>&gt;&lt;/script&gt;</span><br><span class="line"><span class="string">``</span><span class="string">` </span><br><span class="line">另外[CommentCoreLibrary][11]模块也有点笨重。&lt;/s&gt;</span><br><span class="line"></span><br><span class="line">所以换种方式，**将CommentCoreLibrary.js放入public/javascripts，style.css放入public/stylesheets中**。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">添加**views/index.jade**</span><br><span class="line">`</span><span class="string">``</span> jade</span><br><span class="line">doctype html</span><br><span class="line">html</span><br><span class="line">    head</span><br><span class="line">        title= title</span><br><span class="line">        <span class="keyword">link</span>(rel=<span class="string">'stylesheet'</span>, href=<span class="string">'/stylesheets/style.css'</span>)</span><br><span class="line">        <span class="keyword">link</span>(rel=<span class="string">'stylesheet'</span>, href=<span class="string">'/stylesheets/index.css'</span>)</span><br><span class="line">        script(src=<span class="string">'/javascripts/CommentCoreLibrary.js'</span>)</span><br><span class="line">    body</span><br><span class="line">        #my<span class="attr">-player</span>.abp(style=<span class="string">'width:100%; height:600px; background:#000;'</span>)</span><br><span class="line">            #my<span class="attr">-comment</span><span class="attr">-stage</span>.container</span><br><span class="line">        ul#messages</span><br><span class="line">        script(src=<span class="string">'http://cdn.bootcss.com/jquery/2.1.3/jquery.js'</span>)</span><br><span class="line">        script(src=<span class="string">'/javascripts/index.js'</span>)</span><br></pre></td></tr></table></figure></p>
+<p>添加<strong>public/stylesheets/index.css</strong><br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">* &#123; <span class="attribute">margin</span>: <span class="number">0</span>; <span class="attribute">padding</span>: <span class="number">0</span>; <span class="attribute">box-sizing</span>: border-box; &#125;</span><br><span class="line"><span class="selector-id">#messages</span> &#123; <span class="attribute">list-style-type</span>: none; <span class="attribute">margin</span>: <span class="number">0</span>; <span class="attribute">padding</span>: <span class="number">0</span>; &#125;</span><br><span class="line"><span class="selector-id">#messages</span> <span class="selector-tag">li</span> &#123; <span class="attribute">padding</span>: <span class="number">5px</span> <span class="number">10px</span>; &#125;</span><br><span class="line"><span class="selector-id">#messages</span> <span class="selector-tag">li</span><span class="selector-pseudo">:nth-child(odd)</span> &#123; <span class="attribute">background</span>: <span class="number">#eee</span>; &#125;</span><br><span class="line"><span class="selector-tag">body</span> &#123;</span><br><span class="line">    <span class="attribute">margin</span>:<span class="number">0px</span>;</span><br><span class="line">    <span class="attribute">padding</span>:<span class="number">0px</span>;</span><br><span class="line">    <span class="attribute">font-family</span>: <span class="string">"Segoe UI"</span>, <span class="string">"Microsoft Yahei"</span>, sans-serif;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>添加<strong>public/javascripts/index.js</strong><br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">window</span>.addEventListener(<span class="string">'load'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 在窗体载入完毕后再绑定</span></span><br><span class="line">    <span class="keyword">var</span> CM = <span class="keyword">new</span> CommentManager($(<span class="string">'#my-comment-stage'</span>));</span><br><span class="line">    CM.init();</span><br><span class="line">    <span class="comment">// 先启用弹幕播放（之后可以停止）</span></span><br><span class="line">    CM.start();</span><br><span class="line">    <span class="comment">// 开放 CM 对象到全局这样就可以在 console 终端里操控</span></span><br><span class="line">    <span class="built_in">window</span>.CM = CM;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<p>然后在Console里怒射一弹：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> danmaku = &#123;</span><br><span class="line">    <span class="string">"mode"</span>: <span class="number">1</span>,</span><br><span class="line">    <span class="string">"text"</span>: <span class="string">"hello world"</span>,</span><br><span class="line">    <span class="string">"stime"</span>: <span class="number">0</span>,</span><br><span class="line">    <span class="string">"size"</span>: <span class="number">25</span>,</span><br><span class="line">    <span class="string">"color"</span>: <span class="number">0xff00ff</span>,</span><br><span class="line">    <span class="string">"dur"</span>: <span class="number">10000</span></span><br><span class="line">&#125;;</span><br><span class="line">CM.send(danmaku);</span><br></pre></td></tr></table></figure></p>
+<p>不过这其实根本没用上服务器，也就是静态网页一样的效果。</p>
+<p><img src="http://7vzozf.com1.z0.glb.clouddn.com/2015/03/3224410035.png" alt="index_1.png"></p>
+<h3 id="2-动态（服务端）"><a href="#2-动态（服务端）" class="headerlink" title="2. 动态（服务端）"></a>2. 动态（服务端）</h3><p>动态是实现一个真正的“屏幕客户端”，监听等待“显示弹幕”的事件，并实时显示。</p>
+<p>在<a href="https://github.com/jabbany/CommentCoreLibrary" target="_blank" rel="external">CommentCoreLibrary</a>的Doc中有一段：</p>
+<blockquote>
+<p>实时弹幕也需要后端服务器的支持。实时弹幕可以采取Polling（定时读取）或者 Push Notify（监听等待）两个主动和被动模式实现。</p>
+</blockquote>
+<p><code>WebSocket</code>是<strong>HTML5</strong>开始提供的一种在单个 <strong>TCP</strong> 连接上进行<strong>全双工</strong>通讯的协议。既然是双向通信，就意味着服务器端和客户端可以同时发送并响应请求，而不再像HTTP的请求和响应。WebSocket通信协议于2011年被IETF定为标准RFC 6455，WebSocketAPI被W3C定为标准。<a href="http://www.zhihu.com/question/20215561" target="_blank" rel="external">知乎上关于WebSocket的科普</a>。</p>
+<p><code>Socket.IO</code>是一个开源的WebSocket库，它通过Node.js实现WebSocket服务端，同时也提供客户端JS库。Socket.IO支持以事件为基础的实时双向通讯，它可以工作在任何平台、浏览器或移动设备。<br><a href="http://Socket.IO" target="_blank" rel="external">Socket.IO</a>支持4种协议：WebSocket、htmlfile、xhr-polling、jsonp-polling，它会自动根据浏览器选择适合的通讯方式，从而让开发者可以聚焦到功能的实现而不是平台的兼容性，同时具有不错的稳定性和性能。<br><s>p.s. 实际过程中踩到了phpwebsocket的坑。</s></p>
+<p>用npm导入Socket.IO：<br><figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install <span class="built_in">socket</span>.io <span class="comment">--save</span></span><br></pre></td></tr></table></figure></p>
+<p>修改<strong>www</strong>（Express4从app.js里把启动分出来了）<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Create socket.io</span></span><br><span class="line"><span class="keyword">var</span> io = <span class="built_in">require</span>(<span class="string">'socket.io'</span>)(server);</span><br><span class="line">...</span><br><span class="line"><span class="comment">// Wait for socket event</span></span><br><span class="line">io.on(<span class="string">'connection'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">socket</span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'a user connected'</span>);</span><br><span class="line">    socket.on(<span class="string">'disconnect'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'user disconnected'</span>);</span><br><span class="line">    &#125;);</span><br><span class="line">    socket.on(<span class="string">'danmaku send'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">msg</span>)</span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'message: '</span> + msg);</span><br><span class="line">        io.emit(<span class="string">'danmaku show'</span>, msg);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<p>修改<strong>index.jade</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">script(src=&apos;http://cdn.bootcss.com/socket.io/1.3.2/socket.io.js&apos;)</span><br><span class="line">script(src=&apos;http://cdn.bootcss.com/jquery/2.1.3/jquery.js&apos;)</span><br><span class="line">script(src=&apos;/javascripts/index.js&apos;)</span><br></pre></td></tr></table></figure></p>
+<p>修改<strong>index.js</strong><br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">window</span>.addEventListener(<span class="string">'load'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 在窗体载入完毕后再绑定</span></span><br><span class="line">    <span class="keyword">var</span> CM = <span class="keyword">new</span> CommentManager($(<span class="string">'#my-comment-stage'</span>));</span><br><span class="line">    CM.init();</span><br><span class="line">    <span class="comment">// 先启用弹幕播放（之后可以停止）</span></span><br><span class="line">    CM.start();</span><br><span class="line">    <span class="comment">// 开放 CM 对象到全局这样就可以在 console 终端里操控</span></span><br><span class="line">    <span class="built_in">window</span>.CM = CM;</span><br><span class="line">	</span><br><span class="line">    <span class="keyword">var</span> socket = io();</span><br><span class="line">    socket.on(<span class="string">'danmaku show'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">msg</span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(msg);</span><br><span class="line">        $(<span class="string">'#messages'</span>).append($(<span class="string">'&lt;li&gt;'</span>).text(msg));</span><br><span class="line">        <span class="keyword">var</span> danmaku = <span class="built_in">JSON</span>.parse(msg);</span><br><span class="line">        CM.send(danmaku);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<p>这样就由服务端监听了“connection”、“disconnect”和“danmaku send”三个事件，特别是在收到“danmaku send”时会发送“danmaku show”事件。而屏幕客户端监听“danmaku show”事件，并把传递来的弹幕显示出来。</p>
+<p>启动后打开index，确实能看到”connection”事件执行的提示。<br><img src="http://7vzozf.com1.z0.glb.clouddn.com/2015/03/3876384309.png" alt="index_2.png"></p>
+<hr>
+<h2 id="四、发射客户端"><a href="#四、发射客户端" class="headerlink" title="四、发射客户端"></a>四、发射客户端</h2><p>发射客户端发送“danmaku send”事件及弹幕给服务端。</p>
+<p>除此之外，在<a href="https://github.com/jabbany/CommentCoreLibrary" target="_blank" rel="external">CommentCoreLibrary</a>里可以对弹幕属性进行设置，比如文字大小、模式、颜色，将它们的可选值写成配置文件，并设定默认值。</p>
+<p>添加<strong>public/jsons/config.json</strong><br><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;<span class="attr">"sizes"</span>:[&#123;<span class="attr">"size"</span>:<span class="number">12</span>,<span class="attr">"title"</span>:<span class="string">"非常小"</span>&#125;,&#123;<span class="attr">"size"</span>:<span class="number">16</span>,<span class="attr">"title"</span>:<span class="string">"较小"</span>&#125;,&#123;<span class="attr">"size"</span>:<span class="number">18</span>,<span class="attr">"title"</span>:<span class="string">"小"</span>&#125;,&#123;<span class="attr">"size"</span>:<span class="number">25</span>,<span class="attr">"title"</span>:<span class="string">"中"</span>&#125;,&#123;<span class="attr">"size"</span>:<span class="number">36</span>,<span class="attr">"title"</span>:<span class="string">"大"</span>&#125;,&#123;<span class="attr">"size"</span>:<span class="number">45</span>,<span class="attr">"title"</span>:<span class="string">"较大"</span>&#125;,&#123;<span class="attr">"size"</span>:<span class="number">64</span>,<span class="attr">"title"</span>:<span class="string">"非常大"</span>&#125;],</span><br><span class="line"></span><br><span class="line"><span class="attr">"modes"</span>:[&#123;<span class="attr">"mode"</span>:<span class="number">1</span>,<span class="attr">"title"</span>:<span class="string">"顶端滚动"</span>&#125;,&#123;<span class="attr">"mode"</span>:<span class="number">2</span>,<span class="attr">"title"</span>:<span class="string">"底端滚动"</span>&#125;,&#123;<span class="attr">"mode"</span>:<span class="number">5</span>,<span class="attr">"title"</span>:<span class="string">"顶端渐隐"</span>&#125;,&#123;<span class="attr">"mode"</span>:<span class="number">4</span>,<span class="attr">"title"</span>:<span class="string">"底端渐隐"</span>&#125;,&#123;<span class="attr">"mode"</span>:<span class="number">6</span>,<span class="attr">"title"</span>:<span class="string">"逆向滚动"</span>&#125;],</span><br><span class="line"></span><br><span class="line"><span class="attr">"colors"</span>:[&#123;<span class="attr">"color"</span>:<span class="string">"000000"</span>,<span class="attr">"title"</span>:<span class="string">"黑色"</span>&#125;,&#123;<span class="attr">"color"</span>:<span class="string">"C0C0C0"</span>,<span class="attr">"title"</span>:<span class="string">"灰色"</span>&#125;,&#123;<span class="attr">"color"</span>:<span class="string">"ffffff"</span>,<span class="attr">"title"</span>:<span class="string">"白色"</span>&#125;,&#123;<span class="attr">"color"</span>:<span class="string">"ff0000"</span>,<span class="attr">"title"</span>:<span class="string">"红色"</span>&#125;,&#123;<span class="attr">"color"</span>:<span class="string">"00ff00"</span>,<span class="attr">"title"</span>:<span class="string">"绿色"</span>&#125;,&#123;<span class="attr">"color"</span>:<span class="string">"0000ff"</span>,<span class="attr">"title"</span>:<span class="string">"蓝色"</span>&#125;,&#123;<span class="attr">"color"</span>:<span class="string">"ffff00"</span>,<span class="attr">"title"</span>:<span class="string">"黄色"</span>&#125;,&#123;<span class="attr">"color"</span>:<span class="string">"00ffff"</span>,<span class="attr">"title"</span>:<span class="string">"墨绿"</span>&#125;,&#123;<span class="attr">"color"</span>:<span class="string">"ff00ff"</span>,<span class="attr">"title"</span>:<span class="string">"洋红"</span>&#125;],</span><br><span class="line"></span><br><span class="line"><span class="attr">"inits"</span>:&#123;<span class="attr">"size"</span>:<span class="number">3</span>,<span class="attr">"mode"</span>:<span class="number">0</span>,<span class="attr">"color"</span>:<span class="number">4</span>&#125;&#125;</span><br></pre></td></tr></table></figure></p>
+<p>修改<strong>emitCtrl.js</strong>，读取配置<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>);</span><br><span class="line">...</span><br><span class="line"><span class="comment">/* GET emit page. */</span></span><br><span class="line">router.get(<span class="string">'/'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">req, res, next</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> config = <span class="built_in">JSON</span>.parse(fs.readFileSync(__dirname + <span class="string">'./../public/jsons/config.json'</span>));</span><br><span class="line">    res.render(<span class="string">'emit'</span>, &#123; title: <span class="string">'Emitter'</span>, sizes: config.sizes, modes: config.modes, colors: config.colors, inits: config.inits&#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<p>添加<strong>views/emit.jade</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">doctype html</span><br><span class="line">html</span><br><span class="line">    head</span><br><span class="line">        title= title</span><br><span class="line">        meta(name=&apos;viewport&apos;, content=&apos;width=device-width, initial-scale=1,maximum-scale=1&apos;)</span><br><span class="line">        link(rel=&apos;stylesheet&apos;,href=&apos;http://cdn.bootcss.com/jquery-mobile/1.4.3/jquery.mobile.css&apos;)</span><br><span class="line">        script(src=&apos;http://cdn.bootcss.com/socket.io/1.3.2/socket.io.js&apos;)</span><br><span class="line">        script(src=&apos;http://cdn.bootcss.com/jquery/2.1.3/jquery.min.js&apos;)</span><br><span class="line">        script(src=&apos;http://cdn.bootcss.com/jquery-mobile/1.4.3/jquery.mobile.js&apos;)</span><br><span class="line">    body</span><br><span class="line">        div(data-role=&apos;page&apos;)</span><br><span class="line">            div(data-role=&apos;content&apos;)</span><br><span class="line">                div.ui-grid-b</span><br><span class="line">                    a#size.ui-btn.ui-btn-inline.ui-block-a(href=&apos;#popupMenu_font&apos;, data-rel=&apos;popup&apos;, data-transition=&apos;pop&apos;,data-position-to=&quot;window&quot;,danmaku-size= sizes[inits.size].size )= sizes[inits.size].title</span><br><span class="line">                    #popupMenu_font(data-role=&apos;popup&apos;, data-theme=&apos;b&apos;,data-overlay-theme=&apos;b&apos;, style=&apos;min-width:210px;&apos;)</span><br><span class="line">                        ul(data-role=&apos;listview&apos;)</span><br><span class="line">                            each val, index in sizes</span><br><span class="line">                                li</span><br><span class="line">                                    a(data-rel=&apos;back&apos;,danmaku-size=val.size)= val.title</span><br><span class="line">                    a#mode.ui-btn.ui-btn-inline.ui-block-b(href=&apos;#popupMenu_mode&apos;, data-rel=&apos;popup&apos;, data-transition=&apos;pop&apos;,data-position-to=&quot;window&quot;,danmaku-mode= modes[inits.mode].mode  )= modes[inits.mode].title</span><br><span class="line">                    #popupMenu_mode(data-role=&apos;popup&apos;, data-theme=&apos;b&apos;,data-overlay-theme=&apos;b&apos;, style=&apos;min-width:210px;&apos;)</span><br><span class="line"></span><br><span class="line">                        ul(data-role=&apos;listview&apos;)</span><br><span class="line">                            each val, index in modes</span><br><span class="line">                                li</span><br><span class="line">                                    a(data-rel=&apos;back&apos;,danmaku-mode=val.mode)= val.title</span><br><span class="line">                    a#color.ui-btn.ui-btn-inline.ui-block-c(href=&apos;#popupMenu_color&apos;, data-rel=&apos;popup&apos;, data-transition=&apos;pop&apos;,data-position-to=&quot;window&quot;,danmaku-color= colors[inits.color].color  )= colors[inits.color].title</span><br><span class="line">                    #popupMenu_color(data-role=&apos;popup&apos;, data-theme=&apos;b&apos;,data-overlay-theme=&apos;b&apos;, style=&apos;min-width:210px;&apos;)</span><br><span class="line">                        .ui-grid-b</span><br><span class="line">                            - var i=0;</span><br><span class="line">                            each val, index in colors</span><br><span class="line">                                case i++%3</span><br><span class="line">                                    when 0: a.ui-block-a(data-rel=&quot;back&quot;, style=&apos;background-color:#&apos;+val.color+&apos;;min-height:60px;line-height:60px;text-align:center&apos;,danmaku-color=val.color)= val.title</span><br><span class="line">                                    when 1: a.ui-block-b(data-rel=&quot;back&quot;, style=&apos;background-color:#&apos;+val.color+&apos;;min-height:60px;line-height:60px;text-align:center&apos;,danmaku-color=val.color)= val.title</span><br><span class="line">                                    when 2: a.ui-block-c(data-rel=&quot;back&quot;, style=&apos;background-color:#&apos;+val.color+&apos;;min-height:60px;line-height:60px;text-align:center&apos;,danmaku-color=val.color)= val.title </span><br><span class="line"></span><br><span class="line">                textarea#msg(placeholder=&apos;来一发弹幕～&apos;)</span><br><span class="line">                button#btnSend 发射</span><br><span class="line">        script(src=&apos;/javascripts/emit.js&apos;)</span><br></pre></td></tr></table></figure></p>
+<p>添加<strong>public/javascripts/emit.js</strong><br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> socket = io();</span><br><span class="line"></span><br><span class="line">$(<span class="string">'#popupMenu_font a'</span>).click(<span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;</span><br><span class="line">    $(<span class="string">'#size'</span>).text($(e.target).text()).attr(<span class="string">"danmaku-size"</span>,$(e.target).attr(<span class="string">"danmaku-size"</span>));</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">$(<span class="string">'#popupMenu_mode a'</span>).click(<span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;</span><br><span class="line">    $(<span class="string">'#mode'</span>).text($(e.target).text()).attr(<span class="string">"danmaku-mode"</span>,$(e.target).attr(<span class="string">"danmaku-mode"</span>));</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">$(<span class="string">'#popupMenu_color a'</span>).click(<span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;</span><br><span class="line">    $(<span class="string">'#color'</span>).text($(e.target).text()).attr(<span class="string">"danmaku-color"</span>,$(e.target).attr(<span class="string">"danmaku-color"</span>));</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">$(<span class="string">'#btnSend'</span>).click(<span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;</span><br><span class="line">    e.preventDefault();</span><br><span class="line">    <span class="keyword">var</span> danmaku = &#123;</span><br><span class="line">        <span class="string">"mode"</span>: <span class="built_in">Number</span>($(<span class="string">"#mode"</span>).attr(<span class="string">"danmaku-mode"</span>)),</span><br><span class="line">        <span class="string">"text"</span>: $(<span class="string">'#msg'</span>).val(),</span><br><span class="line">        <span class="string">"stime"</span>:<span class="number">0</span>,</span><br><span class="line">        <span class="string">"size"</span>: <span class="built_in">Number</span>($(<span class="string">"#size"</span>).attr(<span class="string">"danmaku-size"</span>)),</span><br><span class="line">        <span class="string">"color"</span>:<span class="built_in">parseInt</span>($(<span class="string">"#color"</span>).attr(<span class="string">"danmaku-color"</span>),<span class="number">16</span>),</span><br><span class="line">        <span class="string">"dur"</span>:<span class="number">10000</span></span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="keyword">var</span> msg=<span class="built_in">JSON</span>.stringify(danmaku);</span><br><span class="line">    <span class="built_in">console</span>.log(msg);</span><br><span class="line">    socket.emit(<span class="string">'danmaku send'</span>,msg);</span><br><span class="line">    $(<span class="string">'#msg'</span>).val(<span class="string">""</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<p>最后整个效果就是这样啦～ <strong>源码</strong>在此：<a href="https://github.com/cstackess/danmaku" target="_blank" rel="external">https://github.com/cstackess/danmaku</a></p>
+<p><img src="http://7vzozf.com1.z0.glb.clouddn.com/2015/03/2459141821.png" alt="emit.png"></p>
+<hr>
+<p>p.s. 写文章虽然好辛苦，但真的有助于理清思路……</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+
+
+
+
+<div class="article-share" id="share">
+
+  <div data-url="http://www.stackess.com/danmaku/" data-title="Express4实例：实时弹幕 | Stackess" data-tsina="null" class="share clearfix">
+  </div>
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/wxpay/" title="微信支付接口demo配置">
+  <strong>PREVIOUS:</strong><br/>
+  <span>
+  微信支付接口demo配置</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/vps/"  title="基于Bandwagon的VPS服务使用ShadowSocks科学的上网">
+ <strong>NEXT:</strong><br/> 
+ <span>基于Bandwagon的VPS服务使用ShadowSocks科学的上网
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section class="comment">  
+	<div class="ds-thread" data-thread-key="danmaku/"></div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一、Express"><span class="toc-number">1.</span> <span class="toc-text">一、Express</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、路由"><span class="toc-number">2.</span> <span class="toc-text">二、路由</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#三、屏幕客户端"><span class="toc-number">3.</span> <span class="toc-text">三、屏幕客户端</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-静态"><span class="toc-number">3.1.</span> <span class="toc-text">1. 静态</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-动态（服务端）"><span class="toc-number">3.2.</span> <span class="toc-text">2. 动态（服务端）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#四、发射客户端"><span class="toc-number">4.</span> <span class="toc-text">四、发射客户端</span></a></li></ol>
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			<li><a href="/tags/人工智能/" title="人工智能">人工智能<sup>1</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  <div class="rsspart">
+	<a href="null" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  
+  <div class="archiveslist">
+    <p class="asidetitle"><a href="/archives">归档</a></p>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">十月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">九月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">三月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">二月 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">一月 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">十一月 2013</a><span class="archive-list-count">1</span></li></ul>
+  </div>
+
+
+  
+  <div class="tagcloudlist">
+    <p class="asidetitle">标签云</p>
+    <div class="tagcloudlist clearfix">
+       <a href="/tags/人工智能/" style="font-size: 10px;">人工智能</a>
+    </div>
+  </div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+      <li><a href="http://yangjian.me" target="_blank" title="YangJian">Alimon's Blog</a></li>
+      <li><a href="http://hexo.io" target="_blank" title="Hexo">Hexo</a></li>
+    </ul>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font clearfix">
+		
+		<a href="http://weibo.com/5261272169" target="_blank" title="weibo"></a>
+		
+		
+		
+		<a href="https://github.com/cstackess" target="_blank" title="github"></a>
+		
+		
+		
+	</div>
+		<p class="copyright">Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/A-limon/pacman" target="_blank" title="Pacman">Pacman</a> © 2016 
+		
+		<a href="http://www.stackess.com" target="_blank" title="cstackess">cstackess</a>
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.1.0.min.js"></script>
+
+<!--http://mathjax-chinese-doc.readthedocs.org/en/latest/start.html-->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$']]}
+});
+</script>
+<script src="http://cdn.bootcss.com/mathjax/2.6.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+<link href="http://cdn.bootcss.com/highlight.js/8.0/styles/monokai_sublime.min.css" rel="stylesheet">  
+<script src="http://cdn.bootcss.com/highlight.js/8.0/highlight.min.js"></script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#share"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="#textlogo" class="article-back-to-top" title="Top"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="QRcode"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="Weibo"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"stackess"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+  </body>
+</html>

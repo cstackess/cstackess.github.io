@@ -1,0 +1,405 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>gnuplot在Java环境下的应用研究 | Stackess</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    
+    <meta name="author" content="cstackess">
+    
+    <meta name="description" content="gnuplot是一个常用的可在Linux, OS/2, MS Windows, OSX, VMS等多种平台下运行的便携的命令行形式的绘图工具。本文以绘制一个3D图象为示例，重点在探索如何在Java环境下应用gnuplot。详细的gnuplot的使用方法在我强烈推荐的参考中可以了解到。">
+    
+    
+    
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/pacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/pacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.svg" alt="Stackess" title="Stackess"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Stackess">Stackess</a></h1>
+				<h2 class="blog-motto">cstackess&#39;s blog</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+					<li>
+					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:www.stackess.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/gnuplot/" title="gnuplot在Java环境下的应用研究" itemprop="url">gnuplot在Java环境下的应用研究</a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="http://www.stackess.com" title="cstackess">cstackess</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2015-05-19T07:56:00.000Z" itemprop="datePublished">2015-05-19</time>
+    更新日期:<time datetime="2016-04-08T07:08:22.584Z" itemprop="dateModified">2016-04-08</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#下载安装"><span class="toc-number">1.</span> <span class="toc-text">下载安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#一个3D示例"><span class="toc-number">2.</span> <span class="toc-text">一个3D示例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JavaPlot"><span class="toc-number">3.</span> <span class="toc-text">JavaPlot</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考（强烈推荐）："><span class="toc-number">4.</span> <span class="toc-text">参考（强烈推荐）：</span></a></li></ol>
+		</div>
+		
+		<p>gnuplot是一个常用的可在Linux, OS/2, MS Windows, OSX, VMS等多种平台下运行的便携的命令行形式的绘图工具。本文以绘制一个3D图象为示例，重点在探索如何在Java环境下应用gnuplot。详细的gnuplot的使用方法在我强烈推荐的参考中可以了解到。<br><a id="more"></a></p>
+<hr>
+<h2 id="下载安装"><a href="#下载安装" class="headerlink" title="下载安装"></a>下载安装</h2><p>下载安装gnuplot（<a href="http://www.gnuplot.info/" target="_blank" rel="external">http://www.gnuplot.info/</a>）后，可以在“开始”的“所有程序”这看到如下目录，个个都还挺有用。本文以版本5.0为例。<br><img src="http://7vzozf.com1.z0.glb.clouddn.com/2015/05/3469372963.png" alt="2015-05-19_193851.png"></p>
+<ul>
+<li>gnuplot既提供了console版本，也提供自己的GUI，以GUI起步会比较容易有个大致的印象。</li>
+<li>Demo目录下放有官方提供的所有示例，正如官方提示的，通过<code>gnuplot&gt; load &quot;all.dem&quot;</code>可以看到效果。另外官方网站上也有Web版（<a href="http://www.gnuplot.info/screenshots/index.html#demos" target="_blank" rel="external">http://www.gnuplot.info/screenshots/index.html#demos</a>）可供浏览。</li>
+<li>gnuplot Documentaion和gnuplot Help内容是一样的，Help查询起来更方便，另外<code>gnuplot&gt;? plot</code>可直接索引到Help下的plot条目，非常好用！</li>
+<li>gnuplot FAQ是一些常见问题解答。如果我的英文浏览速度和中文浏览速度一样快，我一定会把它看完。</li>
+<li>gnuplot Quick Reference是快速查询手册，还不错。</li>
+<li>gnuplot on the Web可以打开官网。Uninstall你懂的。</li>
+</ul>
+<hr>
+<h2 id="一个3D示例"><a href="#一个3D示例" class="headerlink" title="一个3D示例"></a>一个3D示例</h2><ol>
+<li>确认在官方demo目录下有一个数据文件<code>gnu-valley</code><figure class="highlight basic"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">0 </span><span class="number">0</span> <span class="number">10</span></span><br><span class="line"><span class="symbol">0 </span><span class="number">1</span> <span class="number">10</span></span><br><span class="line"><span class="symbol">0 </span><span class="number">2</span> <span class="number">10</span></span><br><span class="line"></span><br><span class="line"><span class="symbol">1 </span><span class="number">0</span> <span class="number">10</span></span><br><span class="line"><span class="symbol">1 </span><span class="number">1</span> <span class="number">5</span></span><br><span class="line"><span class="symbol">1 </span><span class="number">2</span> <span class="number">10</span></span><br><span class="line"></span><br><span class="line"><span class="symbol">2 </span><span class="number">0</span> <span class="number">10</span></span><br><span class="line"><span class="symbol">2 </span><span class="number">1</span> <span class="number">1</span></span><br><span class="line"><span class="symbol">2 </span><span class="number">2</span> <span class="number">10</span></span><br><span class="line"></span><br><span class="line"><span class="symbol">3 </span><span class="number">0</span> <span class="number">10</span></span><br><span class="line"><span class="symbol">3 </span><span class="number">1</span> <span class="number">0</span></span><br><span class="line"><span class="symbol">3 </span><span class="number">2</span> <span class="number">10</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>注意到，这里第一列为0、1、2、3之间各空了一行。如果没有这些空行，with line会将各数据点按顺序连成一条线。</p>
+<ol>
+<li>编辑脚本<code>test.dem</code><figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">clear</span>     <span class="comment"># 清除画面</span></span><br><span class="line">reset     <span class="comment"># 清空设置</span></span><br><span class="line"><span class="built_in">set</span> terminal postscript landscape color enhanced    <span class="comment"># 设置输出终端为postscript，横向，彩色，enhanced模式（可使用/Symbol）</span></span><br><span class="line"><span class="built_in">set</span> output <span class="string">"test.eps"</span>     <span class="comment"># 输出文件为test.eps</span></span><br><span class="line"><span class="built_in">set</span> isosamples <span class="number">10</span>     <span class="comment"># 设置绘图函数表面的等值线网格，越大网格越密，用splot sin(x)可以感觉出来</span></span><br><span class="line"><span class="built_in">set</span> grid     <span class="comment"># 显示xy平面的辅助格线</span></span><br><span class="line"><span class="built_in">set</span> xlabel <span class="string">"&#123;/Symbol a&#125;"</span>     <span class="comment"># 设置x轴文字，打开enhanced模式后可输出部分特殊字符</span></span><br><span class="line"><span class="built_in">set</span> ylabel <span class="string">"&#123;/Symbol b&#125;"</span></span><br><span class="line"><span class="built_in">set</span> zlabel <span class="string">"Accuracy"</span> <span class="built_in">offset</span> <span class="number">8</span>,<span class="number">7</span>      <span class="comment"># 向上偏移8，向右偏移7</span></span><br><span class="line"><span class="built_in">set</span> view <span class="number">60</span>,<span class="number">30</span>,<span class="number">1</span>,<span class="number">1</span>     <span class="comment"># 设置视角，旋转x轴、z轴，缩放所有轴、z轴</span></span><br><span class="line"><span class="built_in">set</span> hidden3d    <span class="comment"># 不透明，正反面以颜色区分</span></span><br><span class="line"><span class="comment"># set hidden3d  offset 0  # 版本5一些需要此句修复hidden3d的linecolor无效的bug，版本5不需要，可见http://sourceforge.net/p/gnuplot/bugs/1475/</span></span><br><span class="line"><span class="comment"># set zrange [0:10]    # 设置z轴范围</span></span><br><span class="line">splot <span class="string">"gnu-valley"</span> <span class="keyword">with</span> <span class="built_in">line</span> linecolor <span class="number">6</span> notitle     <span class="comment"># 以line的形式画出3D图，蓝色对应3，无标题</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>说明：set view的第二个参数是绕z轴顺时针旋转的度数，遵循<a href="http://baike.baidu.com/link?url=rsPF7TJbttYeoW8W3nQH5oUyP0fpDKnaFQi9zDQGAjoQce2PH142BD_8SgDug2akHh_5gXf-eZxjUp7mp-FrYq" target="_blank" rel="external">右手坐标系</a>，旋转示意图如下。<br><img src="http://7vzozf.com1.z0.glb.clouddn.com/2015/05/310506038.png" alt="2015-05-20_100921.png"></p>
+<ol>
+<li>执行脚本<code>gnuplot&gt; load &quot;test.dem&quot;</code>，得到方便LaTex使用的<code>test.eps</code>如下</li>
+</ol>
+<p><img src="http://7vzozf.com1.z0.glb.clouddn.com/2015/05/4255031512.png" alt="2015-05-19_194022.png"></p>
+<hr>
+<h2 id="JavaPlot"><a href="#JavaPlot" class="headerlink" title="JavaPlot"></a>JavaPlot</h2><p>JavaPlot（<a href="http://javaplot.panayotis.com/" target="_blank" rel="external">http://javaplot.panayotis.com/</a>）是对gnuplot的Java实现库。比之官网，在JavaPlot-0.5.0\demo\src\demo.java提供了更多的例子。</p>
+<p>对上面3D示例的模仿（不完全）：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">JavaPlot p=<span class="keyword">new</span> JavaPlot(<span class="keyword">true</span>);</span><br><span class="line">JavaPlot.getDebugger().setLevel(Debug.VERBOSE);</span><br><span class="line">File file=<span class="keyword">new</span> File(<span class="string">"E:/gnuplot/demo/gnu-valley"</span>);</span><br><span class="line">FileDataSet data=<span class="keyword">new</span> FileDataSet(file);</span><br><span class="line">DataSetPlot s=<span class="keyword">new</span> DataSetPlot(data);</span><br><span class="line">p.addPlot(s);</span><br><span class="line">PlotStyle stl = ((AbstractPlot) p.getPlots().get(<span class="number">0</span>)).getPlotStyle();</span><br><span class="line">stl.setStyle(Style.LINES);</span><br><span class="line">p.plot();</span><br></pre></td></tr></table></figure></p>
+<p>在Console中输出得到：</p>
+<blockquote>
+<p><strong> Start of plot commands </strong><br>splot ‘-‘ title ‘Datafile 1’ with lines<br>0 0 10<br>0 1 10<br>0 2 10<br>e<br>quit<br><strong> End of plot commands </strong><br>exec(D:\Program Files\gnuplot\bin\wgnuplot.exe C:\Users\ADMINI~1\AppData\Local\Temp\gnuplot_8364360726152295267.dat -persist )<br><strong> Start of error stream </strong><br><strong> End of error stream </strong></p>
+</blockquote>
+<p>通过显示Debug信息，发现就是转换生成了个临时的gnuplot脚本，然后再执行。问题是JavaPlot错误地把空行当成了文件的结尾，导致不能得到期望的绘图。另一个gnuplot的Java实现 <a href="https://github.com/mleoking/JavaGnuplotHybrid" target="_blank" rel="external">https://github.com/mleoking/JavaGnuplotHybrid</a> 也是基于这样的转换的，并且修复了空行的问题。gnuplot的英文、中文资料都很多，但是JavaPlot、JavaGnuplotHybrid这样的开源库资料示例想当少，遇到问题不方便解决。</p>
+<p><strong>因此我认为那些干脆库不要用，省得还要去了解那些库中的方法对应哪些gnuplot命令，而由自己来实现</strong></p>
+<ul>
+<li>Java程序直接生成脚本再通过dos命令执行脚本，类似 <code>exec(wgnuplot.exe test.dat)</code>；</li>
+<li>Java程序直接执行dos命令，对上面3D示例的命令：<figure class="highlight dos"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gnuplot --persist -e "clear; reset; <span class="built_in">set</span> terminal postscript landscape <span class="built_in">color</span> enhanced; <span class="built_in">set</span> output 'test.eps'; <span class="built_in">set</span> isosamples <span class="number">10</span>; <span class="built_in">set</span> grid; <span class="built_in">set</span> xlabel '&#123;/Symbol a&#125;'; <span class="built_in">set</span> ylabel '&#123;/Symbol b&#125;'; <span class="built_in">set</span> zlabel 'Accuracy' offset <span class="number">8</span>,<span class="number">7</span>; <span class="built_in">set</span> view <span class="number">60</span>,<span class="number">30</span>,<span class="number">1</span>,<span class="number">1</span>; <span class="built_in">set</span> hidden3d; splot 'gnu-valley' with line linecolor <span class="number">6</span> notitle"</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>注意，-e后跟的命令一定要以” “包住，则原命令中” “的部分要改为’ ‘。</p>
+<hr>
+<h2 id="参考（强烈推荐）："><a href="#参考（强烈推荐）：" class="headerlink" title="参考（强烈推荐）："></a>参考（强烈推荐）：</h2><ul>
+<li><a href="http://www.gnuplot.info/screenshots/index.html#demos" target="_blank" rel="external">gnuplot demo plots - http://www.gnuplot.info/screenshots/index.html#demos</a></li>
+<li><a href="http://blog.sciencenet.cn/blog-373392-535918.html" target="_blank" rel="external">Gnuplot 中文教程 - http://blog.sciencenet.cn/blog-373392-535918.html</a></li>
+<li><a href="http://computacion1fcienciasunam.files.wordpress.com/2012/11/gnuplot-cookbook.pdf" target="_blank" rel="external">《gnuplot Cookbook》 - http://computacion1fcienciasunam.files.wordpress.com/2012/11/gnuplot-cookbook.pdf</a></li>
+</ul>
+  
+	</div>
+		<footer class="article-footer clearfix">
+
+
+
+
+<div class="article-share" id="share">
+
+  <div data-url="http://www.stackess.com/gnuplot/" data-title="gnuplot在Java环境下的应用研究 | Stackess" data-tsina="null" class="share clearfix">
+  </div>
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/intro2info/" title="信息论入门">
+  <strong>PREVIOUS:</strong><br/>
+  <span>
+  信息论入门</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/maven/"  title="Maven 和 M2Eclipse配置">
+ <strong>NEXT:</strong><br/> 
+ <span>Maven 和 M2Eclipse配置
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section class="comment">  
+	<div class="ds-thread" data-thread-key="gnuplot/"></div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#下载安装"><span class="toc-number">1.</span> <span class="toc-text">下载安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#一个3D示例"><span class="toc-number">2.</span> <span class="toc-text">一个3D示例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JavaPlot"><span class="toc-number">3.</span> <span class="toc-text">JavaPlot</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考（强烈推荐）："><span class="toc-number">4.</span> <span class="toc-text">参考（强烈推荐）：</span></a></li></ol>
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			<li><a href="/tags/人工智能/" title="人工智能">人工智能<sup>1</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  <div class="rsspart">
+	<a href="null" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  
+  <div class="archiveslist">
+    <p class="asidetitle"><a href="/archives">归档</a></p>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">十月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">九月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">三月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">二月 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">一月 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">十一月 2013</a><span class="archive-list-count">1</span></li></ul>
+  </div>
+
+
+  
+  <div class="tagcloudlist">
+    <p class="asidetitle">标签云</p>
+    <div class="tagcloudlist clearfix">
+       <a href="/tags/人工智能/" style="font-size: 10px;">人工智能</a>
+    </div>
+  </div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+      <li><a href="http://yangjian.me" target="_blank" title="YangJian">Alimon's Blog</a></li>
+      <li><a href="http://hexo.io" target="_blank" title="Hexo">Hexo</a></li>
+    </ul>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font clearfix">
+		
+		<a href="http://weibo.com/5261272169" target="_blank" title="weibo"></a>
+		
+		
+		
+		<a href="https://github.com/cstackess" target="_blank" title="github"></a>
+		
+		
+		
+	</div>
+		<p class="copyright">Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/A-limon/pacman" target="_blank" title="Pacman">Pacman</a> © 2016 
+		
+		<a href="http://www.stackess.com" target="_blank" title="cstackess">cstackess</a>
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.1.0.min.js"></script>
+
+<!--http://mathjax-chinese-doc.readthedocs.org/en/latest/start.html-->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$']]}
+});
+</script>
+<script src="http://cdn.bootcss.com/mathjax/2.6.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+<link href="http://cdn.bootcss.com/highlight.js/8.0/styles/monokai_sublime.min.css" rel="stylesheet">  
+<script src="http://cdn.bootcss.com/highlight.js/8.0/highlight.min.js"></script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#share"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="#textlogo" class="article-back-to-top" title="Top"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="QRcode"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="Weibo"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"stackess"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+  </body>
+</html>

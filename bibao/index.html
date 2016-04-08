@@ -1,0 +1,418 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>闭包的概念、例子和作用 | Stackess</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    
+    <meta name="author" content="cstackess">
+    
+    <meta name="description" content="作为一个Javaer，在学习Javascript和Python时老碰到的一个词——闭包。在介绍闭包的概念的基础上，文本以3个详尽的例子来分析闭包的意义和作用。主要参考了IBM的一篇文章，并以JS进行论证实验。">
+    
+    
+    
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/pacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/pacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.svg" alt="Stackess" title="Stackess"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Stackess">Stackess</a></h1>
+				<h2 class="blog-motto">cstackess&#39;s blog</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+					<li>
+					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:www.stackess.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/bibao/" title="闭包的概念、例子和作用" itemprop="url">闭包的概念、例子和作用</a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="http://www.stackess.com" title="cstackess">cstackess</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2015-06-20T10:20:00.000Z" itemprop="datePublished">2015-06-20</time>
+    更新日期:<time datetime="2016-04-08T07:16:14.889Z" itemprop="dateModified">2016-04-08</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#概念"><span class="toc-number">1.</span> <span class="toc-text">概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#意义"><span class="toc-number">2.</span> <span class="toc-text">意义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#例1"><span class="toc-number">3.</span> <span class="toc-text">例1</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#例2"><span class="toc-number">4.</span> <span class="toc-text">例2</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#例3"><span class="toc-number">5.</span> <span class="toc-text">例3</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#作用"><span class="toc-number">6.</span> <span class="toc-text">作用</span></a></li></ol>
+		</div>
+		
+		<p>作为一个Javaer，在学习Javascript和Python时老碰到的一个词——闭包。在介绍闭包的概念的基础上，文本以3个详尽的例子来分析闭包的意义和作用。主要参考了IBM的一篇文章，并以JS进行论证实验。</p>
+<a id="more"></a>
+<h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p><code>闭包</code>是<strong>函数</strong>和<strong>引用环境</strong>组成的整体。</p>
+<ul>
+<li>闭包不是函数，只是行为和函数相似，不是所有被传递的函数都需要转化为闭包，只有引用环境可能发生变化的函数才需要这样做。</li>
+<li>闭包在运行时可以有多个实例，不同的引用环境和相同的函数组合可以产生不同的实例。</li>
+<li>所谓引用环境是指在程序执行中的某个点所有处于活跃状态的约束所组成的集合。其中的约束是指一个变量的名字和其所代表的对象之间的联系。</li>
+<li>对象是附有行为的数据，而闭包是附有数据的行为。</li>
+</ul>
+<hr>
+<h2 id="意义"><a href="#意义" class="headerlink" title="意义"></a>意义</h2><p>为什么要把引用环境与函数组合起来？<br>因为在支持嵌套作用域的语言中，有时<strong>不能简单直接地确定函数的引用环境</strong>。</p>
+<p>一个编程语言需要哪些特性来支持闭包呢，下面列出一些比较重要的条件：</p>
+<ul>
+<li>函数是一阶值（First-class value），即函数可以作为另一个函数的返回值或参数，还可以作为一个变量的值；</li>
+<li>函数可以嵌套定义，即在一个函数内部可以定义另一个函数；</li>
+<li>可以捕获引用环境，并把引用环境和函数代码组成一个可调用的实体；</li>
+<li>允许定义匿名函数；<br>这些条件并不是必要的，但具备这些条件能说明一个编程语言对闭包的支持较为完善。</li>
+</ul>
+<p>如Javascript、Python都已一定程度支持闭包，而不支持闭包的语言如Java（8之前）。</p>
+<h2 id="例1"><a href="#例1" class="headerlink" title="例1"></a>例1</h2><p>以Javascript实现一个简单计数，准确地来说是计数模板，这就需要一个初始为0的计数器和计数函数，计数函数作为模板函数的返回值。来自<a href="http://www.ibm.com/developerworks/cn/linux/l-cn-closure/" target="_blank" rel="external">闭包的概念、形式与应用</a>的例子。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">make_counter</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> count = <span class="number">0</span>    <span class="comment">//局部变量</span></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">inc_count</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        count = count + <span class="number">1</span></span><br><span class="line">        <span class="keyword">return</span> count</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> inc_count</span><br><span class="line">&#125;</span><br><span class="line">c1 = make_counter()</span><br><span class="line">c2 = make_counter()</span><br><span class="line">c1()</span><br><span class="line">c2()</span><br></pre></td></tr></table></figure></p>
+<p>如果没有闭包或者是新手，可能会觉得这段代码存在以下的矛盾：</p>
+<ol>
+<li>count是局部变量，作用域在make_counter()之内，调用make_counter()返回一个函数后，count应当失效</li>
+<li>make_counter()的返回值是函数inc_count()，并赋给了变量，在实际调用时执行该函数，还需要访问count</li>
+</ol>
+<p>其中2正是我们的本意，需要count依旧有效。闭包的机制能使得在外部函数make_counter()返回后，内存依然保留内部函数inc_count()需要的count。如闭包实例c1，包含了函数inc_count()和相应的变量count。</p>
+<p>闭包的一个作用是可以<strong>模拟面向对象编程</strong>。用闭包的Javascript相当于实现了这样的Java程序，计数模板产生计数函数，计数器互相独立：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Counter</span></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> count=<span class="number">0</span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">inc_count</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.count++;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        Counter c1=<span class="keyword">new</span> Counter();</span><br><span class="line">        Counter c2=<span class="keyword">new</span> Counter();</span><br><span class="line">        c1.inc_count();</span><br><span class="line">        c2.inc_count();</span><br><span class="line">    &#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>而改写的Javascript的面向对象写法（参考 <a href="http://www.cnblogs.com/gaojun/archive/2013/10/24/3386552.html" target="_blank" rel="external">JS面向对象的程序设计</a> 和 <a href="http://www.iteye.com/topic/434462" target="_blank" rel="external">JS 中面向对象的5种写法</a>）：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">make_counter</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.count=<span class="number">0</span></span><br><span class="line">&#125;</span><br><span class="line">make_counter.prototype = &#123;</span><br><span class="line">    <span class="keyword">constructor</span>: make_counter(),</span><br><span class="line">    inc_count:function()&#123;  </span><br><span class="line">        <span class="keyword">this</span>.count=<span class="keyword">this</span>.count+<span class="number">1</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.count</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">c1=<span class="keyword">new</span> make_counter()</span><br><span class="line">c2=<span class="keyword">new</span> make_counter()</span><br><span class="line">c1.inc_count()</span><br><span class="line">c2.inc_count()</span><br></pre></td></tr></table></figure></p>
+<p>这里特别废话一下，还有两种写法虽然看起来很舒服，但其实是有问题的：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">make_counter</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.count=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">this</span>.inc_count=<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;  </span><br><span class="line">        <span class="keyword">this</span>.count=<span class="keyword">this</span>.count+<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.count</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">c1=<span class="keyword">new</span> make_counter()</span><br><span class="line">c2=<span class="keyword">new</span> make_counter()</span><br><span class="line">c1.inc_count()</span><br><span class="line">c2.inc_count()</span><br><span class="line">c1.inc_count==c2.inc_count    <span class="comment">//false，对象的属性指向函数时，会重复的创建函数实例</span></span><br></pre></td></tr></table></figure></p>
+<p>相当于<code>this.inc_count=new function(){……}</code>，而好的当然是令不同的对象共享函数块。</p>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">make_counter=&#123;</span><br><span class="line">    <span class="string">"count"</span>:<span class="number">0</span>,</span><br><span class="line">    <span class="string">"inc_count"</span>:<span class="function"><span class="keyword">function</span><span class="params">()</span></span>&#123;  </span><br><span class="line">        <span class="keyword">this</span>.count=count+<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.count</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">make_counter.inc_count()</span><br></pre></td></tr></table></figure>
+<p>简直不能算面向对象，让它做一个安静的美男子……</p>
+<h2 id="例2"><a href="#例2" class="headerlink" title="例2"></a>例2</h2><p>以Javascript实现对1、2、……、9做连续运算，加法函数作为运算函数的传入参数，累加器初始为0。也是来自<a href="http://www.ibm.com/developerworks/cn/linux/l-cn-closure/" target="_blank" rel="external">闭包的概念、形式与应用</a>的例子。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">do10times</span>(<span class="params">fn</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>;i&lt;<span class="number">10</span>;i++)&#123;</span><br><span class="line">        fn(i)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">sum = <span class="number">0</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">addsum</span>(<span class="params">i</span>)</span>&#123;</span><br><span class="line">    sum = sum + i</span><br><span class="line">&#125;</span><br><span class="line">do10times(addsum)</span><br></pre></td></tr></table></figure></p>
+<p>如果没有闭包或者是新手，可能会觉得这段代码存在以下的矛盾：</p>
+<ol>
+<li>函数do10times()在变量sum之前已经定义，不在sum的作用域内，调用do10times()时不能访问sum</li>
+<li>函数addsum()作为参数传给do10times()，并在do10times()中被调用10次，需要访问变量sum</li>
+</ol>
+<p>其中2正是我们的本意，需要访问sum。闭包的机制能使得在参数函数addsum()携内存中的sum一起投奔do10times()。闭包实例包含了函数addsum()和相应的变量sum。</p>
+<p>如果觉得全局变量sum不太顺眼，也就<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">do10times</span>(<span class="params">fn</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>;i&lt;<span class="number">10</span>;i++)&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(fn(i))</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">calculator</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> sum = <span class="number">0</span></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">addsum</span>(<span class="params">i</span>)</span>&#123;</span><br><span class="line">        sum = sum + i    </span><br><span class="line">        <span class="keyword">return</span> sum</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> addsum</span><br><span class="line">&#125;</span><br><span class="line">c1=<span class="keyword">new</span> calculator()</span><br><span class="line">c2=<span class="keyword">new</span> calculator()</span><br><span class="line">do10times(c1)</span><br><span class="line">do10times(c2)</span><br></pre></td></tr></table></figure></p>
+<p>由于对Javascript不太了解，不太清楚该如何改成面向对象的形式，另外在JS中<code>this</code>指代的对象需要根据运行时此函数在什么对象上被调用判断，具体参考 <a href="http://blog.csdn.net/yxpjx/article/details/5109432" target="_blank" rel="external">js 中的this,constrct ,prototype详解</a> 和 <a href="http://www.cnblogs.com/RightDear/archive/2013/08/01/3230618.html" target="_blank" rel="external">js中this的四种调用模式</a>。由于本文重点并不在此，就不多加研究了。</p>
+<h2 id="例3"><a href="#例3" class="headerlink" title="例3"></a>例3</h2><p>闭包引用循环变量时要特别注意。来自<a href="http://www.liaoxuefeng.com/wiki/001374738125095c955c1e6d8bb493182103fac9270762a000/0014186131194415d50558b7a1c424f9fb52b84dc9c965c000" target="_blank" rel="external">廖雪峰Python2.7教程</a>的例子，比较两例：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">count</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> fs = <span class="keyword">new</span> <span class="built_in">Array</span>()</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>;i&lt;<span class="number">4</span>;i++)&#123;</span><br><span class="line">        <span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">             <span class="keyword">return</span> i*i	</span><br><span class="line">        &#125;</span><br><span class="line">        fs[i]=f</span><br><span class="line">	&#125;</span><br><span class="line">    <span class="keyword">return</span> fs</span><br><span class="line">&#125;</span><br><span class="line">ff = count()</span><br><span class="line">ff[<span class="number">0</span>]()	<span class="comment">//16</span></span><br><span class="line">ff[<span class="number">1</span>]()	<span class="comment">//16</span></span><br><span class="line">ff[<span class="number">2</span>]()	<span class="comment">//16</span></span><br><span class="line">ff[<span class="number">3</span>]()	<span class="comment">//16</span></span><br></pre></td></tr></table></figure></p>
+<p>调用函数count()，循环变量i从0逐步变为4，返回4个函数f()，调用f()时访问i已是4。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">count</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> fs = <span class="keyword">new</span> <span class="built_in">Array</span>()</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>;i&lt;<span class="number">4</span>;i++)&#123;</span><br><span class="line">        <span class="function"><span class="keyword">function</span> <span class="title">g</span>(<span class="params">j</span>)</span>&#123;	<span class="comment">//保留j</span></span><br><span class="line">			<span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">				<span class="keyword">return</span> j*j</span><br><span class="line">			 &#125;</span><br><span class="line">			<span class="keyword">return</span> f</span><br><span class="line">		&#125;</span><br><span class="line">		fs[i]=g(i)</span><br><span class="line">	&#125;</span><br><span class="line">    <span class="keyword">return</span> fs</span><br><span class="line">&#125;</span><br><span class="line">f1 = count()</span><br><span class="line">f1[<span class="number">0</span>]()	<span class="comment">//0</span></span><br><span class="line">f1[<span class="number">1</span>]()	<span class="comment">//1</span></span><br><span class="line">f1[<span class="number">2</span>]()	<span class="comment">//4</span></span><br><span class="line">f1[<span class="number">3</span>]()	<span class="comment">//9</span></span><br></pre></td></tr></table></figure>
+<p>调用函数count()，循环变量i从0逐步变为4，且每一步都把i的值绑定给函数g的参数j，g(j)又返回f()，最终返回4个函数f()，调用f()时各自保留有不同的参数变量j。</p>
+<p>对比图如下所示。<br><img src="http://7vzozf.com1.z0.glb.clouddn.com/2015/06/3450784186.png" alt="1.png"></p>
+<p>另外还有个比较经典的例子，也是这个道理：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>;i&lt;<span class="number">4</span>;i++)</span><br><span class="line">	setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;<span class="built_in">console</span>.log(i)&#125;,<span class="number">0</span>)    <span class="comment">//输出4,4,4,4</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>;i&lt;<span class="number">4</span>;i++)</span><br><span class="line">	setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params">j</span>)</span>&#123;<span class="built_in">console</span>.log(j)&#125;(i),<span class="number">0</span>)    <span class="comment">//输出0,1,2,3</span></span><br></pre></td></tr></table></figure></p>
+<p>很棒的总结！</p>
+<blockquote>
+<p>返回闭包时牢记的一点就是：<strong>返回函数不要引用任何循环变量，或者后续会发生变化的变量</strong>。</p>
+<p>如果一定要引用循环变量怎么办？<strong>方法是再创建一个函数，用该函数的参数绑定循环变量当前的值，无论该循环变量后续如何更改，已绑定到函数参数的值不变</strong>。</p>
+</blockquote>
+<hr>
+<h2 id="作用"><a href="#作用" class="headerlink" title="作用"></a>作用</h2><p>在<a href="http://www.ibm.com/developerworks/cn/linux/l-cn-closure/" target="_blank" rel="external">闭包的概念、形式与应用</a>一文提到了三个作用：</p>
+<ul>
+<li>加强模块化</li>
+<li>抽象</li>
+<li>简化代码</li>
+</ul>
+<p>个人感觉，闭包的确可以给语言增添不少活力，也可能不小心掉入坑中……</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+
+
+
+
+<div class="article-share" id="share">
+
+  <div data-url="http://www.stackess.com/bibao/" data-title="闭包的概念、例子和作用 | Stackess" data-tsina="null" class="share clearfix">
+  </div>
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/JLR/" title="Java LeTeX Report 概述和示例">
+  <strong>PREVIOUS:</strong><br/>
+  <span>
+  Java LeTeX Report 概述和示例</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/python_note/"  title="Python基础学习笔记">
+ <strong>NEXT:</strong><br/> 
+ <span>Python基础学习笔记
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section class="comment">  
+	<div class="ds-thread" data-thread-key="bibao/"></div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#概念"><span class="toc-number">1.</span> <span class="toc-text">概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#意义"><span class="toc-number">2.</span> <span class="toc-text">意义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#例1"><span class="toc-number">3.</span> <span class="toc-text">例1</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#例2"><span class="toc-number">4.</span> <span class="toc-text">例2</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#例3"><span class="toc-number">5.</span> <span class="toc-text">例3</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#作用"><span class="toc-number">6.</span> <span class="toc-text">作用</span></a></li></ol>
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			<li><a href="/tags/人工智能/" title="人工智能">人工智能<sup>1</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  <div class="rsspart">
+	<a href="null" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  
+  <div class="archiveslist">
+    <p class="asidetitle"><a href="/archives">归档</a></p>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">十月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">九月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">三月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">二月 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">一月 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">十一月 2013</a><span class="archive-list-count">1</span></li></ul>
+  </div>
+
+
+  
+  <div class="tagcloudlist">
+    <p class="asidetitle">标签云</p>
+    <div class="tagcloudlist clearfix">
+       <a href="/tags/人工智能/" style="font-size: 10px;">人工智能</a>
+    </div>
+  </div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+      <li><a href="http://yangjian.me" target="_blank" title="YangJian">Alimon's Blog</a></li>
+      <li><a href="http://hexo.io" target="_blank" title="Hexo">Hexo</a></li>
+    </ul>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font clearfix">
+		
+		<a href="http://weibo.com/5261272169" target="_blank" title="weibo"></a>
+		
+		
+		
+		<a href="https://github.com/cstackess" target="_blank" title="github"></a>
+		
+		
+		
+	</div>
+		<p class="copyright">Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/A-limon/pacman" target="_blank" title="Pacman">Pacman</a> © 2016 
+		
+		<a href="http://www.stackess.com" target="_blank" title="cstackess">cstackess</a>
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.1.0.min.js"></script>
+
+<!--http://mathjax-chinese-doc.readthedocs.org/en/latest/start.html-->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$']]}
+});
+</script>
+<script src="http://cdn.bootcss.com/mathjax/2.6.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+<link href="http://cdn.bootcss.com/highlight.js/8.0/styles/monokai_sublime.min.css" rel="stylesheet">  
+<script src="http://cdn.bootcss.com/highlight.js/8.0/highlight.min.js"></script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#share"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="#textlogo" class="article-back-to-top" title="Top"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="QRcode"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="Weibo"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"stackess"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+  </body>
+</html>

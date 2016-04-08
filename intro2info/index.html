@@ -1,0 +1,377 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>信息论入门 | Stackess</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    
+    <meta name="author" content="cstackess">
+    
+    <meta name="description" content="信息论入门ing…">
+    
+    
+    
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/pacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/pacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.svg" alt="Stackess" title="Stackess"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Stackess">Stackess</a></h1>
+				<h2 class="blog-motto">cstackess&#39;s blog</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+					<li>
+					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:www.stackess.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/intro2info/" title="信息论入门" itemprop="url">信息论入门</a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="http://www.stackess.com" title="cstackess">cstackess</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2015-05-21T10:14:00.000Z" itemprop="datePublished">2015-05-21</time>
+    更新日期:<time datetime="2016-04-08T07:09:15.073Z" itemprop="dateModified">2016-04-08</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#自信息"><span class="toc-number">1.</span> <span class="toc-text">自信息</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#信息熵"><span class="toc-number">2.</span> <span class="toc-text">信息熵</span></a></li></ol>
+		</div>
+		
+		<p>信息论入门ing…<br><a id="more"></a></p>
+<p>信息用来消除人们对事物的不确定性。信息量越大，不确定性减少程度越大，与信息作用大小无决定关系，因为对接收者来说，所获得的信息可能事关重大，也可能无足轻重。</p>
+<hr>
+<h2 id="自信息"><a href="#自信息" class="headerlink" title="自信息"></a>自信息</h2><p>通过观测实际概率为$p$的事件的出现频率，可以推测实际概率，也就是得到信息。单一事件发生时所包含的信息量多寡，用$I(p)$来衡量，称为<code>自信息</code>。</p>
+<p>$I(p)$必须具有以下属性：</p>
+<ol>
+<li>非负：$I(p)\geq 0$</li>
+<li>如果事件必然发生，则不能从出现频率中得到信息：$I(1)=0$</li>
+<li>如果两个独立事件（联合概率是独立概率之和）出现，则可得到的总信息为各信息之和：$I(p_1\cap p_2)=I(p_1)+I(p_2)$</li>
+<li>是概率$p$的连续、单调函数</li>
+</ol>
+<p>从以上属性可导出，$I(p)=\log {1\over p}=-\log p$，以2为底数时单位为bit。<br>一个随机产生的事件所包含的自信息，只与事件发生的概率相关。事件发生的概率越低，在事件真的发生时，接收到的信息中，包含的自信息越大。这里的想法是，比较不可能发生的事情，当它发生了，会提供更多的信息。</p>
+<p>例如，抛一次硬币的得到的自信息为$I({1\over 2})=1$bit，抛n次硬币就会得到n bit的自信息。</p>
+<hr>
+<h2 id="信息熵"><a href="#信息熵" class="headerlink" title="信息熵"></a>信息熵</h2><p>设n个独立事件，以符号$\{a_1,a_2,…,a_n\}$表示，若第i个事件发生则符号$a_i$出现，各事件的概率为$\{p_1,p_2,…,p_n\}$。</p>
+<p>现在信息源提供了N组符号（类似流），如果某组中出现$a_i$，则可得$a_i$的$-\log p_i$自信息，N组符号中$a_i$的出现概率为$Np_i$，则$a_i$的总自信息为$-(Np_i)\log p<em>i$，n个符号的总自信息为$I=\sum^n</em>{i=1}(-Np<em>i)$，平均自信息为$I/N=-\sum^n</em>{i=1}p_i\log p<em>i$。注意到$\lim</em>{x\rightarrow 0}(-x\log(x))=0$，因此我们可以特别定义当$p_i=0时$有$-p_i\log p_i=0$。这个平均自信息也被称为<code>信息熵</code>。信息熵为不确定性的量度。信息熵越大，不确定性越大，把它搞清楚所需的信息量也越大。</p>
+<p>正式地，假设有一组概率，即离散随机变量的概率分布$P=\{p_1,p_2,…,p<em>n\}$，则分布$P$的信息熵为$H(P)=-\sum^n</em>{i=1}p_i\log p_i$。</p>
+<p>推广到连续随机变量的概率分布$P(x)$，信息熵为$H(P)=-\int P(x)\log P(x)dx$。</p>
+<p><a href="http://www.fi.muni.cz/usr/staudek/infteo/info-lec.pdf" target="_blank" rel="external">http://www.fi.muni.cz/usr/staudek/infteo/info-lec.pdf</a></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+
+
+
+
+<div class="article-share" id="share">
+
+  <div data-url="http://www.stackess.com/intro2info/" data-title="信息论入门 | Stackess" data-tsina="null" class="share clearfix">
+  </div>
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/intro2java_1/" title="Java平台概述（上）">
+  <strong>PREVIOUS:</strong><br/>
+  <span>
+  Java平台概述（上）</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/gnuplot/"  title="gnuplot在Java环境下的应用研究">
+ <strong>NEXT:</strong><br/> 
+ <span>gnuplot在Java环境下的应用研究
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section class="comment">  
+	<div class="ds-thread" data-thread-key="intro2info/"></div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#自信息"><span class="toc-number">1.</span> <span class="toc-text">自信息</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#信息熵"><span class="toc-number">2.</span> <span class="toc-text">信息熵</span></a></li></ol>
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			<li><a href="/tags/人工智能/" title="人工智能">人工智能<sup>1</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  <div class="rsspart">
+	<a href="null" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  
+  <div class="archiveslist">
+    <p class="asidetitle"><a href="/archives">归档</a></p>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">十月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">九月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">三月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">二月 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">一月 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">十一月 2013</a><span class="archive-list-count">1</span></li></ul>
+  </div>
+
+
+  
+  <div class="tagcloudlist">
+    <p class="asidetitle">标签云</p>
+    <div class="tagcloudlist clearfix">
+       <a href="/tags/人工智能/" style="font-size: 10px;">人工智能</a>
+    </div>
+  </div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+      <li><a href="http://yangjian.me" target="_blank" title="YangJian">Alimon's Blog</a></li>
+      <li><a href="http://hexo.io" target="_blank" title="Hexo">Hexo</a></li>
+    </ul>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font clearfix">
+		
+		<a href="http://weibo.com/5261272169" target="_blank" title="weibo"></a>
+		
+		
+		
+		<a href="https://github.com/cstackess" target="_blank" title="github"></a>
+		
+		
+		
+	</div>
+		<p class="copyright">Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/A-limon/pacman" target="_blank" title="Pacman">Pacman</a> © 2016 
+		
+		<a href="http://www.stackess.com" target="_blank" title="cstackess">cstackess</a>
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.1.0.min.js"></script>
+
+<!--http://mathjax-chinese-doc.readthedocs.org/en/latest/start.html-->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$']]}
+});
+</script>
+<script src="http://cdn.bootcss.com/mathjax/2.6.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+<link href="http://cdn.bootcss.com/highlight.js/8.0/styles/monokai_sublime.min.css" rel="stylesheet">  
+<script src="http://cdn.bootcss.com/highlight.js/8.0/highlight.min.js"></script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#share"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="#textlogo" class="article-back-to-top" title="Top"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="QRcode"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="Weibo"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"stackess"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+  </body>
+</html>

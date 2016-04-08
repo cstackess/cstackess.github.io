@@ -1,0 +1,459 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>IntelliJ Ideal 快捷键 | Stackess</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    
+    <meta name="author" content="cstackess">
+    
+    <meta name="description" content="最近看了「Live Coding」TDD Hangman in Java觉得用IntelliJ Ideal很酷，以下是按照个人喜好的总结。">
+    
+    
+    
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/pacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/pacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.svg" alt="Stackess" title="Stackess"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Stackess">Stackess</a></h1>
+				<h2 class="blog-motto">cstackess&#39;s blog</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+					<li>
+					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:www.stackess.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/intelliJ_Ideal/" title="IntelliJ Ideal 快捷键" itemprop="url">IntelliJ Ideal 快捷键</a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="http://www.stackess.com" title="cstackess">cstackess</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2016-02-02T08:31:00.000Z" itemprop="datePublished">2016-02-02</time>
+    更新日期:<time datetime="2016-04-08T07:36:06.170Z" itemprop="dateModified">2016-04-08</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#选择、编辑"><span class="toc-number">1.</span> <span class="toc-text">选择、编辑</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#智能"><span class="toc-number">2.</span> <span class="toc-text">智能</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#动态模板"><span class="toc-number">3.</span> <span class="toc-text">动态模板</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#查找"><span class="toc-number">4.</span> <span class="toc-text">查找</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#窗口"><span class="toc-number">5.</span> <span class="toc-text">窗口</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#重构"><span class="toc-number">6.</span> <span class="toc-text">重构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#书签"><span class="toc-number">7.</span> <span class="toc-text">书签</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Debug"><span class="toc-number">8.</span> <span class="toc-text">Debug</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参考"><span class="toc-number"></span> <span class="toc-text">参考</span></a>
+		</div>
+		
+		<p>最近看了<a href="http://www.bilibili.com/video/av3626221/" target="_blank" rel="external">「Live Coding」TDD Hangman in Java</a>觉得用IntelliJ Ideal很酷，以下是按照个人喜好的总结。<br><a id="more"></a></p>
+<h2 id="选择、编辑"><a href="#选择、编辑" class="headerlink" title="选择、编辑"></a>选择、编辑</h2><ul>
+<li><code>Ctrl + Y</code> 删除行 (★)<ul>
+<li><code>Ctrl + delete</code> 删除光标后面的单词</li>
+<li><code>Ctrl + backspace</code> 删除光标前面的单词</li>
+</ul>
+</li>
+<li><code>Ctrl + W</code> 选中光标所在的单词 ，连续按会有其他效果 （相反的是Ctrl + Shift + W） (★)<ul>
+<li><code>Ctrl + ← 或 →</code> 光标跳到上/下个单词</li>
+<li><code>Ctrl + ↑ 或 ↓</code> 相当于你用鼠标滑滚轮(为了方便鼠标党)</li>
+<li><code>Ctrl + home 或 end</code> 跳到文件头文件尾</li>
+<li><code>Ctrl + [ 或 ]</code> 移动光标到块的初/末括号地方</li>
+<li><code>Ctrl ＋ Shift ＋ backspace</code>可以跳转到上次编辑的地方</li>
+<li><code>ALT+ ↑ 或 ↓</code> 在方法间快速移动定位  </li>
+</ul>
+</li>
+<li><code>Ctrl + Enter</code> 光标所在行下空出一行，光标不动<ul>
+<li><code>Shift + Enter</code> 光标所在行下空出一行，光标定位到新行</li>
+<li><code>Ctrl + Alt + Enter</code> 光标所在行上空出一行，光标定位到新行</li>
+<li><code>Ctrl + Shift + Enter</code> 在末尾自动增加“;”完成当前语句 </li>
+</ul>
+</li>
+<li><code>Ctrl + /</code> 或 <code>Ctrl + Shift + /</code> 注释（// 或者/<em>…</em>/ ）</li>
+<li><code>Ctrl + Alt + L</code> 代码格式化  (★)</li>
+<li><code>Ctrl + Shift + V</code> 从剪贴板缓存中选择信息粘帖 </li>
+<li><code>Shift + Alt + Insert</code>  竖编辑模式  </li>
+<li><code>F2</code> 跳转到下一个高亮错误 或 警告位置<ul>
+<li><code>Shift + F2</code>上一个错误</li>
+</ul>
+</li>
+<li><code>Ctrl + F3</code> 调转到所选中的词的下一个同名位置<ul>
+<li>后按<code>F3</code> 向下查找关键字出现位置  </li>
+<li>后按<code>Shift + F3</code> 向上查找关键字出现位置 </li>
+</ul>
+</li>
+<li><code>F4</code> 查找变量、方法来源  <h2 id="智能"><a href="#智能" class="headerlink" title="智能"></a>智能</h2></li>
+<li><code>Ctrl + 空格</code> 基础代码完成（类名、方法名、变量名） (★)</li>
+<li><code>Alt + Enter</code> 显示可能的动作和快速修复的方法供选择  (★)</li>
+<li><code>Ctrl + Q</code> 显示文档内容鼠标（类似的功能还有一个<code>Ctrl + Shift + I</code>）</li>
+<li><p><code>Ctrl + B</code> 快速打开光标处的类或方法（对于前端支持很好,比如可以直接通过class的name定位到css的文件位置），等同于<code>Ctrl + 光标指向</code></p>
+</li>
+<li><p><code>Ctrl + F1</code> 显示错误</p>
+</li>
+<li><p><code>Ctrl + F9</code> 编译</p>
+</li>
+<li><p><code>Alt + Shift + I</code> Inspection result</p>
+</li>
+<li><p><code>Ctrl + K</code> VCS提交项目</p>
+</li>
+<li><code>Ctrl + T</code> VCS更新项目</li>
+</ul>
+<h2 id="动态模板"><a href="#动态模板" class="headerlink" title="动态模板"></a>动态模板</h2><ul>
+<li><code>Ctrl + J</code> 插入动态模板 (★)</li>
+<li><code>Tab</code> 输入动态模板缩写后，按下 (★)</li>
+<li><code>Ctrl + Alt + J</code> 对当前行或选中的代码，弹出动态模板窗口，作为模板变量加入</li>
+</ul>
+<h2 id="查找"><a href="#查找" class="headerlink" title="查找"></a>查找</h2><ul>
+<li><code>Ctrl + N</code> 查找类 (★)</li>
+<li><code>Ctrl + F</code> 当前代码（文件）中查找</li>
+<li><code>Ctrl + R</code> 替换</li>
+<li><code>Ctrl + Shift + N</code>    通过文件名定位 / 打开文件 / 目录，打开目录需要在输入的内容后面多加一个正斜杠 </li>
+<li><code>Alt + F1</code> 查找代码所在位置 </li>
+<li><code>Shift + Shift</code> 弹出 Search Everywhere 弹出层 (★)</li>
+<li><code>Ctrl + Shift + A</code> 可以查找所有IntelliJ的命令，并且每个命令后面还有其快捷键。所以它不仅是一大神键，也是查找学习快捷键的工具。 <h2 id="窗口"><a href="#窗口" class="headerlink" title="窗口"></a>窗口</h2></li>
+<li><code>Ctrl + Tab</code> 编辑窗口切换 (★)</li>
+<li><code>Ctrl + E</code> 最近打开的文件</li>
+<li><code>Ctrl + H</code> 显示类层次图</li>
+<li><code>Ctrl + Shift + H</code> 方法层次结构</li>
+<li><code>Ctrl + Alt + H</code> 调用层次</li>
+<li><code>Alt + F7</code> 查找调用处 (★)</li>
+<li><code>Alt + 1,2,3...9</code> 显示对应数值的选项卡<ul>
+<li>1 是 Project 用得最多</li>
+<li>7 显示当前文件的结构，类似 <code>Ctrl + F12</code>， 当前编辑的文件中快速导航(可以直接键入字母，IntelliJ IDEA会筛选你输入的来匹配对应是否有的方法，来快速定位)(类似结构图)</li>
+</ul>
+</li>
+<li><code>Ctrl + Shift + F12</code> 编辑器最大化</li>
+</ul>
+<h2 id="重构"><a href="#重构" class="headerlink" title="重构"></a>重构</h2><ul>
+<li><code>Shift + F6</code> 重命名(包、类、方法、变量、甚至注释等)  (★)</li>
+<li><code>Ctrl + O</code> 选择可覆盖/继承的方法</li>
+<li><code>Ctrl + I</code> 选择可实现的方法</li>
+<li><code>Ctrl + Alt + V</code> 提取局部变量</li>
+<li><code>Ctrl + Alt + F</code> 提取实例变量</li>
+<li><code>Ctrl + Alt + C</code> 提取常量</li>
+<li><code>Ctrl + Alt + P</code> 提取方法入参</li>
+<li><code>Alt + Insert</code> 生成(如代码GET,SET方法,构造函数，如类、包)   (★)</li>
+<li><code>Ctrl + Alt + Shift + T</code> 弹出重构菜单（据说很牛叉）</li>
+</ul>
+<h2 id="书签"><a href="#书签" class="headerlink" title="书签"></a>书签</h2><ul>
+<li><code>Ctrl + Shift + 1,2,3,4....</code> 添加书签，或者<code>Ctrl + F11</code> 弹出一个小框来指定式添加书签(可以对文件或文件夹起作用)</li>
+<li><code>Ctrl + 1,2,3,4....</code> 快速定位到书签代码处</li>
+<li><code>F11</code> 增加书签</li>
+<li><code>Shilft+F11</code> 查看书签</li>
+</ul>
+<h2 id="Debug"><a href="#Debug" class="headerlink" title="Debug"></a>Debug</h2><p>ing…</p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ol>
+<li><a href="http://my.oschina.net/dyyweb/blog/494504" target="_blank" rel="external">Idea 常用快捷键 列表(实战终极总结！！！！)</a></li>
+<li><a href="http://note.youdao.com/share/web/file.html?id=973d61880d78c34797a978afc5bc8846&amp;type=note" target="_blank" rel="external">IntelliJ IDEA快捷键</a></li>
+<li><a href="https://github.com/judasn/IntelliJ-IDEA-Tutorial/blob/master/keymap-introduce.md" target="_blank" rel="external">IntelliJ IDEA 常用快捷键讲解（Win+Linux）</a></li>
+<li><a href="https://www.jetbrains.com/idea/help/eclipse.html" target="_blank" rel="external">Migrating From Eclipse to IntelliJ IDEA</a><a href="https://www.jetbrains.com/idea/help/eclipse.html" target="_blank" rel="external">https://www.jetbrains.com/idea/help/eclipse.html</a></li>
+</ol>
+  
+	</div>
+		<footer class="article-footer clearfix">
+
+
+
+
+<div class="article-share" id="share">
+
+  <div data-url="http://www.stackess.com/intelliJ_Ideal/" data-title="IntelliJ Ideal 快捷键 | Stackess" data-tsina="null" class="share clearfix">
+  </div>
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/intro2algr_1/" title="算法导论笔记：渐近大于和多项式大于">
+  <strong>PREVIOUS:</strong><br/>
+  <span>
+  算法导论笔记：渐近大于和多项式大于</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/linux_shell/"  title="Linux Shell 笔记">
+ <strong>NEXT:</strong><br/> 
+ <span>Linux Shell 笔记
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section class="comment">  
+	<div class="ds-thread" data-thread-key="intelliJ_Ideal/"></div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#选择、编辑"><span class="toc-number">1.</span> <span class="toc-text">选择、编辑</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#智能"><span class="toc-number">2.</span> <span class="toc-text">智能</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#动态模板"><span class="toc-number">3.</span> <span class="toc-text">动态模板</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#查找"><span class="toc-number">4.</span> <span class="toc-text">查找</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#窗口"><span class="toc-number">5.</span> <span class="toc-text">窗口</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#重构"><span class="toc-number">6.</span> <span class="toc-text">重构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#书签"><span class="toc-number">7.</span> <span class="toc-text">书签</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Debug"><span class="toc-number">8.</span> <span class="toc-text">Debug</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参考"><span class="toc-number"></span> <span class="toc-text">参考</span></a>
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			<li><a href="/tags/人工智能/" title="人工智能">人工智能<sup>1</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  <div class="rsspart">
+	<a href="null" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  
+  <div class="archiveslist">
+    <p class="asidetitle"><a href="/archives">归档</a></p>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">十月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">九月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">三月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">二月 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">一月 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">十一月 2013</a><span class="archive-list-count">1</span></li></ul>
+  </div>
+
+
+  
+  <div class="tagcloudlist">
+    <p class="asidetitle">标签云</p>
+    <div class="tagcloudlist clearfix">
+       <a href="/tags/人工智能/" style="font-size: 10px;">人工智能</a>
+    </div>
+  </div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+      <li><a href="http://yangjian.me" target="_blank" title="YangJian">Alimon's Blog</a></li>
+      <li><a href="http://hexo.io" target="_blank" title="Hexo">Hexo</a></li>
+    </ul>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font clearfix">
+		
+		<a href="http://weibo.com/5261272169" target="_blank" title="weibo"></a>
+		
+		
+		
+		<a href="https://github.com/cstackess" target="_blank" title="github"></a>
+		
+		
+		
+	</div>
+		<p class="copyright">Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/A-limon/pacman" target="_blank" title="Pacman">Pacman</a> © 2016 
+		
+		<a href="http://www.stackess.com" target="_blank" title="cstackess">cstackess</a>
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.1.0.min.js"></script>
+
+<!--http://mathjax-chinese-doc.readthedocs.org/en/latest/start.html-->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$']]}
+});
+</script>
+<script src="http://cdn.bootcss.com/mathjax/2.6.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+<link href="http://cdn.bootcss.com/highlight.js/8.0/styles/monokai_sublime.min.css" rel="stylesheet">  
+<script src="http://cdn.bootcss.com/highlight.js/8.0/highlight.min.js"></script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#share"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="#textlogo" class="article-back-to-top" title="Top"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="QRcode"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="Weibo"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"stackess"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+  </body>
+</html>

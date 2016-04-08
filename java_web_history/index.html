@@ -1,0 +1,429 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Java动态Web技术演化 | Stackess</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    
+    <meta name="author" content="cstackess">
+    
+    <meta name="description" content="Servlet的出现 -》 JSP的出现 -》 Model 1模型 -》 Model 2模型（MVC）-》 三层架构">
+    
+    
+    
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/pacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/pacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.svg" alt="Stackess" title="Stackess"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Stackess">Stackess</a></h1>
+				<h2 class="blog-motto">cstackess&#39;s blog</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+					<li>
+					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:www.stackess.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/java_web_history/" title="Java动态Web技术演化" itemprop="url">Java动态Web技术演化</a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="http://www.stackess.com" title="cstackess">cstackess</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2015-09-15T09:06:00.000Z" itemprop="datePublished">2015-09-15</time>
+    更新日期:<time datetime="2016-04-08T07:36:59.178Z" itemprop="dateModified">2016-04-08</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-Servlet的出现"><span class="toc-number">1.</span> <span class="toc-text">1. Servlet的出现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-JSP的出现"><span class="toc-number">2.</span> <span class="toc-text">2. JSP的出现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-Model-1模型"><span class="toc-number">3.</span> <span class="toc-text">3. Model 1模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-Model-2模型（MVC）"><span class="toc-number">4.</span> <span class="toc-text">4. Model 2模型（MVC）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-三层架构"><span class="toc-number">5.</span> <span class="toc-text">5.三层架构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考"><span class="toc-number">6.</span> <span class="toc-text">参考</span></a></li></ol>
+		</div>
+		
+		<p>Servlet的出现 -》 JSP的出现 -》 Model 1模型 -》 Model 2模型（MVC）-》 三层架构</p>
+<a id="more"></a>
+<hr>
+<h2 id="1-Servlet的出现"><a href="#1-Servlet的出现" class="headerlink" title="1. Servlet的出现"></a>1. Servlet的出现</h2><p>1996年Sun公司首次推出Servlet技术来解决Web程序当中的性能问题。<br>优点：</p>
+<ul>
+<li>Servlet在首次被用户请求的时候加载到内存当中，之后将一直驻留在内存里，对同一个servlet的后续请求将不用再对这个servlet的类进行实例化，这种机制大大提高了Web应用程序的<strong>响应速度</strong>。</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>在编写Servlet的时候要将所有HTML输出代码都封装在String对象里，然后再用out对象的print方法向用户展示出来，这增加了<strong>编码的难度</strong>。</li>
+<li>维护起来十分麻烦，即使稍微一点点的改动也<strong>需要重新编译</strong>Servlet才行。</li>
+</ul>
+<hr>
+<h2 id="2-JSP的出现"><a href="#2-JSP的出现" class="headerlink" title="2. JSP的出现"></a>2. JSP的出现</h2><p>Sun公司意识到了这个问题，并提出了JSP技术。</p>
+<p>优点：</p>
+<ul>
+<li>JSP允许<strong>Java代码和HTML标签混杂</strong>在一起以简化页面的开发。</li>
+<li>修改页面<strong>无需重新编译</strong>，当第一次被请求的时候如果原先的JSP有变化则重新自动编译，如果没有变化则直接加载已经存在的实例。</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>Java代码和HTML代码（逻辑和显示）混杂在一起使得程序变得<strong>难以阅读和维护</strong>。</li>
+<li>把代码放在JSP当中很<strong>难重用</strong>，这与面向对象的思想是相悖的。</li>
+<li>JSP当中编写代码<strong>IDE</strong>对此支持的并不是那么十分的出色。</li>
+<li><strong>测试</strong>变得困难。</li>
+</ul>
+<hr>
+<h2 id="3-Model-1模型"><a href="#3-Model-1模型" class="headerlink" title="3. Model 1模型"></a>3. Model 1模型</h2><p>Java语言开发Web应用的第一种设计模型<code>Model 1</code>，只用JSP不使用Servlet，并且使用JavaBean、JSTL（JavaServer Pages Standard Tag Libraries，JSP标准标签库）等技术将业务逻辑代码封装，从而一定程度上把显示和业务分开。</p>
+<p><img src="http://7vzozf.com1.z0.glb.clouddn.com/2015/09/822801478.jpg" alt="20140826004648312.jpg"></p>
+<p>优点：</p>
+<ul>
+<li>实现比较简单，适用于快速开发小规模、需求稳定的项目。</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>不利于大型项目的网页设计师和Web开发人员之间的劳动分工：开发人员既要参与页面的开发，又要参与业务逻辑的编码。</li>
+<li>维护困难，应对需求变化薄弱。比如，由于JSP页面之间的联系是通过链接完成的，一旦页面名字改变那么任何使用这个页面的其他页面都要更改，严重的违背了面向对象的思想。</li>
+</ul>
+<hr>
+<h2 id="4-Model-2模型（MVC）"><a href="#4-Model-2模型（MVC）" class="headerlink" title="4. Model 2模型（MVC）"></a>4. Model 2模型（MVC）</h2><p>为了分离控制，第二种设计模型出现了，称之为<code>Model 2</code>，也MVC（Model-View-Controller，模型-视图-控制器）设计模式的另一个名字。</p>
+<p><img src="http://7vzozf.com1.z0.glb.clouddn.com/2015/09/1284969086.jpg" alt="20140826004833181.jpg"></p>
+<p>按照Model 2模型开发的应用程序由三种主要部分组成：</p>
+<ul>
+<li>Controller层负责接收来自用户输入，调用业务逻辑，控制View部分做出相应的变化，由Servlet充当。</li>
+<li>Model层包含了业务逻辑与持久数据，由Java Bean充当。</li>
+<li>View层仅作信息显示，由JSP充当。</li>
+</ul>
+<p>优点：</p>
+<ul>
+<li>由于引入了MVC模式，使Model 2具有组件化的特点。</li>
+<li>更适用于大规模应用的开发。</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>增加了应用开发的复杂程度，对开发人员的技术要求也提高了。</li>
+</ul>
+<blockquote>
+<p>不太明白在写什么：<br>所有的页面都有一个共同的入口点，通常是用一个Servlet或者过滤器（其中Struts1用的是Servlet，而Struts2用的是过滤器）来充当控制器。每一个HTTP请求都必须定向到控制器，而潜在各个请求中的URI里的信息将告诉这个控制器需要调用哪些动作。控制器检查每个URI以决定应该调用哪些动作。它还将动作对象保存在一个可以从视图访问的地方，这样服务器端的值就可以显示在浏览器上了。最后控制器使用RequestDispatcher对象把请求传递给视图（即相应的JSP页面），再由JSP页面里的定义标签把动作对象的内容显示出来。</p>
+</blockquote>
+<hr>
+<h2 id="5-三层架构"><a href="#5-三层架构" class="headerlink" title="5.三层架构"></a>5.三层架构</h2><p>Model 2模型“数据访问”与“业务逻辑”混到了Model层，这样导致两者之间耦合无法解除，也就意味着，无法对“数据访问”的逻辑进行抽象，所以“数据访问”逻辑的改变（比如更换数据库）必将引起“业务逻辑”的改变，而现实中“数据访问”逻辑又是很容易改变的地方，所以要将Model2模型的Model层继续分离，将“数据访问”的职责单独抽到一层“持久化逻辑”中。由此产生了经典的<code>三层架构</code>。</p>
+<p><img src="http://7vzozf.com1.z0.glb.clouddn.com/2015/09/2534979182.jpg" alt="20140826004838812.jpg"></p>
+<p>所谓三层指的是：</p>
+<p><img src="http://7vzozf.com1.z0.glb.clouddn.com/2015/09/2471020984.jpg" alt="20140826004844616.jpg"></p>
+<p>三层架构是一种较正规的开发模型。它对每个易改变的层进行抽象，从而从依赖于实现转到了依赖于抽象，从而可以更好的应对需求的变化。</p>
+<hr>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="http://www.2cto.com/kf/201301/180905.html" target="_blank" rel="external">从Servlet到JSP，从Model1到Model2</a></li>
+<li><a href="http://blog.csdn.net/wang379275614/article/details/38834731" target="_blank" rel="external">几种网站开发模型- Model1、Model2、三层</a></li>
+<li><a href="http://blog.csdn.net/koches/article/details/7654629" target="_blank" rel="external">Jsp Model1和Jsp Model2</a></li>
+</ul>
+  
+	</div>
+		<footer class="article-footer clearfix">
+
+
+
+
+<div class="article-share" id="share">
+
+  <div data-url="http://www.stackess.com/java_web_history/" data-title="Java动态Web技术演化 | Stackess" data-tsina="null" class="share clearfix">
+  </div>
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/ShellED/" title="ShellED插件：Windows Eclipse支持Linux Shell">
+  <strong>PREVIOUS:</strong><br/>
+  <span>
+  ShellED插件：Windows Eclipse支持Linux Shell</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/Spring_IoC/"  title="Spring之IoC容器">
+ <strong>NEXT:</strong><br/> 
+ <span>Spring之IoC容器
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section class="comment">  
+	<div class="ds-thread" data-thread-key="java_web_history/"></div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-Servlet的出现"><span class="toc-number">1.</span> <span class="toc-text">1. Servlet的出现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-JSP的出现"><span class="toc-number">2.</span> <span class="toc-text">2. JSP的出现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-Model-1模型"><span class="toc-number">3.</span> <span class="toc-text">3. Model 1模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-Model-2模型（MVC）"><span class="toc-number">4.</span> <span class="toc-text">4. Model 2模型（MVC）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-三层架构"><span class="toc-number">5.</span> <span class="toc-text">5.三层架构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考"><span class="toc-number">6.</span> <span class="toc-text">参考</span></a></li></ol>
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			<li><a href="/tags/人工智能/" title="人工智能">人工智能<sup>1</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  <div class="rsspart">
+	<a href="null" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  
+  <div class="archiveslist">
+    <p class="asidetitle"><a href="/archives">归档</a></p>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">十月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">九月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">三月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">二月 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">一月 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">十一月 2013</a><span class="archive-list-count">1</span></li></ul>
+  </div>
+
+
+  
+  <div class="tagcloudlist">
+    <p class="asidetitle">标签云</p>
+    <div class="tagcloudlist clearfix">
+       <a href="/tags/人工智能/" style="font-size: 10px;">人工智能</a>
+    </div>
+  </div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+      <li><a href="http://yangjian.me" target="_blank" title="YangJian">Alimon's Blog</a></li>
+      <li><a href="http://hexo.io" target="_blank" title="Hexo">Hexo</a></li>
+    </ul>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font clearfix">
+		
+		<a href="http://weibo.com/5261272169" target="_blank" title="weibo"></a>
+		
+		
+		
+		<a href="https://github.com/cstackess" target="_blank" title="github"></a>
+		
+		
+		
+	</div>
+		<p class="copyright">Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/A-limon/pacman" target="_blank" title="Pacman">Pacman</a> © 2016 
+		
+		<a href="http://www.stackess.com" target="_blank" title="cstackess">cstackess</a>
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.1.0.min.js"></script>
+
+<!--http://mathjax-chinese-doc.readthedocs.org/en/latest/start.html-->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$']]}
+});
+</script>
+<script src="http://cdn.bootcss.com/mathjax/2.6.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+<link href="http://cdn.bootcss.com/highlight.js/8.0/styles/monokai_sublime.min.css" rel="stylesheet">  
+<script src="http://cdn.bootcss.com/highlight.js/8.0/highlight.min.js"></script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#share"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="#textlogo" class="article-back-to-top" title="Top"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="QRcode"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="Weibo"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"stackess"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+  </body>
+</html>

@@ -4,10 +4,12 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>Stackess</title>
+    <title>PhpStorm8汉化包修复 | Stackess</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
     
     <meta name="author" content="cstackess">
+    
+    <meta name="description" content="PhpStorm8的汉化包修复">
     
     
     
@@ -58,155 +60,96 @@
 
     </header>
     <div id="container">
-      <div id="main">
-
-  <section class="post" itemscope itemprop="blogPost">
-  
-    <a href="/intro2algr_1/" title="算法导论笔记：渐近大于和多项式大于" itemprop="url">
-  
-    <h1 itemprop="name">算法导论笔记：渐近大于和多项式大于</h1>
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
     
-     
-       <p itemprop="description" >在《算法导论》的第四章中用主方法求解递归式，没有说清渐近大于（小于）和多项式大于（小于）的概念，尤其是针对case 3举的例子令我困惑，在查阅了多种解释后，经验证并整理如下。</p>
-      
+      <a href="/phpstorm/" title="PhpStorm8汉化包修复" itemprop="url">PhpStorm8汉化包修复</a>
+  </h1>
+  <p class="article-author">By
     
-    <time datetime="2016-02-18T15:31:00.000Z" itemprop="datePublished">2016-02-18</time>
-  </a>
-</section>
-
-  <section class="post" itemscope itemprop="blogPost">
+      <a href="http://www.stackess.com" title="cstackess">cstackess</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2015-02-14T14:56:00.000Z" itemprop="datePublished">2015-02-14</time>
+    更新日期:<time datetime="2016-04-08T06:57:52.096Z" itemprop="dateModified">2016-04-08</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+		</div>
+		
+		<p>PhpStorm8的汉化包修复<br><a id="more"></a></p>
+<p>在下<a href="http://www.newasp.net/soft/100485.html" target="_blank" rel="external">PhpStorm8的汉化包</a>时，按照步骤</p>
+<blockquote>
+<p>(1) 找到PhpStorm安装目录下的\lib\resources_en.jar<br>(2) 复制一份为resources_cn.jar用rar打开(仅打开而不是解压), 把下载的汉化文件拖到压缩包内的文件夹(\messages)，使得lib中多了一个resources_cn.jar</p>
+</blockquote>
+<hr>
+<p>但是程序启动时会报错。在<a href="http://www.526net.com/blog/biancheng/544.html" target="_blank" rel="external">此文</a>中提示</p>
+<blockquote>
+<p>仔细检查了下，应该是IdeBundle.properties文件中多了几个空格造成的</p>
+</blockquote>
+<p>用了还是不行，于是自己拷了resourse_en.jar里的IdeBundle.properties出来替换掉之前的汉化包。可以正常启动了，但是这到底是谁干的！！！</p>
+<p><img src="http://ww1.sinaimg.cn/large/005K3Lexgw1ep9a2o2fqbj30yw0k8afz.jpg" alt="有道"></p>
+<p><img src="http://ww3.sinaimg.cn/large/005K3Lexgw1ep9a2olun5j30zp0lc4ci.jpg" alt="替换"></p>
+<hr>
+<p>把所有文件里的用unicode编码的“有道”替换后，终于可以用舒心使用汉化包了～</p>
+<p><strong>汉化包下载</strong><br><a href="https://github.com/cstackess/PhpStorm8-resources_cn" target="_blank" rel="external">https://github.com/cstackess/PhpStorm8-resources_cn</a></p>
   
-    <a href="/intelliJ_Ideal/" title="IntelliJ Ideal 快捷键" itemprop="url">
-  
-    <h1 itemprop="name">IntelliJ Ideal 快捷键</h1>
-    
-     
-       <p itemprop="description" >最近看了「Live Coding」TDD Hangman in Java觉得用IntelliJ Ideal很酷，以下是按照个人喜好的总结。</p>
-      
-    
-    <time datetime="2016-02-02T08:31:00.000Z" itemprop="datePublished">2016-02-02</time>
-  </a>
-</section>
-
-  <section class="post" itemscope itemprop="blogPost">
-  
-    <a href="/linux_shell/" title="Linux Shell 笔记" itemprop="url">
-  
-    <h1 itemprop="name">Linux Shell 笔记</h1>
-    
-     
-       <p itemprop="description" >Linux Shell分类，各项配置，输出重定向，常用命令mutt、chmod、nohup、crontab等。</p>
-      
-    
-    <time datetime="2015-12-11T09:26:00.000Z" itemprop="datePublished">2015-12-11</time>
-  </a>
-</section>
-
-  <section class="post" itemscope itemprop="blogPost">
-  
-    <a href="/leetcode_math/" title="Leetcode之Math" itemprop="url">
-  
-    <h1 itemprop="name">Leetcode之Math</h1>
-    
-     
-       <p itemprop="description" >Leetcode之Math部分几题：258 Add Digits 各位求和，复杂度O(1)的就是有规律的，能推导出公式的；202 Happy Number 各位求平方和，终止条件会用上HashSet或Floyd（龟兔）判断状态循环；263 Ugly Number 主要涉及分解质约</p>
-      
-    
-    <time datetime="2015-10-11T13:51:00.000Z" itemprop="datePublished">2015-10-11</time>
-  </a>
-</section>
-
-  <section class="post" itemscope itemprop="blogPost">
-  
-    <a href="/ShellED/" title="ShellED插件：Windows Eclipse支持Linux Shell" itemprop="url">
-  
-    <h1 itemprop="name">ShellED插件：Windows Eclipse支持Linux Shell</h1>
-    
-     
-       <p itemprop="description" >在Windows系统下，给Eclipse安装配置ShellED插件，支持Unix Shell脚本和grep、sed、awk工具的语法高亮、悬停显示帮助文档和执行。</p>
-      
-    
-    <time datetime="2015-10-10T11:34:00.000Z" itemprop="datePublished">2015-10-10</time>
-  </a>
-</section>
-
-  <section class="post" itemscope itemprop="blogPost">
-  
-    <a href="/java_web_history/" title="Java动态Web技术演化" itemprop="url">
-  
-    <h1 itemprop="name">Java动态Web技术演化</h1>
-    
-     
-       <p itemprop="description" >Servlet的出现 -》 JSP的出现 -》 Model 1模型 -》 Model 2模型（MVC）-》 三层架构</p>
-      
-    
-    <time datetime="2015-09-15T09:06:00.000Z" itemprop="datePublished">2015-09-15</time>
-  </a>
-</section>
-
-  <section class="post" itemscope itemprop="blogPost">
-  
-    <a href="/Spring_IoC/" title="Spring之IoC容器" itemprop="url">
-  
-    <h1 itemprop="name">Spring之IoC容器</h1>
-    
-     
-       <p itemprop="description" >RT，断断续续写……</p>
-      
-    
-    <time datetime="2015-09-10T11:09:00.000Z" itemprop="datePublished">2015-09-10</time>
-  </a>
-</section>
-
-  <section class="post" itemscope itemprop="blogPost">
-  
-    <a href="/log4j/" title="log4j 1.x 概述、意义和源码分析" itemprop="url">
-  
-    <h1 itemprop="name">log4j 1.x 概述、意义和源码分析</h1>
-    
-     
-       <p itemprop="description" >简单介绍log4j 1.x和官方Manual，本文的重点是对其意义和源码的分析，最后展示一般实践。</p>
-      
-    
-    <time datetime="2015-07-10T10:47:00.000Z" itemprop="datePublished">2015-07-10</time>
-  </a>
-</section>
-
-  <section class="post" itemscope itemprop="blogPost">
-  
-    <a href="/JLR/" title="Java LeTeX Report 概述和示例" itemprop="url">
-  
-    <h1 itemprop="name">Java LeTeX Report 概述和示例</h1>
-    
-     
-       <p itemprop="description" >JLR（Java LaTeX Report）是基于MiKTeX和Velocity模板引擎构建的可生成LaTeX的一个Java包，对Tutorial的示例进行试验和稍加改动。</p>
-      
-    
-    <time datetime="2015-06-30T10:53:00.000Z" itemprop="datePublished">2015-06-30</time>
-  </a>
-</section>
-
-  <section class="post" itemscope itemprop="blogPost">
-  
-    <a href="/bibao/" title="闭包的概念、例子和作用" itemprop="url">
-  
-    <h1 itemprop="name">闭包的概念、例子和作用</h1>
-    
-     
-       <p itemprop="description" >作为一个Javaer，在学习Javascript和Python时老碰到的一个词——闭包。在介绍闭包的概念的基础上，文本以3个详尽的例子来分析闭包的意义和作用。主要参考了IBM的一篇文章，并以JS进行论证实验。</p>
-      
-    
-    <time datetime="2015-06-20T10:20:00.000Z" itemprop="datePublished">2015-06-20</time>
-  </a>
-</section>
+	</div>
+		<footer class="article-footer clearfix">
 
 
-  <nav id="page-nav" class="clearfix">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
-  </nav>
+
+
+<div class="article-share" id="share">
+
+  <div data-url="http://www.stackess.com/phpstorm/" data-title="PhpStorm8汉化包修复 | Stackess" data-tsina="null" class="share clearfix">
+  </div>
 
 </div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/saodi/" title="哨笛">
+  <strong>PREVIOUS:</strong><br/>
+  <span>
+  哨笛</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/markdown/"  title="Markdown软件探索">
+ <strong>NEXT:</strong><br/> 
+ <span>Markdown软件探索
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section class="comment">  
+	<div class="ds-thread" data-thread-key="phpstorm/"></div>
+</section>
+
+</div>  
       <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+  
+  </div>
 
 <div id="asidepart">
 <div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
@@ -328,6 +271,8 @@ $(document).ready(function(){
       m.removeClass('moveMain');
       a.css('display', 'block').removeClass('fadeOut');
       o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
         
     }
   });
@@ -347,11 +292,83 @@ $(document).ready(function(){
 });
 </script>
 
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
 
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#share"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="#textlogo" class="article-back-to-top" title="Top"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="QRcode"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="Weibo"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"stackess"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
 
 
 
 
 
   </body>
- </html>
+</html>

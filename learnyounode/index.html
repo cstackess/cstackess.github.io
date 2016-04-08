@@ -1,0 +1,395 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>learnyounode笔记 | Stackess</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    
+    <meta name="author" content="cstackess">
+    
+    <meta name="description" content="learnyounode是nodeschool.io上学习 Node.js 的基础：如异步 I/O、http 等的教程。本文用于简单记录自己的学习过程。">
+    
+    
+    
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/pacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/pacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.svg" alt="Stackess" title="Stackess"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Stackess">Stackess</a></h1>
+				<h2 class="blog-motto">cstackess&#39;s blog</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+					<li>
+					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:www.stackess.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/learnyounode/" title="learnyounode笔记" itemprop="url">learnyounode笔记</a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="http://www.stackess.com" title="cstackess">cstackess</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2015-02-26T11:03:00.000Z" itemprop="datePublished">2015-02-26</time>
+    更新日期:<time datetime="2016-04-08T07:00:02.837Z" itemprop="dateModified">2016-04-08</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#命令行参数（Baby-Steps）"><span class="toc-number">1.</span> <span class="toc-text">命令行参数（Baby Steps）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#同步IO（My-First-I-O）"><span class="toc-number">2.</span> <span class="toc-text">同步IO（My First I/O）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#异步IO（My-First-Async-I-O）"><span class="toc-number">3.</span> <span class="toc-text">异步IO（My First Async I/O）</span></a></li></ol>
+		</div>
+		
+		<p>learnyounode是nodeschool.io上学习 Node.js 的基础：如异步 I/O、http 等的教程。本文用于简单记录自己的学习过程。</p>
+<a id="more"></a>
+<figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 安装</span></span><br><span class="line"><span class="variable">$ </span>npm install learnyounode -g</span><br><span class="line"><span class="comment"># 运行</span></span><br><span class="line"><span class="variable">$ </span>learnyounode</span><br></pre></td></tr></table></figure>
+<p>画面如下<br><img src="http://7vzozf.com1.z0.glb.clouddn.com/2015/02/3877353516.png" alt="2.png"></p>
+<hr>
+<h2 id="命令行参数（Baby-Steps）"><a href="#命令行参数（Baby-Steps）" class="headerlink" title="命令行参数（Baby Steps）"></a>命令行参数（Baby Steps）</h2><p>全局对象<code>process</code>拥有一个名为 <code>argv</code> 的属性，该属性是一个数组，数组中包含了整条命令的所有部分。<br>如<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ node program.js 1 2 3</span><br></pre></td></tr></table></figure></p>
+<p>对应数组<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[ <span class="string">'node'</span>, <span class="string">'/path/to/your/program.js'</span>, <span class="string">'1'</span>, <span class="string">'2'</span>, <span class="string">'3'</span> ]</span><br></pre></td></tr></table></figure></p>
+<p><code>process.argv</code>可获得命令行参数数组</p>
+<ul>
+<li>数组的第一个元素（index是0）永远都会是 node，并且第二个参数（index是1）总是指向你的程序的路径。</li>
+<li>数组的所有元素都是<strong>字符串类型</strong>的。如果需要强制转换成数字。可以通过加上 <code>+</code> 前缀，或者将其传给 <code>Number()</code> 来解决。例如： +process.argv<a href="http://nodejs.org/api/fs.html" target="_blank" rel="external">2</a> 或者 Number(process.argv<a href="http://nodejs.org/api/fs.html" target="_blank" rel="external">2</a>)。</li>
+</ul>
+<hr>
+<h2 id="同步IO（My-First-I-O）"><a href="#同步IO（My-First-I-O）" class="headerlink" title="同步IO（My First I/O）"></a>同步IO（My First I/O）</h2><p>同步IO就是程序要等待IO操作完成才可以继续执行(阻塞)。</p>
+<p>以下是<strong>同步</strong>读取文本文件，并输出文本行数的例子：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> fs=<span class="built_in">require</span>(<span class="string">'fs'</span>);     <span class="comment">//加载Node的核心模块之一"fs"，并通过变量fs访问。</span></span><br><span class="line"><span class="keyword">var</span> buf=fs.readFileSync(process.argv[<span class="number">2</span>]);    <span class="comment">//同步读取，返回一个包含文件完整内容的 "Buffer"对象。</span></span><br><span class="line"><span class="keyword">var</span> str=buf.toString();    </span><br><span class="line"><span class="keyword">var</span> split_strs=str.split(<span class="string">'\n'</span>);    <span class="comment">//计算文本行数</span></span><br><span class="line"><span class="built_in">console</span>.log(split_strs.length<span class="number">-1</span>);</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li><a href="http://nodejs.org/api/fs.html" target="_blank" rel="external">模块fs</a> 中所有的同步（或者阻塞）的操作文件系统的方法名都会以 <code>Sync</code> 结尾。</li>
+<li><p><a href="http://nodejs.org/api/buffer.html" target="_blank" rel="external">Buffer对象</a> 是 Node 用来高效处理数据的方式，无论该数据是 ascii 还是二进制文件，或者其他的格式。Buffer 可以很容易地通过调用 <code>toString()</code> 方法转换为字符串。</p>
+</li>
+<li><p>注意，通过修改 <code>fs.readFileSync(process.argv[2], &#39;utf8&#39;)</code> 可以省略 <code>.toString()</code> ，直接得到字符串。</p>
+</li>
+</ul>
+<hr>
+<h2 id="异步IO（My-First-Async-I-O）"><a href="#异步IO（My-First-Async-I-O）" class="headerlink" title="异步IO（My First Async I/O）"></a>异步IO（My First Async I/O）</h2><p>异步IO就是程序不用依赖I/O操作实际完成，即可进行后续任务(非阻塞)。</p>
+<p>以下是<strong>异步</strong>读取文本文件，并输出文本行数的例子：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> fs=<span class="built_in">require</span>(<span class="string">'fs'</span>);</span><br><span class="line"><span class="keyword">var</span> callback=<span class="function"><span class="keyword">function</span>(<span class="params">err,data</span>)</span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(!err)&#123;</span><br><span class="line">		<span class="built_in">console</span>.log(data.toString().split(<span class="string">'\n'</span>).length<span class="number">-1</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br><span class="line">fs.readFile(process.argv[<span class="number">2</span>],callback); <span class="comment">//异步读取，传递回调函数</span></span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>Node.js 回调函数形如<code>function callback (err, data) { /* ... */ }</code></li>
+<li><a href="https://github.com/maxogden/art-of-node#callbacks" target="_blank" rel="external">更多回调函数知识：art-of-node#callbacks</a><br><img src="http://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Callback-notitle.svg/370px-Callback-notitle.svg.png" alt="回调函数图示"></li>
+</ul>
+<p><strong>同步IO和异步IO</strong></p>
+<ul>
+<li>适用场景<blockquote>
+<p>Usually things that have to talk to hard drives or networks will be asynchronous. If they just have to access things in memory or do some work on the CPU they will be synchronous. The reason for this is that I/O is reallyyy reallyyy sloowwww. </p>
+</blockquote>
+</li>
+<li><a href="http://www.infoq.com/cn/articles/nodejs-asynchronous-io/" target="_blank" rel="external">深入浅出Node.js（五）：初探Node.js的异步I/O实现</a></li>
+</ul>
+  
+	</div>
+		<footer class="article-footer clearfix">
+
+
+
+
+<div class="article-share" id="share">
+
+  <div data-url="http://www.stackess.com/learnyounode/" data-title="learnyounode笔记 | Stackess" data-tsina="null" class="share clearfix">
+  </div>
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/vps/" title="基于Bandwagon的VPS服务使用ShadowSocks科学的上网">
+  <strong>PREVIOUS:</strong><br/>
+  <span>
+  基于Bandwagon的VPS服务使用ShadowSocks科学的上网</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/saodi/"  title="哨笛">
+ <strong>NEXT:</strong><br/> 
+ <span>哨笛
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section class="comment">  
+	<div class="ds-thread" data-thread-key="learnyounode/"></div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#命令行参数（Baby-Steps）"><span class="toc-number">1.</span> <span class="toc-text">命令行参数（Baby Steps）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#同步IO（My-First-I-O）"><span class="toc-number">2.</span> <span class="toc-text">同步IO（My First I/O）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#异步IO（My-First-Async-I-O）"><span class="toc-number">3.</span> <span class="toc-text">异步IO（My First Async I/O）</span></a></li></ol>
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			<li><a href="/tags/人工智能/" title="人工智能">人工智能<sup>1</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  <div class="rsspart">
+	<a href="null" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  
+  <div class="archiveslist">
+    <p class="asidetitle"><a href="/archives">归档</a></p>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">十月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">九月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">三月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">二月 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">一月 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">十一月 2013</a><span class="archive-list-count">1</span></li></ul>
+  </div>
+
+
+  
+  <div class="tagcloudlist">
+    <p class="asidetitle">标签云</p>
+    <div class="tagcloudlist clearfix">
+       <a href="/tags/人工智能/" style="font-size: 10px;">人工智能</a>
+    </div>
+  </div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+      <li><a href="http://yangjian.me" target="_blank" title="YangJian">Alimon's Blog</a></li>
+      <li><a href="http://hexo.io" target="_blank" title="Hexo">Hexo</a></li>
+    </ul>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font clearfix">
+		
+		<a href="http://weibo.com/5261272169" target="_blank" title="weibo"></a>
+		
+		
+		
+		<a href="https://github.com/cstackess" target="_blank" title="github"></a>
+		
+		
+		
+	</div>
+		<p class="copyright">Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/A-limon/pacman" target="_blank" title="Pacman">Pacman</a> © 2016 
+		
+		<a href="http://www.stackess.com" target="_blank" title="cstackess">cstackess</a>
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.1.0.min.js"></script>
+
+<!--http://mathjax-chinese-doc.readthedocs.org/en/latest/start.html-->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$']]}
+});
+</script>
+<script src="http://cdn.bootcss.com/mathjax/2.6.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+<link href="http://cdn.bootcss.com/highlight.js/8.0/styles/monokai_sublime.min.css" rel="stylesheet">  
+<script src="http://cdn.bootcss.com/highlight.js/8.0/highlight.min.js"></script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#share"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="#textlogo" class="article-back-to-top" title="Top"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="QRcode"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="Weibo"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"stackess"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+  </body>
+</html>

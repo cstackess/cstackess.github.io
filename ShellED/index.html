@@ -1,0 +1,402 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>ShellED插件：Windows Eclipse支持Linux Shell | Stackess</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    
+    <meta name="author" content="cstackess">
+    
+    <meta name="description" content="在Windows系统下，给Eclipse安装配置ShellED插件，支持Unix Shell脚本和grep、sed、awk工具的语法高亮、悬停显示帮助文档和执行。">
+    
+    
+    
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/pacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/pacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.svg" alt="Stackess" title="Stackess"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Stackess">Stackess</a></h1>
+				<h2 class="blog-motto">cstackess&#39;s blog</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+					<li>
+					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:www.stackess.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/ShellED/" title="ShellED插件：Windows Eclipse支持Linux Shell" itemprop="url">ShellED插件：Windows Eclipse支持Linux Shell</a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="http://www.stackess.com" title="cstackess">cstackess</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2015-10-10T11:34:00.000Z" itemprop="datePublished">2015-10-10</time>
+    更新日期:<time datetime="2016-04-08T07:22:38.608Z" itemprop="dateModified">2016-04-08</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#安装ShellED"><span class="toc-number">1.</span> <span class="toc-text">安装ShellED</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#配置ShellED"><span class="toc-number">2.</span> <span class="toc-text">配置ShellED</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#配置其他Unix命令工具"><span class="toc-number">3.</span> <span class="toc-text">配置其他Unix命令工具</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第一个Shell"><span class="toc-number">4.</span> <span class="toc-text">第一个Shell</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#在Console中使用交互式Shell"><span class="toc-number">5.</span> <span class="toc-text">在Console中使用交互式Shell</span></a></li></ol>
+		</div>
+		
+		<p>在Windows系统下，给Eclipse安装配置ShellED插件，支持Unix Shell脚本和grep、sed、awk工具的语法高亮、悬停显示帮助文档和执行。</p>
+<a id="more"></a>
+<p>以前提过用<a href="https://www.cygwin.com/" target="_blank" rel="external">Cygwin</a>可以满足在Windows下用很多Unix命令的需求。除此之外，<a href="https://git-scm.com/" target="_blank" rel="external">Git Bash</a>（想不到Git命令工具也顺带提供了不少工具）、<a href="http://win-bash.sourceforge.net" target="_blank" rel="external">Win-Bash</a>（只有exe的世界）等也是不错的选择。</p>
+<p>最近依然是在Windows下，想用Eclipse写Unix Shell脚本。踩了不少坑后，终于成功了，赶紧总结下！</p>
+<hr>
+<p>我的实验环境：</p>
+<ul>
+<li>Windows 7 Operating System</li>
+<li>Eclipse Java Kepler SR2 Win32 x86 64bit (version 4.3.x)</li>
+<li>Cygwin 2.871（64bit）</li>
+</ul>
+<h2 id="安装ShellED"><a href="#安装ShellED" class="headerlink" title="安装ShellED"></a>安装ShellED</h2><p><del>墙内外不少提到ShellED安装的，都说要先用<code>http://download.eclipse.org/technology/Linuxtools/update</code>安装man page viewer（顾名思义，用man命令查看帮助页面的），然后再装ShellED。但最新版的ShellED 2.0.3已经集成了man page viewer（在net.sourceforge.shelled-site-2.0.3.zip的plugins中已有org.eclipse.linuxtools.man.core_1.1.0.201306111610.jar），Eclipse对这种冲突会先卸了man page viewer再装ShellED。</del></p>
+<p>根据<a href="https://web.archive.org/web/20140517042401/http://sourceforge.net/apps/trac/shelled/wiki/Documentation/InstallGuide" target="_blank" rel="external">官方安装文档</a>（藏得不是一般深……），有两种安装方法：</p>
+<blockquote>
+<p><strong>Using the update site</strong><br>Use the regular install method with the following update site link<br><code>http://sourceforge.net/projects/shelled/files/shelled/update/</code></p>
+<p><strong>Using zipped update site</strong></p>
+<ol>
+<li>Download net.sourceforge.shelled-site-2.0.3.zip</li>
+<li>Select Help &gt; Install New Software…</li>
+<li>Now select the “Add” again, use the “Archive…” button to select the downloaded zip-file as source.</li>
+<li>Install ShellEd</li>
+</ol>
+</blockquote>
+<p>两种我都试过，没有问题。<del>另外在ShellED的sourceforge页面看到说已并入Eclipse的DLKT项目，不知道是不是其中的TCL，不过那并不是我的所需。</del></p>
+<h2 id="配置ShellED"><a href="#配置ShellED" class="headerlink" title="配置ShellED"></a>配置ShellED</h2><p><strong>Man Pages 命令帮助</strong><br>  Window - Preferences - Man Pages 的 Man executable path 改为 <code>cygwin安装路径\bin\man.exe</code></p>
+<p><strong>Shell Script 解释器</strong><br>  Window - Preferences - Shell Script - Interpreters 点 Add, 向 Interpreter executable 填入<code>cygwin安装路径\bin\bash.exe</code></p>
+<p><strong>File line delimiter 换行符</strong><br> Window - Preferences - General - Workspace 的 New text file line delimiter 选Other中的Unix，即新文本文件将用Unix的换行符</p>
+<h2 id="配置其他Unix命令工具"><a href="#配置其他Unix命令工具" class="headerlink" title="配置其他Unix命令工具"></a>配置其他Unix命令工具</h2><p>配置完ShellED后，已经可以使用一般的Shell命令了，如if、for等。但实际更需要的是grep、sed、awk等强大的Unix工具。</p>
+<p>把<code>cygwin安装路径\bin</code>加到系统环境变量中，注意重启Eclipse，则Shell脚本就可以使用cygwin的其他Unix命令了。</p>
+<hr>
+<h2 id="第一个Shell"><a href="#第一个Shell" class="headerlink" title="第一个Shell"></a>第一个Shell</h2><p><strong>新建Shell Script工程</strong><br>File - New - Other - Shell Script - Shell Script Project</p>
+<p><strong>新建Shell Script</strong></p>
+<p><img src="http://7vzozf.com1.z0.glb.clouddn.com/2015/10/531618470.png" alt="shell.png"></p>
+<p>提供了语法高亮，悬停帮助文档等。直接点击Run，在Console中就是可以得到该脚本的执行结果。</p>
+<hr>
+<h2 id="在Console中使用交互式Shell"><a href="#在Console中使用交互式Shell" class="headerlink" title="在Console中使用交互式Shell"></a>在Console中使用交互式Shell</h2><p><a href="http://stackoverflow.com/questions/1562600/is-there-an-eclipse-plugin-to-run-system-shell-in-the-console" target="_blank" rel="external">StackOverflow：Is there an Eclipse plugin to run system shell in the Console?</a></p>
+<p><strong>Windows Shell</strong><br>Run - External Tools - External Tools Configurations - 选中Program - New launch Configuration，Name填cmd，Location填<code>C:\Windows\System32\cmd.exe</code>，Working Directory填<code>${workspace_loc:/项目名称}</code>。点击Run cmd，进入交互式Windows Shell中。</p>
+<p><strong>Cygwin Shell</strong><br>同上的步骤，但不知Eclipse是有什么问题，会终止任务。<br>若用ShellED配参<code>-i</code>，则提示</p>
+<blockquote>
+<p>bash: cannot set terminal process group (-1): Inappropriate ioctl for device<br>bash: no job control in this shell</p>
+</blockquote>
+<p>且终止任务。据悉Emacs配置Cygwin也有类似问题。</p>
+<p>若在launch Configuration的Arguments中填入脚本名如<code>ddd.sh</code>，则点击Run cygwin就相当于用ShellED配置了解释器。</p>
+<p>这块内容可能涉及Cygwin或Eclipse问题，到此打住，暂时不做更多研究了。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+
+
+
+
+<div class="article-share" id="share">
+
+  <div data-url="http://www.stackess.com/ShellED/" data-title="ShellED插件：Windows Eclipse支持Linux Shell | Stackess" data-tsina="null" class="share clearfix">
+  </div>
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/leetcode_math/" title="Leetcode之Math">
+  <strong>PREVIOUS:</strong><br/>
+  <span>
+  Leetcode之Math</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/java_web_history/"  title="Java动态Web技术演化">
+ <strong>NEXT:</strong><br/> 
+ <span>Java动态Web技术演化
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section class="comment">  
+	<div class="ds-thread" data-thread-key="ShellED/"></div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#安装ShellED"><span class="toc-number">1.</span> <span class="toc-text">安装ShellED</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#配置ShellED"><span class="toc-number">2.</span> <span class="toc-text">配置ShellED</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#配置其他Unix命令工具"><span class="toc-number">3.</span> <span class="toc-text">配置其他Unix命令工具</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第一个Shell"><span class="toc-number">4.</span> <span class="toc-text">第一个Shell</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#在Console中使用交互式Shell"><span class="toc-number">5.</span> <span class="toc-text">在Console中使用交互式Shell</span></a></li></ol>
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			<li><a href="/tags/人工智能/" title="人工智能">人工智能<sup>1</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  <div class="rsspart">
+	<a href="null" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  
+  <div class="archiveslist">
+    <p class="asidetitle"><a href="/archives">归档</a></p>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">十月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">九月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">三月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">二月 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">一月 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">十一月 2013</a><span class="archive-list-count">1</span></li></ul>
+  </div>
+
+
+  
+  <div class="tagcloudlist">
+    <p class="asidetitle">标签云</p>
+    <div class="tagcloudlist clearfix">
+       <a href="/tags/人工智能/" style="font-size: 10px;">人工智能</a>
+    </div>
+  </div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+      <li><a href="http://yangjian.me" target="_blank" title="YangJian">Alimon's Blog</a></li>
+      <li><a href="http://hexo.io" target="_blank" title="Hexo">Hexo</a></li>
+    </ul>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font clearfix">
+		
+		<a href="http://weibo.com/5261272169" target="_blank" title="weibo"></a>
+		
+		
+		
+		<a href="https://github.com/cstackess" target="_blank" title="github"></a>
+		
+		
+		
+	</div>
+		<p class="copyright">Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/A-limon/pacman" target="_blank" title="Pacman">Pacman</a> © 2016 
+		
+		<a href="http://www.stackess.com" target="_blank" title="cstackess">cstackess</a>
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.1.0.min.js"></script>
+
+<!--http://mathjax-chinese-doc.readthedocs.org/en/latest/start.html-->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$']]}
+});
+</script>
+<script src="http://cdn.bootcss.com/mathjax/2.6.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+<link href="http://cdn.bootcss.com/highlight.js/8.0/styles/monokai_sublime.min.css" rel="stylesheet">  
+<script src="http://cdn.bootcss.com/highlight.js/8.0/highlight.min.js"></script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#share"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="#textlogo" class="article-back-to-top" title="Top"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="QRcode"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="Weibo"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"stackess"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+  </body>
+</html>

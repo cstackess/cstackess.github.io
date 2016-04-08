@@ -1,0 +1,436 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Java平台概述（上） | Stackess</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    
+    <meta name="author" content="cstackess">
+    
+    <meta name="description" content="版本演进、Java SE、JDK配置详解。">
+    
+    
+    
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/pacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/pacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.svg" alt="Stackess" title="Stackess"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Stackess">Stackess</a></h1>
+				<h2 class="blog-motto">cstackess&#39;s blog</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+					<li>
+					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:www.stackess.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/intro2java_1/" title="Java平台概述（上）" itemprop="url">Java平台概述（上）</a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="http://www.stackess.com" title="cstackess">cstackess</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2015-05-25T09:14:00.000Z" itemprop="datePublished">2015-05-25</time>
+    更新日期:<time datetime="2016-04-08T07:10:06.504Z" itemprop="dateModified">2016-04-08</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#版本演进"><span class="toc-number">1.</span> <span class="toc-text">版本演进</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Java-SE"><span class="toc-number">2.</span> <span class="toc-text">Java SE</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#JVM（Java-Virtual-Machine）"><span class="toc-number">2.1.</span> <span class="toc-text">JVM（Java Virtual Machine）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#JRE（Java-SE-Runtime-Environment）"><span class="toc-number">2.2.</span> <span class="toc-text">JRE（Java SE Runtime Environment）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#JDK（Java-SE-Development-Kits）"><span class="toc-number">2.3.</span> <span class="toc-text">JDK（Java SE Development Kits）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java语言"><span class="toc-number">2.4.</span> <span class="toc-text">Java语言</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JDK配置详解"><span class="toc-number">3.</span> <span class="toc-text">JDK配置详解</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#PATH"><span class="toc-number">3.1.</span> <span class="toc-text">PATH</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CLASSPATH"><span class="toc-number">3.2.</span> <span class="toc-text">CLASSPATH</span></a></li></ol></li></ol>
+		</div>
+		
+		<p>版本演进、Java SE、JDK配置详解。<br><a id="more"></a></p>
+<h2 id="版本演进"><a href="#版本演进" class="headerlink" title="版本演进"></a>版本演进</h2><ol>
+<li>开发者版本 <strong>JDK</strong>（全名Java Development Kits）。</li>
+<li>平台版本 <strong>Java 2 Platform</strong>，根据不同的体系架构分为三大平台：标准版<strong>J2SE</strong>、企业<strong>J2EE</strong>和微型版<strong>J2ME</strong>。</li>
+<li>版本号由1.5跳到<strong>5.0</strong>，表示该版本的重要性。</li>
+<li>从版本6后，取消2这个号码，即Java Platform，J2SE、J2EE和J2ME分别更名为 <strong>Java SE</strong>、<strong>Java EE</strong>和<strong>Jave ME</strong>。JDK全名改为Java SE Development Kits。</li>
+<li>Oracle并购Sun后，先后发布版本7和8。所有的<a href="http://java.sun.com/都会跳转到http://www.oracle.com/technetwork/java/下。" target="_blank" rel="external">http://java.sun.com/都会跳转到http://www.oracle.com/technetwork/java/下。</a></li>
+</ol>
+<hr>
+<h2 id="Java-SE"><a href="#Java-SE" class="headerlink" title="Java SE"></a>Java SE</h2><p>下图为<a href="http://docs.oracle.com/javase/8/docs/index.html" target="_blank" rel="external">Java SE 8</a>的组成概念图：<br><img src="http://7vzozf.com1.z0.glb.clouddn.com/2015/05/4243312071.png" alt="java8.png"></p>
+<p>Java SE可分为四个主要部分：</p>
+<h3 id="JVM（Java-Virtual-Machine）"><a href="#JVM（Java-Virtual-Machine）" class="headerlink" title="JVM（Java Virtual Machine）"></a>JVM（Java Virtual Machine）</h3><p> Java原始码（.java）编译时，并不直接编译为相依于某平台的0、1序列，而是翻译为中介格式的位码（.class）。<br><code>Java程序只能在JVM上运行，JVM的可执行文件是位码文档(.class)</code>。<br>不同平台安装专属该平台的JVM后，实现“编译一次，到处执行”跨平台的目的。</p>
+<h3 id="JRE（Java-SE-Runtime-Environment）"><a href="#JRE（Java-SE-Runtime-Environment）" class="headerlink" title="JRE（Java SE Runtime Environment）"></a>JRE（Java SE Runtime Environment）</h3><p>只用于执行Java程序。<br>包括<code>JVM</code>、<code>Java SE API</code>和<code>部署技术</code>。</p>
+<h3 id="JDK（Java-SE-Development-Kits）"><a href="#JDK（Java-SE-Development-Kits）" class="headerlink" title="JDK（Java SE Development Kits）"></a>JDK（Java SE Development Kits）</h3><p>用于开发Java程序，包括执行。<br>包括<code>JRE</code>、<code>工具程序</code>（javac、javadoc、javap等）和<code>Java语言程序</code>。</p>
+<h3 id="Java语言"><a href="#Java语言" class="headerlink" title="Java语言"></a>Java语言</h3><p>略</p>
+<hr>
+<h2 id="JDK配置详解"><a href="#JDK配置详解" class="headerlink" title="JDK配置详解"></a>JDK配置详解</h2><p>以jdk-8u45-windows-x64.exe为例，这是JDK 8发布以来的的第45个修正版。<br><img src="http://7vzozf.com1.z0.glb.clouddn.com/2015/05/1396028414.png" alt="jdk_install.png"></p>
+<p>将JDK安装在“E:\jdk1.8.0_45”，将公共JRE安装“E:\jre1.8.0_45”。现在查看JDK的文件夹：<br><img src="http://7vzozf.com1.z0.glb.clouddn.com/2015/05/369845535.png" alt="jdk_file.png"></p>
+<p><code>开发工具</code>就是用于编译程序之类的工具程序，对应着bin文件夹。<br><code>源代码</code>指的是JRE中Java SE API的原始码，对应着src.zip这个文件，而其位码则在JRE的lib\rt.jar。<br><code>公共JRE</code>是相对于JDK本身附有的Private JRE（对应着jre文件夹）而言。Private JRE主要是开发Java程序时测试之用，Public JRE可方便模拟客户端的Public JRE环境。</p>
+<blockquote>
+<p><a href="http://7vzozf.com1.z0.glb.clouddn.com/2015/05/4243312071.png" target="_blank" rel="external">1</a>称对版本7，二者的差别是Private JRE有server和client选项（见bin文件夹），Public JRE只有client选项。执行Java客户端程序会默认使用client VM，以较少内存取得较快的启动速度，而使用server VM会花较长的启动时间及耗用较多的内存，为的是启动Java程序后可以获得较好的执行效能，通过java -server启动。<br>JRE的lib文件夹中放着Java SE API和部署技术。</p>
+</blockquote>
+<p>通过对JDK各文件的对应，进一步印证了JDK的组成：JRE、工具程序和Java语言程序。</p>
+<p>如果安装公有JRE（像个小白客户一样），会发现PATH环境变量被加了“C:\ProgramData\Oracle\Java\javapath;”，且该文件夹下有java.exe、javaw.exe和javaws.exe（C:\Windows\System32也有），因此可以直接使用java指令（启动JVM执行Java程序）。</p>
+<p>但是安装JDK意味着你要开发，肯定不能是小白，Java阵营的哲学是假设你懂得准备相关开发环境，因此装好JDK之后，该自己设定的变量或选项就要自己设定，JDK不会代劳。</p>
+<hr>
+<h3 id="PATH"><a href="#PATH" class="headerlink" title="PATH"></a>PATH</h3><p>“命令提示符”模式中，当输入一个可执行文件<code>（.exe、.bat）</code>，Win操作系统进行搜索：</p>
+<ul>
+<li>如果指定了完整路径搜索结束</li>
+<li>否则， 操作系统查找当前目录<pre><code>* 如果找到，搜索结束
+* 否则，按照PATH环境变量中设定的路径顺序，依次寻找各路径，搜索结束
+</code></pre></li>
+</ul>
+<p>搜索优先级：</p>
+<ol>
+<li>完整路径</li>
+<li>当前目录</li>
+<li>PATH环境变量</li>
+</ol>
+<p><strong>例如：</strong><br>(1).编辑<br>添加E:\test\Helloworld.java文件。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Helloworld</span></span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String args[])</span></span>&#123;</span><br><span class="line">		System.out.println(<span class="string">"Hello World"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>(2).编译<br>使用Java的编译工具程序javac sourcefile，指定完整路径。<br><figure class="highlight taggerscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ "E:<span class="symbol">\j</span>dk1.8.0_45<span class="symbol">\b</span>in<span class="symbol">\j</span>avac" "E:<span class="symbol">\t</span>est<span class="symbol">\H</span>elloworld.java"</span><br></pre></td></tr></table></figure></p>
+<p>当把“E:\Java\jdk1.8.0_45\bin\”加入PATH环境变量中，这样不论切换至哪，都可以直接使用JDK的工具程序。<br><figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$ </span>javac <span class="string">"E:\test\Helloworld.java"</span></span><br></pre></td></tr></table></figure></p>
+<p>(3).执行<br>在编译后生成了E:\test\Helloworld.class，执行语句为<br><figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ java -cp <span class="keyword">E</span>:\<span class="keyword">test</span> Helloworld</span><br></pre></td></tr></table></figure></p>
+<p>而不是<code>$ java &quot;E:\test\Helloworld&quot;</code>，原因在于JVM搜索 .class不是用完整路径，而是用<code>-cp</code>。</p>
+<p>注：本文以完全路径撰写，相对路径可促类旁通。<br>■</p>
+<hr>
+<h3 id="CLASSPATH"><a href="#CLASSPATH" class="headerlink" title="CLASSPATH"></a>CLASSPATH</h3><p>通过CLASSPATH告诉JVM如何搜索可执行文件（.class）的路径。这就类似于通过PATH告诉Win操作系统如何搜索可执行文件（.exe、.bat）的路径。</p>
+<p>“命令提示符”模式中，当需要用到一个可执行文件<code>（.class）</code>，JVM进行搜索：</p>
+<ul>
+<li>如果指定了路径（自变量-classpath或-cp），搜索结束</li>
+<li>否则， 操作系统查找当前目录<pre><code>* 如果找到，搜索结束
+* 否则，按照CLASSPATH环境变量中设定的路径顺序，依次寻找各路径，搜索结束
+</code></pre></li>
+</ul>
+<p>搜索优先级：</p>
+<ol>
+<li>指定路径（自变量-classpath或-cp）</li>
+<li>当前目录</li>
+<li>CLASSPATH环境变量</li>
+</ol>
+<p>所谓需要用到的时候，可以是执行，也可以是编译，比如编译一个类的原始码依赖于另一个现成的类的位码。</p>
+<p><strong>例如：</strong><br>(1). 编辑<br>现在另外引用一个E:\test\classes\Console.class，并对E:\test\Helloworld.java进行改写。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Helloworld</span></span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String args[])</span></span>&#123;</span><br><span class="line">		Console.writeLine(<span class="string">"Hello World"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>(2). 编译<br>如果直接<u>编译</u>Helloworld.java的话，显然编译程序认不得 并不是 Java SE API的Console类，就需要告诉编译程序Console.class的位置是在classes目录下。用-verbose自变量，可看到过程信息。<br><figure class="highlight taggerscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ javac -cp E:<span class="symbol">\t</span>est<span class="symbol">\c</span>lasses -verbose "E:<span class="symbol">\t</span>est<span class="symbol">\H</span>elloworld.java"</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p><strong>输出：</strong><br>源文件的搜索路径：E:\test\classes<br>类文件的搜索路径：E:\jdk1.8.0_45\jre\lib\resoureces.jar，……，E:\test\classes<br>正在加载Object.class，……，E:\test\classes\Console.class<br>已写入E:\test\Helloworld.class</p>
+</blockquote>
+<p>可见，编译程序搜索并加载了Helloworld.java所需的链接库，最后写入Helloworld.class，完成编译。值得注意的是，的确使用了JDK的Private JRE。</p>
+<p>(3). 执行<br>执行Helloworld.class，必须指定Helloworld.class和Console.class的位置，前者在当前目录下，后者在classes目录下。<br><figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ java -cp <span class="keyword">E</span>:\<span class="keyword">test</span>;<span class="keyword">E</span>:\<span class="keyword">test</span>\classes -verbose Helloworld</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p><strong>输出：</strong><br>Opened E:\jre1.8.0_45\lib\rt.jar<br>Loaded java.lang.Object，…… from E:\jre1.8.0_45\lib\rt.jar<br>Loaded Console from file:/E:/test/classes/</p>
+</blockquote>
+<p>可见，在打开并加载了Java SE API的位码后，还加载了Console.class，实现对Helloworld.class的执行。</p>
+<p><strong>补充：</strong>用哪个JRE是取决于在PATH中先出现是%JRE%还是%JDK%。在PATH中找到第一个java可执行文件后，按照顺序</p>
+<ol>
+<li>当前目录是否有原生链接库</li>
+<li>上一层目录是否有jre目录</li>
+</ol>
+<p>来确定用哪个JRE。而我的是%JRE%在前%JDK%在后，所以用的是Public JRE。如果%JDK%在前，java命令就会用Private JRE。■</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+
+
+
+
+<div class="article-share" id="share">
+
+  <div data-url="http://www.stackess.com/intro2java_1/" data-title="Java平台概述（上） | Stackess" data-tsina="null" class="share clearfix">
+  </div>
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/intro2java_2/" title="Java平台概述（下）">
+  <strong>PREVIOUS:</strong><br/>
+  <span>
+  Java平台概述（下）</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/intro2info/"  title="信息论入门">
+ <strong>NEXT:</strong><br/> 
+ <span>信息论入门
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section class="comment">  
+	<div class="ds-thread" data-thread-key="intro2java_1/"></div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#版本演进"><span class="toc-number">1.</span> <span class="toc-text">版本演进</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Java-SE"><span class="toc-number">2.</span> <span class="toc-text">Java SE</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#JVM（Java-Virtual-Machine）"><span class="toc-number">2.1.</span> <span class="toc-text">JVM（Java Virtual Machine）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#JRE（Java-SE-Runtime-Environment）"><span class="toc-number">2.2.</span> <span class="toc-text">JRE（Java SE Runtime Environment）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#JDK（Java-SE-Development-Kits）"><span class="toc-number">2.3.</span> <span class="toc-text">JDK（Java SE Development Kits）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java语言"><span class="toc-number">2.4.</span> <span class="toc-text">Java语言</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JDK配置详解"><span class="toc-number">3.</span> <span class="toc-text">JDK配置详解</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#PATH"><span class="toc-number">3.1.</span> <span class="toc-text">PATH</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CLASSPATH"><span class="toc-number">3.2.</span> <span class="toc-text">CLASSPATH</span></a></li></ol></li></ol>
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			<li><a href="/tags/人工智能/" title="人工智能">人工智能<sup>1</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  <div class="rsspart">
+	<a href="null" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  
+  <div class="archiveslist">
+    <p class="asidetitle"><a href="/archives">归档</a></p>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">十月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">九月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">三月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">二月 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">一月 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">十一月 2013</a><span class="archive-list-count">1</span></li></ul>
+  </div>
+
+
+  
+  <div class="tagcloudlist">
+    <p class="asidetitle">标签云</p>
+    <div class="tagcloudlist clearfix">
+       <a href="/tags/人工智能/" style="font-size: 10px;">人工智能</a>
+    </div>
+  </div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+      <li><a href="http://yangjian.me" target="_blank" title="YangJian">Alimon's Blog</a></li>
+      <li><a href="http://hexo.io" target="_blank" title="Hexo">Hexo</a></li>
+    </ul>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font clearfix">
+		
+		<a href="http://weibo.com/5261272169" target="_blank" title="weibo"></a>
+		
+		
+		
+		<a href="https://github.com/cstackess" target="_blank" title="github"></a>
+		
+		
+		
+	</div>
+		<p class="copyright">Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/A-limon/pacman" target="_blank" title="Pacman">Pacman</a> © 2016 
+		
+		<a href="http://www.stackess.com" target="_blank" title="cstackess">cstackess</a>
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.1.0.min.js"></script>
+
+<!--http://mathjax-chinese-doc.readthedocs.org/en/latest/start.html-->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$']]}
+});
+</script>
+<script src="http://cdn.bootcss.com/mathjax/2.6.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+<link href="http://cdn.bootcss.com/highlight.js/8.0/styles/monokai_sublime.min.css" rel="stylesheet">  
+<script src="http://cdn.bootcss.com/highlight.js/8.0/highlight.min.js"></script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#share"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="#textlogo" class="article-back-to-top" title="Top"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="QRcode"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="Weibo"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"stackess"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+  </body>
+</html>

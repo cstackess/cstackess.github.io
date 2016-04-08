@@ -1,0 +1,433 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>log4j 1.x 概述、意义和源码分析 | Stackess</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    
+    <meta name="author" content="cstackess">
+    
+    <meta name="description" content="简单介绍log4j 1.x和官方Manual，本文的重点是对其意义和源码的分析，最后展示一般实践。">
+    
+    
+    
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/pacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/pacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.svg" alt="Stackess" title="Stackess"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Stackess">Stackess</a></h1>
+				<h2 class="blog-motto">cstackess&#39;s blog</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+					<li>
+					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:www.stackess.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/log4j/" title="log4j 1.x 概述、意义和源码分析" itemprop="url">log4j 1.x 概述、意义和源码分析</a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="http://www.stackess.com" title="cstackess">cstackess</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2015-07-10T10:47:00.000Z" itemprop="datePublished">2015-07-10</time>
+    更新日期:<time datetime="2016-04-08T07:18:15.865Z" itemprop="dateModified">2016-04-08</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Log4j-概述"><span class="toc-number">1.</span> <span class="toc-text">Log4j 概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Log4j-意义"><span class="toc-number">2.</span> <span class="toc-text">Log4j 意义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Log4j-Manual"><span class="toc-number">3.</span> <span class="toc-text">Log4j Manual</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Logger-hierarchy"><span class="toc-number">3.1.</span> <span class="toc-text">Logger hierarchy</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Appender-and-Layout"><span class="toc-number">3.2.</span> <span class="toc-text">Appender and Layout</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#范例"><span class="toc-number">3.3.</span> <span class="toc-text">范例</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#源码分析"><span class="toc-number">4.</span> <span class="toc-text">源码分析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Logger-getLogger-quot-com-foo-Bar-quot-和Logger-getLogger-quot-com-foo-quot"><span class="toc-number">4.1.</span> <span class="toc-text">1. Logger.getLogger("com.foo.Bar")和Logger.getLogger("com.foo")</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-BasicConfigurator-configure"><span class="toc-number">4.2.</span> <span class="toc-text">2. BasicConfigurator.configure()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-logger-debug"><span class="toc-number">4.3.</span> <span class="toc-text">3. logger.debug()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-logger-setLevel-Level-INFO-、logger-debug-quot-after-set-level-quot-和barlogger-info-quot-after-set-level-quot"><span class="toc-number">4.4.</span> <span class="toc-text">4. logger.setLevel(Level.INFO)、logger.debug("after set level")和barlogger.info("after set level")</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#实践"><span class="toc-number">5.</span> <span class="toc-text">实践</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考推荐"><span class="toc-number">6.</span> <span class="toc-text">参考推荐</span></a></li></ol>
+		</div>
+		
+		<p>简单介绍log4j 1.x和官方Manual，本文的重点是对其意义和源码的分析，最后展示一般实践。</p>
+<a id="more"></a>
+<h2 id="Log4j-概述"><a href="#Log4j-概述" class="headerlink" title="Log4j 概述"></a>Log4j 概述</h2><p>日志（logging）是开发周期中非常重要的组件，它能够提供程序运行时的精确内容，事后可保存下来研究。但是，日志也会降低程序速度，如果内容太详细，会令你瞎眼在茫茫日志语句中。Log4j的设计目标就是可靠性、快速和扩展性。</p>
+<p>Log4j由三种组件组成——</p>
+<ul>
+<li>Logger：日记信息生成器</li>
+<li>Appender：日志信息的输出目标（output destination）</li>
+<li>Layout：日志信息（logging request）的显示格式</li>
+</ul>
+<hr>
+<h2 id="Log4j-意义"><a href="#Log4j-意义" class="headerlink" title="Log4j 意义"></a>Log4j 意义</h2><blockquote>
+<p>The first and foremost advantage of any logging API over plain System.out.println resides in its ability to disable certain log statements while allowing others to print unhindered.  —— <a href="http://logging.apache.org/log4j/1.2/manual.html" target="_blank" rel="external">log4j/1.2/manual</a><br>译：为什么使用logging API作为日志实现，而不是简单粗暴的System.out.println？首要好处就是可以控制哪些log statement输出哪些不输出。</p>
+</blockquote>
+<p>我的理解是，log4j进行了两次分类：</p>
+<ol>
+<li><p>最简单的是对log statement的等级分类，trace &lt; debug &lt; info &lt; warn &lt; error &lt; fatal。比如输出日志时，若设阈值为info则只有level不低于info的才可以输出（因此log statement又被视为log request），那么trace和dubug的日志就被禁止了，就像“未成年人禁止进入网吧”一样，再配置日志的输出目标和输出格式后就可以打印出来。<br>备注：如果要开发一个简单程序，并使用这些功能做日志，用log4j可能有点大材小用了吧。</p>
+</li>
+<li><p>对这些有level的log request再外包一层java class，称为Logger，可提供更丰富的日志控制机制。比如，为不同的Logger配置不同的输出目标和格式；下级Logger默认接受上级Logger的输出配置；Logger也有level，这个level用于控制其下的log request的输出阈值，即“只有level不低于info的才可以输出”一句中的info；实际经验中，还经常需要插入log request的java class的信息，结合反射机制，就可以一口气令Logger获得，精简代码。<br>备注：在log4j的版本1.2之前，包装的是Category，而在1.2之后，Logger继承并且替代了它的位置。</p>
+</li>
+</ol>
+<p>除此之外，log4j能够将日志输出到多种、多个目标地，如控制台、文件、GUI组件、套接口服务器、NT的事件记录器、UNIX Syslog守护进程等，甚至异步输出，并且可以控制每一条日志的输出格式。</p>
+<hr>
+<h2 id="Log4j-Manual"><a href="#Log4j-Manual" class="headerlink" title="Log4j Manual"></a>Log4j Manual</h2><p>简单记录官方的<a href="http://logging.apache.org/log4j/1.2/manual.html" target="_blank" rel="external">Manual</a>，只阐述结果，具体的解析看下一节会更加明白。</p>
+<h3 id="Logger-hierarchy"><a href="#Logger-hierarchy" class="headerlink" title="Logger hierarchy"></a>Logger hierarchy</h3><p>Logger根据命名分层级（<code>Named Hierarchy</code>），子名用父名作为前缀，用点“.”分隔，类似package命名习惯，例如com.foo是com.foo.Bar的父亲，com是com.foo.Bar的祖先。</p>
+<p><code>root Logger</code>是所有Logger的祖先，有如下属性：</p>
+<ul>
+<li>总是存在的</li>
+<li>不可以通过名字获得</li>
+</ul>
+<p>root Logger通过 Logger.getRootLogger 方法获得。其他的Logger通过 Logger.getLogger(name) 方法获得，并且传递同样的参数name总是返回同一个Logger实例的引用。</p>
+<p>Logger的level相当于java class的成员变量一样，遵循继承机制（<code>Level Inheritance</code>）。用于控制其下各log request的是否能够输出，如果log request的level不小于产生它的Logger的level，则它是enabled，否则是disabled（<code>Basic Selection Rule</code>）。</p>
+<h3 id="Appender-and-Layout"><a href="#Appender-and-Layout" class="headerlink" title="Appender and Layout"></a>Appender and Layout</h3><p>调用 addAppender 方法可将Appender绑到Logger，指定Logger的一个输出目标。每一个enabled logging request都会被传递给它的Logger的所有Appenders和这个Logger的祖先的所有Appedenrs进行输出（<code>Appenders Additivity</code>）。如果将某个Logger $C$的additive设为false，相当于分了家，表示不需要祖先的Appenders，这个Logger $C$的子孙的additive默认仍是true，只向上继承到Logger $C$的Appenders。</p>
+<p>Layout是类似String.format(..)一样的文本格式化，具体可见<a href="http://logging.apache.org/log4j/1.2/apidocs/org/apache/log4j/PatternLayout.html" target="_blank" rel="external">PatternLayout</a>类。</p>
+<h3 id="范例"><a href="#范例" class="headerlink" title="范例"></a>范例</h3><figure class="highlight d"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Logger barlogger = Logger.getLogger(<span class="string">"com.foo.Bar"</span>);<span class="comment">//子类在前也ok</span></span><br><span class="line">Logger logger = Logger.getLogger(<span class="string">"com.foo"</span>); </span><br><span class="line"></span><br><span class="line">BasicConfigurator.configure();</span><br><span class="line"></span><br><span class="line">logger.<span class="keyword">debug</span>(<span class="string">"before set level"</span>);<span class="comment">//enabled</span></span><br><span class="line"></span><br><span class="line">logger.setLevel(Level.INFO);<span class="comment">//"com.foo.Bar"的logger也从"com.foo"继承info的level</span></span><br><span class="line"></span><br><span class="line">logger.<span class="keyword">debug</span>(<span class="string">"after set level"</span>);<span class="comment">//disabled</span></span><br><span class="line">barlogger.info(<span class="string">"after set level"</span>);<span class="comment">//enabled</span></span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="源码分析"><a href="#源码分析" class="headerlink" title="源码分析"></a>源码分析</h2><p>针对上面的范例，可以从源码分析出Logger层次特征、输出目标Appenders和level控制是如何实现的，主要涉及的类和接口如下图所示。其中，Logger、LogManager、Hierarchy和Catagory最为重要，应用的主要涉及模式有工厂、代理、repository、观察者等。</p>
+<p><img src="http://7vzozf.com1.z0.glb.clouddn.com/2015/07/1165764492.jpg" alt="Main.jpg"></p>
+<p>下面按语句来一步步跟踪解析，保持耐心！</p>
+<h3 id="1-Logger-getLogger-quot-com-foo-Bar-quot-和Logger-getLogger-quot-com-foo-quot"><a href="#1-Logger-getLogger-quot-com-foo-Bar-quot-和Logger-getLogger-quot-com-foo-quot" class="headerlink" title="1. Logger.getLogger(&quot;com.foo.Bar&quot;)和Logger.getLogger(&quot;com.foo&quot;)"></a>1. <code>Logger.getLogger(&quot;com.foo.Bar&quot;)</code>和<code>Logger.getLogger(&quot;com.foo&quot;)</code></h3><p>在Logger的静态方法getLogger(..)中，实际是去调用LogManager的静态方法，代码如下。<br><figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">public</span> <span class="function">Logger <span class="title">getLogger</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">return</span> LogManager.<span class="title">getLogger</span><span class="params">(name)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在LogManager类中有static块，JVM在载入LogManager类后会先执行static块，简略代码如下。初始化Hierarchy，然后查找外设的配置信息。注意到root的level是debug等级的。<br><figure class="highlight cos"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">static &#123;</span><br><span class="line">    <span class="comment">// By default we use a DefaultRepositorySelector which always returns 'h'.</span></span><br><span class="line">    Hierarchy <span class="keyword">h</span> = <span class="keyword">new</span> Hierarchy(<span class="keyword">new</span> RootLogger((Level) Level.DEBUG))<span class="comment">;</span></span><br><span class="line">    repositorySelector = <span class="keyword">new</span> DefaultRepositorySelector(<span class="keyword">h</span>)<span class="comment">;</span></span><br><span class="line">    <span class="comment">/* 在CLASSPATH查找是否有配置信息 */</span></span><br><span class="line">    <span class="comment">/* 在当前目录查找是否有log4j.xml配置文件 */</span></span><br><span class="line">    <span class="comment">/* 在当前目录查找是否有log4j.properties配置文件 */</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>先关注到初始化Hierarchy结构这里，Hierarchy是一个实现了LoggerRepository接口的重要类，它的逻辑结构类似树，构造函数代码如下。主要的初始化工作包括root、level、ht等，ht是一个HashTable类型的成员变量，它是各个Logger实际存储的物理结构。<br>注意到Hierarchy是all等级的，任何都允许，虽然这在范例中并没有利用到，但是实际上Hierarchy也有阈值level控制程序中所有的Logger。<br><figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">Hierarchy</span><span class="params">(Logger root)</span> </span>&#123;</span><br><span class="line">  ht = <span class="keyword">new</span> Hashtable();</span><br><span class="line">  listeners = <span class="keyword">new</span> Vector(<span class="number">1</span>);</span><br><span class="line">  <span class="keyword">this</span>.root = root;</span><br><span class="line">  <span class="comment">// Enable all level levels by default.</span></span><br><span class="line">  setThreshold(Level.ALL);</span><br><span class="line">  <span class="keyword">this</span>.root.setHierarchy(<span class="keyword">this</span>);</span><br><span class="line">  rendererMap = <span class="keyword">new</span> RendererMap();</span><br><span class="line">  defaultFactory = <span class="keyword">new</span> DefaultCategoryFactory();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>再回来看LogManager.getLogger(..)，代码如下。绕了几圈后（因为抽象了repositorySelector），其实是调用Hierarchy实例的getLogger(..)方法。<br><figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="function">Logger <span class="title">getLogger</span><span class="params">(<span class="keyword">final</span> String name)</span> </span>&#123;</span><br><span class="line">   <span class="comment">// Delegate the actual manufacturing of the logger to the logger repository.</span></span><br><span class="line">  <span class="keyword">return</span> getLoggerRepository().getLogger(name);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>重头戏就是Hierarchy的getLogger(..)方法，代码如下。接下来分析。<br><figure class="highlight processing"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> Logger getLogger(<span class="keyword">String</span> name, LoggerFactory factory) &#123;</span><br><span class="line">	CategoryKey <span class="built_in">key</span> = <span class="keyword">new</span> CategoryKey(name);</span><br><span class="line">	Logger logger;</span><br><span class="line">	<span class="keyword">synchronized</span> (ht) &#123;</span><br><span class="line">		<span class="keyword">Object</span> o = ht.<span class="built_in">get</span>(<span class="built_in">key</span>);</span><br><span class="line">		<span class="keyword">if</span> (o == <span class="keyword">null</span>) &#123;</span><br><span class="line">			logger = factory.makeNewLoggerInstance(name);</span><br><span class="line">			logger.setHierarchy(<span class="keyword">this</span>);</span><br><span class="line">			ht.put(<span class="built_in">key</span>, logger);</span><br><span class="line">			updateParents(logger);</span><br><span class="line">			<span class="keyword">return</span> logger;</span><br><span class="line">		&#125; <span class="keyword">else</span> <span class="keyword">if</span> (o <span class="keyword">instanceof</span> Logger) &#123;</span><br><span class="line">			<span class="keyword">return</span> (Logger) o;</span><br><span class="line">		&#125; <span class="keyword">else</span> <span class="keyword">if</span> (o <span class="keyword">instanceof</span> ProvisionNode) &#123;</span><br><span class="line">			<span class="comment">// System.out.println("("+name+") ht.get(this) returned ProvisionNode");</span></span><br><span class="line">			logger = factory.makeNewLoggerInstance(name);</span><br><span class="line">			logger.setHierarchy(<span class="keyword">this</span>);</span><br><span class="line">			ht.put(<span class="built_in">key</span>, logger);</span><br><span class="line">			updateChildren((ProvisionNode) o, logger);</span><br><span class="line">			updateParents(logger);</span><br><span class="line">			<span class="keyword">return</span> logger;</span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">			<span class="comment">// It should be impossible to arrive here</span></span><br><span class="line">			<span class="keyword">return</span> <span class="keyword">null</span>; <span class="comment">// but let's keep the compiler happy.</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>有三种情况：</p>
+<ul>
+<li><strong>o instanceof Logger</strong><br>如果HashTable已有这个name的logger就直接取出返回</li>
+<li><strong>o == null</strong><br>对完全陌生的”com.foo.Bar”，会创建Logger实例放入HashTable，并调用updateParents(logger)更新所有的祖先，代码如下。<br>这个更新操作相当于建立”com.foo”和”com”的ProvisionNode类的伪结点，并插入HashTable，它们都只知道有一个孩子是”com.foo.Bar”，而”com.foo.Bar”的parent指向root。<figure class="highlight processing"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">final</span> <span class="keyword">private</span> <span class="keyword">void</span> updateParents(Logger cat) &#123;</span><br><span class="line">	<span class="keyword">String</span> name = cat.name;</span><br><span class="line">	<span class="built_in">int</span> length = name.length();</span><br><span class="line">	<span class="built_in">boolean</span> parentFound = <span class="keyword">false</span>;</span><br><span class="line">	<span class="keyword">for</span> (<span class="built_in">int</span> i = name.lastIndexOf(<span class="string">'.'</span>, length - <span class="number">1</span>); i &gt;= <span class="number">0</span>; i = name</span><br><span class="line">			.lastIndexOf(<span class="string">'.'</span>, i - <span class="number">1</span>)) &#123;</span><br><span class="line">		<span class="keyword">String</span> substr = name.substring(<span class="number">0</span>, i);</span><br><span class="line">		CategoryKey <span class="built_in">key</span> = <span class="keyword">new</span> CategoryKey(substr); <span class="comment">// simple constructor</span></span><br><span class="line">		<span class="keyword">Object</span> o = ht.<span class="built_in">get</span>(<span class="built_in">key</span>);</span><br><span class="line">		<span class="comment">// Create a provision node for a future parent.</span></span><br><span class="line">		<span class="keyword">if</span> (o == <span class="keyword">null</span>) &#123;</span><br><span class="line">			ProvisionNode pn = <span class="keyword">new</span> ProvisionNode(cat);</span><br><span class="line">			ht.put(<span class="built_in">key</span>, pn);</span><br><span class="line">		&#125; <span class="keyword">else</span> <span class="keyword">if</span> (o <span class="keyword">instanceof</span> Category) &#123;</span><br><span class="line">			parentFound = <span class="keyword">true</span>;</span><br><span class="line">			cat.parent = (Category) o;</span><br><span class="line">			<span class="keyword">break</span>; <span class="comment">// no need to update the ancestors of the closest ancestor</span></span><br><span class="line">		&#125; <span class="keyword">else</span> <span class="keyword">if</span> (o <span class="keyword">instanceof</span> ProvisionNode) &#123;</span><br><span class="line">			((ProvisionNode) o).addElement(cat);</span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">			Exception e = <span class="keyword">new</span> IllegalStateException(<span class="string">"unexpected object type "</span> + o.getClass() + <span class="string">" in ht."</span>);</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// If we could not find any existing parents, then link with root.</span></span><br><span class="line">	<span class="keyword">if</span> (!parentFound)</span><br><span class="line">		cat.parent = root;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>执行执行Logger.getLogger(“com.foo.Bar”)结果如下。<br>  <img src="http://7vzozf.com1.z0.glb.clouddn.com/2015/07/612158591.png" alt="1.png"></p>
+<ul>
+<li><strong>o instanceof ProvisionNode</strong><br>随后执行Logger.getLogger(“com.foo”)，再创建Logger实例放入HableTable并调用updateChildren((ProvisionNode) o, logger)和updateParents(logger)。<br>第一个操作是更新子孙，代码如下。因为已有”com.foo”的ProvisionNode，它知道子孙是”com.foo.Bar”的Logger（且没有正确找到父亲），则”com.foo”的Logger会在”com.foo.Bar”的Logger这做一个相当于树结构的插入操作。<br>第二个操作是更新祖先。会更新”com”的子孙为”com.foo.Bar”和”com.foo”，继续以ProvisionNode伪结点的方式存在。<figure class="highlight zephir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">final</span> <span class="keyword">private</span> void updateChildren(ProvisionNode pn, Logger logger) &#123;</span><br><span class="line">	<span class="comment">// System.out.println("updateChildren called for " + logger.name);</span></span><br><span class="line">	<span class="keyword">final</span> <span class="keyword">int</span> last = pn.size();</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; last; i++) &#123;</span><br><span class="line">		Logger l = (Logger) pn.elementAt(i);</span><br><span class="line">		<span class="comment">// System.out.println("Updating child " +p.name);</span></span><br><span class="line"></span><br><span class="line">		<span class="comment">// Unless this child already points to a correct (lower) parent,</span></span><br><span class="line">		<span class="comment">// make cat.parent point to l.parent and l.parent to cat.</span></span><br><span class="line">		<span class="keyword">if</span> (!l.<span class="keyword">parent</span>.name.startsWith(logger.name)) &#123;</span><br><span class="line">			logger.<span class="keyword">parent</span> = l.<span class="keyword">parent</span>;</span><br><span class="line">			l.<span class="keyword">parent</span> = logger;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>然后执行Logger.getLogger(“com.foo”)的结果如下。<br>  <img src="http://7vzozf.com1.z0.glb.clouddn.com/2015/07/2661821644.png" alt="2.png"></p>
+<p>如果继续调用Logger.getLogger(“com”)，更新子孙只需要在”com.foo”处直接插入，更新祖先指向root，结果如下。<br><img src="http://7vzozf.com1.z0.glb.clouddn.com/2015/07/2720670433.png" alt="3.png"></p>
+<h3 id="2-BasicConfigurator-configure"><a href="#2-BasicConfigurator-configure" class="headerlink" title="2. BasicConfigurator.configure()"></a>2. <code>BasicConfigurator.configure()</code></h3><p>先看configure()的代码如下。把一个ConsoleAppender加给了root logger。<br><figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">configure</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  Logger root = Logger.getRootLogger();</span><br><span class="line">  root.addAppender(<span class="keyword">new</span> ConsoleAppender(</span><br><span class="line">         <span class="keyword">new</span> PatternLayout(PatternLayout.TTCC_CONVERSION_PATTERN)));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>再看Logger类的addAppender方法（继承自Categeory类），代码如下。实际Logger类用AppenderAttachableImpl（接AppenderAttachabl的一种Vector实现）来作为Appender的容器，addAppender方法就是在扩充这个容器。</p>
+<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">synchronized</span> <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">addAppender</span><span class="params">(Appender newAppender)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(aai == <span class="keyword">null</span>) &#123;</span><br><span class="line">    aai = <span class="keyword">new</span> AppenderAttachableImpl();</span><br><span class="line">  &#125;</span><br><span class="line">  aai.addAppender(newAppender);</span><br><span class="line">  repository.fireAddAppenderEvent(<span class="keyword">this</span>, newAppender);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="3-logger-debug"><a href="#3-logger-debug" class="headerlink" title="3. logger.debug()"></a>3. <code>logger.debug()</code></h3><p><img src="http://7vzozf.com1.z0.glb.clouddn.com/2015/07/461615257.png" alt="5.png"></p>
+<p>调用Catagory类的debug()方法代码如下。要先判断Hierarchy的level阈值是否允许。<br><figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">debug</span><span class="params">(Object message)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (repository.isDisabled(Level.DEBUG_INT))</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	<span class="keyword">if</span> (Level.DEBUG.isGreaterOrEqual(<span class="keyword">this</span>.getEffectiveLevel())) &#123;</span><br><span class="line">		forcedLog(FQCN, Level.DEBUG, message, <span class="keyword">null</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>再判断level不为null的最近的祖先（含自己）是否允许。<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> Level getEffectiveLevel() &#123;</span><br><span class="line">	<span class="keyword">for</span> (Category c = <span class="keyword">this</span>; c != <span class="literal">null</span>; c = c.parent) &#123;</span><br><span class="line">		<span class="keyword">if</span> (c.level != <span class="literal">null</span>)</span><br><span class="line">			<span class="keyword">return</span> c.level;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">null</span>; <span class="comment">// If reached will cause an NullPointerException.</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>由于默认Hierarchy的level为all，root的level为debug，debug&gt;=debug，则可以顺利跳入forcelog(..)，forcelog(..)再跳入callAppenders(..)，其代码如下。方法appendLoopOnAppenders(..)就是向容器里的各个Appender通知LoggingEvent（设计模式中观察者模式），通知的过程是一个父结点回溯的过程，会通知所有的祖先。除非某个Logger的additive是false，则回溯过程会立刻终止跳出。<br><figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">callAppenders</span>(<span class="params">LoggingEvent <span class="keyword">event</span></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> writes = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (Category c = <span class="keyword">this</span>; c != <span class="literal">null</span>; c = c.parent) &#123;</span><br><span class="line">	<span class="comment">// Protected against simultaneous call to addAppender, removeAppender,...</span></span><br><span class="line">        synchronized (c) &#123;</span><br><span class="line">        	<span class="keyword">if</span> (c.aai != <span class="literal">null</span>) &#123;</span><br><span class="line">        		writes += c.aai.appendLoopOnAppenders(<span class="keyword">event</span>);</span><br><span class="line">	        &#125;</span><br><span class="line">	        <span class="keyword">if</span> (!c.additive) &#123;</span><br><span class="line">	        	<span class="keyword">break</span>;</span><br><span class="line">	        &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(writes == <span class="number">0</span>) &#123;</span><br><span class="line">          repository.emitNoAppenderWarning(<span class="keyword">this</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="4-logger-setLevel-Level-INFO-、logger-debug-quot-after-set-level-quot-和barlogger-info-quot-after-set-level-quot"><a href="#4-logger-setLevel-Level-INFO-、logger-debug-quot-after-set-level-quot-和barlogger-info-quot-after-set-level-quot" class="headerlink" title="4. logger.setLevel(Level.INFO)、logger.debug(&quot;after set level&quot;)和barlogger.info(&quot;after set level&quot;)"></a>4. <code>logger.setLevel(Level.INFO)</code>、<code>logger.debug(&quot;after set level&quot;)</code>和<code>barlogger.info(&quot;after set level&quot;)</code></h3><p>这三句实际在 3 中已经分析了，同样是受到Hierarchy和最近祖先（含自己）的level的影响。</p>
+<hr>
+<h2 id="实践"><a href="#实践" class="headerlink" title="实践"></a>实践</h2><figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta"><span class="meta-keyword">import</span> org.apache.log4j.Logger;</span></span><br><span class="line"><span class="meta"><span class="meta-keyword">import</span> org.apache.log4j.BasicConfigurator;</span></span><br><span class="line"><span class="meta"><span class="meta-keyword">import</span> com.foo.Bar;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyApp</span> </span>&#123;</span><br><span class="line">	<span class="keyword">static</span> Logger logger = Logger.getLogger(MyApp.class);</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> main(String[] args) &#123;</span><br><span class="line">		BasicConfigurator.configure();</span><br><span class="line">		logger.info(<span class="string">"Entering application."</span>);</span><br><span class="line">		Bar bar = <span class="keyword">new</span> Bar();</span><br><span class="line">		bar.doIt();</span><br><span class="line">		logger.info(<span class="string">"Exiting application."</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight d"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.foo;</span><br><span class="line"><span class="keyword">import</span> org.apache.log4j.Logger;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> Bar &#123;</span><br><span class="line">	<span class="keyword">static</span> Logger logger = Logger.getLogger(Bar.<span class="keyword">class</span>);</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">void</span> doIt() &#123;</span><br><span class="line">		logger.<span class="keyword">debug</span>(<span class="string">"Did it again!"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="参考推荐"><a href="#参考推荐" class="headerlink" title="参考推荐"></a>参考推荐</h2><ol>
+<li><a href="http://www.blogjava.net/DLevin/archive/2012/06/12/380647.html" target="_blank" rel="external">深入Log4J源码之SimpleLog</a></li>
+<li><a href="http://www.blogjava.net/DLevin/archive/2012/06/28/381667.html" target="_blank" rel="external">深入Log4J源码之Log4J Core</a></li>
+<li><a href="http://www.blogjava.net/DLevin/archive/2012/07/04/382131.html" target="_blank" rel="external">深入Log4J源码之Layout</a></li>
+<li><a href="http://www.blogjava.net/DLevin/archive/2012/07/10/382676.html" target="_blank" rel="external">深入Log4J源码之Appender</a></li>
+<li><a href="http://www.blogjava.net/DLevin/archive/2012/07/10/382678.html" target="_blank" rel="external">深入Log4J源码之LoggerRepository和Configurator</a></li>
+</ol>
+  
+	</div>
+		<footer class="article-footer clearfix">
+
+
+
+
+<div class="article-share" id="share">
+
+  <div data-url="http://www.stackess.com/log4j/" data-title="log4j 1.x 概述、意义和源码分析 | Stackess" data-tsina="null" class="share clearfix">
+  </div>
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/Spring_IoC/" title="Spring之IoC容器">
+  <strong>PREVIOUS:</strong><br/>
+  <span>
+  Spring之IoC容器</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/JLR/"  title="Java LeTeX Report 概述和示例">
+ <strong>NEXT:</strong><br/> 
+ <span>Java LeTeX Report 概述和示例
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section class="comment">  
+	<div class="ds-thread" data-thread-key="log4j/"></div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Log4j-概述"><span class="toc-number">1.</span> <span class="toc-text">Log4j 概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Log4j-意义"><span class="toc-number">2.</span> <span class="toc-text">Log4j 意义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Log4j-Manual"><span class="toc-number">3.</span> <span class="toc-text">Log4j Manual</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Logger-hierarchy"><span class="toc-number">3.1.</span> <span class="toc-text">Logger hierarchy</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Appender-and-Layout"><span class="toc-number">3.2.</span> <span class="toc-text">Appender and Layout</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#范例"><span class="toc-number">3.3.</span> <span class="toc-text">范例</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#源码分析"><span class="toc-number">4.</span> <span class="toc-text">源码分析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Logger-getLogger-quot-com-foo-Bar-quot-和Logger-getLogger-quot-com-foo-quot"><span class="toc-number">4.1.</span> <span class="toc-text">1. Logger.getLogger("com.foo.Bar")和Logger.getLogger("com.foo")</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-BasicConfigurator-configure"><span class="toc-number">4.2.</span> <span class="toc-text">2. BasicConfigurator.configure()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-logger-debug"><span class="toc-number">4.3.</span> <span class="toc-text">3. logger.debug()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-logger-setLevel-Level-INFO-、logger-debug-quot-after-set-level-quot-和barlogger-info-quot-after-set-level-quot"><span class="toc-number">4.4.</span> <span class="toc-text">4. logger.setLevel(Level.INFO)、logger.debug("after set level")和barlogger.info("after set level")</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#实践"><span class="toc-number">5.</span> <span class="toc-text">实践</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考推荐"><span class="toc-number">6.</span> <span class="toc-text">参考推荐</span></a></li></ol>
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			<li><a href="/tags/人工智能/" title="人工智能">人工智能<sup>1</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  <div class="rsspart">
+	<a href="null" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  
+  <div class="archiveslist">
+    <p class="asidetitle"><a href="/archives">归档</a></p>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">十月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">九月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">三月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">二月 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">一月 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">十一月 2013</a><span class="archive-list-count">1</span></li></ul>
+  </div>
+
+
+  
+  <div class="tagcloudlist">
+    <p class="asidetitle">标签云</p>
+    <div class="tagcloudlist clearfix">
+       <a href="/tags/人工智能/" style="font-size: 10px;">人工智能</a>
+    </div>
+  </div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+      <li><a href="http://yangjian.me" target="_blank" title="YangJian">Alimon's Blog</a></li>
+      <li><a href="http://hexo.io" target="_blank" title="Hexo">Hexo</a></li>
+    </ul>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font clearfix">
+		
+		<a href="http://weibo.com/5261272169" target="_blank" title="weibo"></a>
+		
+		
+		
+		<a href="https://github.com/cstackess" target="_blank" title="github"></a>
+		
+		
+		
+	</div>
+		<p class="copyright">Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/A-limon/pacman" target="_blank" title="Pacman">Pacman</a> © 2016 
+		
+		<a href="http://www.stackess.com" target="_blank" title="cstackess">cstackess</a>
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.1.0.min.js"></script>
+
+<!--http://mathjax-chinese-doc.readthedocs.org/en/latest/start.html-->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$']]}
+});
+</script>
+<script src="http://cdn.bootcss.com/mathjax/2.6.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+<link href="http://cdn.bootcss.com/highlight.js/8.0/styles/monokai_sublime.min.css" rel="stylesheet">  
+<script src="http://cdn.bootcss.com/highlight.js/8.0/highlight.min.js"></script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#share"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="#textlogo" class="article-back-to-top" title="Top"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="QRcode"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="Weibo"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"stackess"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+  </body>
+</html>

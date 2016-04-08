@@ -1,0 +1,404 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>大数据处理示例（上） | Stackess</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    
+    <meta name="author" content="cstackess">
+    
+    <meta name="description" content="利用Cygwin使用Linux下的数据处理工具，对余额宝的申购赎回数据进行预处理，R语言的时间序列分析。">
+    
+    
+    
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/pacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/pacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.svg" alt="Stackess" title="Stackess"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Stackess">Stackess</a></h1>
+				<h2 class="blog-motto">cstackess&#39;s blog</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+					<li>
+					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:www.stackess.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/tianchi_sample_1/" title="大数据处理示例（上）" itemprop="url">大数据处理示例（上）</a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="http://www.stackess.com" title="cstackess">cstackess</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2015-05-27T10:06:00.000Z" itemprop="datePublished">2015-05-27</time>
+    更新日期:<time datetime="2016-04-08T07:11:42.405Z" itemprop="dateModified">2016-04-08</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Cygwin"><span class="toc-number">1.</span> <span class="toc-text">Cygwin</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数据预处理"><span class="toc-number">2.</span> <span class="toc-text">数据预处理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#时间序列分析"><span class="toc-number">3.</span> <span class="toc-text">时间序列分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考"><span class="toc-number">4.</span> <span class="toc-text">参考</span></a></li></ol>
+		</div>
+		
+		<p>利用Cygwin使用Linux下的数据处理工具，对余额宝的申购赎回数据进行预处理，R语言的时间序列分析。<br><a id="more"></a></p>
+<hr>
+<h2 id="Cygwin"><a href="#Cygwin" class="headerlink" title="Cygwin"></a>Cygwin</h2><p>处理大数据，经常使用Linux系统下的命令来处理，数据库、Excel什么的速度简直太捉急。虽然有<a href="http://gnuwin32.sourceforge.net/" target="_blank" rel="external">GnuWin32</a>提供了一些可以在Windows系统下使用的Linux开源工具，但依然数量有限（比如没有sort），诸多不便。</p>
+<p>Cygwin是一个在windows平台上运行的类UNIX模拟环境，是cygnus solutions公司开发的自由软件。在<a href="http://www.cygwin.com/" target="_blank" rel="external">http://www.cygwin.com/</a>上可以下载到32位和64位的软件安装包。国内也有很多镜像提供安装。</p>
+<p>Cygwin提供了Linux下很多的package（<a href="https://cygwin.com/packages/package_list.html" target="_blank" rel="external">https://cygwin.com/packages/package_list.html</a>）。并默认安装其中一部分，比如sed、grep、sort、awk等，用<a href="https://cygwin.com/cygwin-ug-net/using-utils.html#cygcheck" target="_blank" rel="external">cygcheck</a>命令可查看已安装的package。</p>
+<p>注意到官方的提示。</p>
+<blockquote>
+<p><strong>Q: Is there a command-line installer?</strong><br>A: Yes and no. The setup*.exe program understands command-line arguments which allow you to control its behavior and choose individual packages to install. While this provides some functionality similar to such tools as apt-get or yum it is not as full-featured as those packages.<br>The basic reason for not having a more full-featured package manager is that such a program would need full access to all of Cygwin’s POSIX functionality. That is, however, difficult to provide in a Cygwin-free environment, such as exists on first installation. Additionally, Windows does not easily allow overwriting of in-use executables so installing a new version of the Cygwin DLL while a package manager is using the DLL is problematic.</p>
+</blockquote>
+<p>也就是说如果要安装<code>diff</code>，你就还得用刚才的软件安装包去下载，详细过程可参看<a href="https://cygwin.com/faq.html#faq.setup.what-packages" target="_blank" rel="external">FAQ 2.12 How do I just get everything</a>。</p>
+<hr>
+<h2 id="数据预处理"><a href="#数据预处理" class="headerlink" title="数据预处理"></a>数据预处理</h2><p>以<a href="http://tianchi.aliyun.com/competition/information.htm?spm=5176.100071.5678.2.nr61bj&amp;raceId=3" target="_blank" rel="external">余额宝的申购赎回预测数据</a>为例。</p>
+<ol>
+<li><p>由<code>df</code>命令，可看到Cygwin已经挂载了所有磁盘，直接用<code>cd</code>切换目录即可。</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ cd  <span class="string">F:</span><span class="regexp">/【阿里天池大数据】/</span>资金流入流出预测</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>用户申购赎回数据为在data/user_balance_table.csv（148M），用<code>grep</code>命令从中抽取出用户id为1234着色查看（着色功能特别赞）。</p>
+</li>
+</ol>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ grep <span class="string">'^\&lt;1234\&gt;'</span> data/user_balance_table<span class="selector-class">.csv</span> --<span class="attribute">color</span>=auto</span><br></pre></td></tr></table></figure>
+<p><img src="http://7vzozf.com1.z0.glb.clouddn.com/2015/05/1451151867.png" alt="2015-05-27_174826.png"></p>
+<ol>
+<li>输出用户id为1234并按日期排序后的数据结果。</li>
+</ol>
+<p>可以用<code>grep</code>命令抽取出能够匹配行首为完整的1234（<code>&#39;^\&lt;1234\&gt;&#39;</code>）的行，再根据由逗号分隔（<code>-t,</code>）的第二列进行排序。<br><figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="keyword">grep</span> <span class="string">'^\&lt;1234\&gt;'</span> data/user_balance_table.csv | <span class="keyword">sort</span> -k <span class="number">2</span> -t, &gt; user1234</span><br></pre></td></tr></table></figure></p>
+<p>也可以用<code>awk</code>命令，以逗号分隔（<code>-F,</code>）数据的各列后，输出第一列内容为1234的行，再根据由逗号分隔（<code>-t,</code>）的第二列进行排序。<br><figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ awk -F, <span class="variable">$1</span>==1234&#123;<span class="keyword">print</span> <span class="variable">$0&#125;</span>' data/user_balance_table.csv | <span class="keyword">sort</span> -k 2 -t, &gt; user1234</span><br></pre></td></tr></table></figure></p>
+<ol>
+<li>通过<code>more</code>命令查看user1234（你试试用文本编辑器开user_balance_table.csv，卡得飞起）。</li>
+</ol>
+<p><img src="http://7vzozf.com1.z0.glb.clouddn.com/2015/05/1961435553.png" alt="2015-05-27_175026.png"></p>
+<ol>
+<li>由数据的<a href="http://tianchi.aliyun.com/competition/faq.htm?spm=5176.100068.5678.3.oe18FE&amp;raceId=3" target="_blank" rel="external">FAQ</a>，某些用户的某些天没有数据，还需另外处理。<blockquote>
+<p><strong>18.balance那张表不就是记录的一个用户一天的资金流动总量的情况吗？</strong><br>每个用户每天汇总的数据。 一个用户，一天一行，包括申购和赎回。 当余额是0，并且没有申购的时候，不记录。   </p>
+</blockquote>
+</li>
+</ol>
+<hr>
+<h2 id="时间序列分析"><a href="#时间序列分析" class="headerlink" title="时间序列分析"></a>时间序列分析</h2><p>用R语言对今日总购买量进行时间序列分析。<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt; setwd(<span class="string">'F:/【阿里天池大数据】/资金流入流出预测'</span>)</span><br><span class="line">&gt; <span class="keyword">u</span>&lt;-<span class="keyword">read</span>.table(<span class="string">'user1234'</span>,sep=<span class="string">','</span>)</span><br><span class="line">&gt; uts&lt;-<span class="keyword">ts</span>(<span class="keyword">u</span>[,<span class="number">5</span>])</span><br><span class="line">&gt; plot.<span class="keyword">ts</span>(uts)</span><br></pre></td></tr></table></figure></p>
+<p>得到用户id为1234的时间-购买量图。<br><img src="http://7vzozf.com1.z0.glb.clouddn.com/2015/05/571848489.png" alt="u1234_申购.png"></p>
+<p>附赠一张余额宝的时间-收益率图，寡人心痛啊……<br><img src="http://7vzozf.com1.z0.glb.clouddn.com/2015/05/3112188590.png" alt="收益率.png"></p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="http://www.cnblogs.com/ggjucheng/archive/2013/01/13/2856896.html" target="_blank" rel="external">linux grep命令详解 - http://www.cnblogs.com/ggjucheng/archive/2013/01/13/2856896.html</a></li>
+<li><a href="http://www.cnblogs.com/dong008259/archive/2011/12/08/2281214.html" target="_blank" rel="external">linx之sort用法 - http://www.cnblogs.com/dong008259/archive/2011/12/08/2281214.html</a></li>
+<li><a href="http://luy.li/data/awk.html" target="_blank" rel="external">awk手册 - http://luy.li/data/awk.html</a></li>
+<li><a href="http://doc.datapanda.net/a-Little-Book-of-R-for-Time-Series.pdf" target="_blank" rel="external">R语言时间序列初探！ - http://doc.datapanda.net/a-Little-Book-of-R-for-Time-Series.pdf</a></li>
+</ul>
+  
+	</div>
+		<footer class="article-footer clearfix">
+
+
+
+
+<div class="article-share" id="share">
+
+  <div data-url="http://www.stackess.com/tianchi_sample_1/" data-title="大数据处理示例（上） | Stackess" data-tsina="null" class="share clearfix">
+  </div>
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/tianchi_sample_2/" title="大数据处理示例（下）">
+  <strong>PREVIOUS:</strong><br/>
+  <span>
+  大数据处理示例（下）</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/intro2java_2/"  title="Java平台概述（下）">
+ <strong>NEXT:</strong><br/> 
+ <span>Java平台概述（下）
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section class="comment">  
+	<div class="ds-thread" data-thread-key="tianchi_sample_1/"></div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Cygwin"><span class="toc-number">1.</span> <span class="toc-text">Cygwin</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数据预处理"><span class="toc-number">2.</span> <span class="toc-text">数据预处理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#时间序列分析"><span class="toc-number">3.</span> <span class="toc-text">时间序列分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考"><span class="toc-number">4.</span> <span class="toc-text">参考</span></a></li></ol>
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			<li><a href="/tags/人工智能/" title="人工智能">人工智能<sup>1</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  <div class="rsspart">
+	<a href="null" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  
+  <div class="archiveslist">
+    <p class="asidetitle"><a href="/archives">归档</a></p>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">十月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">九月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">三月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">二月 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">一月 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">十一月 2013</a><span class="archive-list-count">1</span></li></ul>
+  </div>
+
+
+  
+  <div class="tagcloudlist">
+    <p class="asidetitle">标签云</p>
+    <div class="tagcloudlist clearfix">
+       <a href="/tags/人工智能/" style="font-size: 10px;">人工智能</a>
+    </div>
+  </div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+      <li><a href="http://yangjian.me" target="_blank" title="YangJian">Alimon's Blog</a></li>
+      <li><a href="http://hexo.io" target="_blank" title="Hexo">Hexo</a></li>
+    </ul>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font clearfix">
+		
+		<a href="http://weibo.com/5261272169" target="_blank" title="weibo"></a>
+		
+		
+		
+		<a href="https://github.com/cstackess" target="_blank" title="github"></a>
+		
+		
+		
+	</div>
+		<p class="copyright">Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/A-limon/pacman" target="_blank" title="Pacman">Pacman</a> © 2016 
+		
+		<a href="http://www.stackess.com" target="_blank" title="cstackess">cstackess</a>
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.1.0.min.js"></script>
+
+<!--http://mathjax-chinese-doc.readthedocs.org/en/latest/start.html-->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$']]}
+});
+</script>
+<script src="http://cdn.bootcss.com/mathjax/2.6.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+<link href="http://cdn.bootcss.com/highlight.js/8.0/styles/monokai_sublime.min.css" rel="stylesheet">  
+<script src="http://cdn.bootcss.com/highlight.js/8.0/highlight.min.js"></script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#share"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="#textlogo" class="article-back-to-top" title="Top"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="QRcode"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="Weibo"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"stackess"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+  </body>
+</html>

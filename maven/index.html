@@ -1,0 +1,418 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Maven 和 M2Eclipse配置 | Stackess</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    
+    <meta name="author" content="cstackess">
+    
+    <meta name="description" content="Maven 概述、下载配置、快速起步 和 M2Eclipse配置">
+    
+    
+    
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/pacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/pacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.svg" alt="Stackess" title="Stackess"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Stackess">Stackess</a></h1>
+				<h2 class="blog-motto">cstackess&#39;s blog</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+					<li>
+					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:www.stackess.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/maven/" title="Maven 和 M2Eclipse配置" itemprop="url">Maven 和 M2Eclipse配置</a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="http://www.stackess.com" title="cstackess">cstackess</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2015-04-18T11:25:00.000Z" itemprop="datePublished">2015-04-18</time>
+    更新日期:<time datetime="2016-04-08T07:07:36.149Z" itemprop="dateModified">2016-04-08</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Maven-概述"><span class="toc-number">1.</span> <span class="toc-text">Maven 概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Maven-下载配置"><span class="toc-number">2.</span> <span class="toc-text">Maven 下载配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#修改本地仓库地址"><span class="toc-number">3.</span> <span class="toc-text">修改本地仓库地址</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#快速起步"><span class="toc-number">4.</span> <span class="toc-text">快速起步</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#插件-M2Eclipse-配置"><span class="toc-number">5.</span> <span class="toc-text">插件 M2Eclipse 配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考"><span class="toc-number">6.</span> <span class="toc-text">参考</span></a></li></ol>
+		</div>
+		
+		<p>Maven 概述、下载配置、快速起步 和 M2Eclipse配置</p>
+<a id="more"></a>
+<h2 id="Maven-概述"><a href="#Maven-概述" class="headerlink" title="Maven 概述"></a>Maven 概述</h2><ul>
+<li>Maven是用于Java的自动化构建工具，包括从清理、编译、测试到生成报告，再到打包和部署</li>
+<li>同时Maven也对构建过程进行了标准化</li>
+<li>提供中央仓库自动下载任何流行的开源类库</li>
+</ul>
+<h2 id="Maven-下载配置"><a href="#Maven-下载配置" class="headerlink" title="Maven 下载配置"></a>Maven 下载配置</h2><p>官网下载 Maven <a href="http://maven.apache.org/download.cgi" target="_blank" rel="external">http://maven.apache.org/download.cgi</a>，解压到 E:\maven</p>
+<p>配置环境变量<br>    系统变量：C_MAVEN = E:\maven\apache-maven-3.2.5<br>    系统变量：path = %C_MAVEN%\bin %%</p>
+<p>要注意系统变量%JAVA_HOME%指向正确的JDK目录，否则会提示错误：</p>
+<blockquote>
+<p>Error: JAVA_HOME not found in your environment. Please set the JAVA_HOME variable in your environment to match the location of your Java installation.</p>
+</blockquote>
+<p>命令行测试<br><figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="keyword">mvn </span>-v</span><br></pre></td></tr></table></figure></p>
+<hr>
+<h2 id="修改本地仓库地址"><a href="#修改本地仓库地址" class="headerlink" title="修改本地仓库地址"></a>修改本地仓库地址</h2><p>Maven 默认将本地仓库在 %USER_HOME%/.m2/repository 文件夹（%USER_HOME%表示用户目录）下。</p>
+<p>而配置文件 %C_MAVEN%/conf/settings.xml可以<strong>全局范围</strong>地定制Maven的行为，其中找到<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- localRepository</span><br><span class="line"> | The path to the local repository maven will use to store artifacts.</span><br><span class="line"> |</span><br><span class="line"> | Default: $&#123;user.home&#125;/.m2/repository</span><br><span class="line">&lt;localRepository&gt;/path/to/local/repo&lt;/localRepository&gt;</span><br><span class="line">--&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>在后面添上 <code>&lt;localRepository&gt;E:/maven/.m2/repository&lt;/localRepository&gt;</code>，即修改了本地仓库地址——我个人的偏好。</p>
+<p>在《Maven实战》2.7.2 提到的一条最佳实践是“复制 %C_MAVEN%/conf/settings.xml 文件到 %USER_HOME%/.m2/settings.xml”，也就是推荐<strong>用户范围</strong>的配置，这样主要是考虑升级方便吧。</p>
+<p>个人必须喜欢同时下载源码和Javadoc，可参考<a href="http://blog.csdn.net/topwqp/article/details/8902863" target="_blank" rel="external">maven 下载 源码和javadoc命令</a>。</p>
+<hr>
+<h2 id="快速起步"><a href="#快速起步" class="headerlink" title="快速起步"></a>快速起步</h2><p>可以利用 <a href="http://maven.apache.org/guides/introduction/introduction-to-archetypes.html" target="_blank" rel="external">maven archetype</a> 创建项目的骨架：<br><figure class="highlight elm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ mvn arche<span class="keyword">type</span>:generate</span><br></pre></td></tr></table></figure></p>
+<p>出现很多可用的archetype（如最简单的war项目模板maven-archetype-webapp、Spring+Struts2+JPA等的AppFuse Archetype），直接回车就会选中默认项<code>maven-archetype-quickstart</code>，再填入<code>groupId</code>、<code>artifactId</code>、<code>verstion</code>和<code>package</code>等。</p>
+<p><img src="http://7vzozf.com1.z0.glb.clouddn.com/2015/06/909025660.png" alt="4.png"></p>
+<p>会自动创建出一个Maven项目，默认地，主代码位于src/main/java目录，测试代码位于src/test/java目录，pom.xml位于项目的根目录，用于描述项目如何构建，声明项目依赖等等，未来所有的输出则会在target/目录下。</p>
+<p>在pom.xml中部分元素的意义是：</p>
+<ul>
+<li><code>groupId</code>：Maven项目隶属的实际项目名。如com.stackess.mymaven表示由cstackess.com建立的mymaven项目。不应对应项目隶属的组织或公司，因为一个组织下会有很多实际项目</li>
+<li><code>artifactId</code>：Maven项目名。推荐做法是以“实际项目名-Maven项目名”作为artifactId，这样寻找更方便。如mymaven-core。</li>
+<li><code>version</code>：Maveb项目所处版本，快照（SNAPSHOT）代表不稳定。</li>
+<li><code>packaging</code>：Maven项目的打包方式，默认为jar，生成形式为“artifactId-version.jar”。如mymaven-core-1.0-SNAPSHOT.jar。</li>
+</ul>
+<p>进入项目<code>cd mymaven-core</code>后，就可以执行：</p>
+<ul>
+<li>编译： <code>mvn clean compile</code><br>实际执行的插件和插件目标为clean:clean、resources:resource、compiler:compile。</li>
+<li>测试：<code>mvn clean test</code><br>实际执行的插件和插件目标包括……compiler:testCompile、surfire:test。</li>
+<li>打包：<code>mvn clean package</code><br>实际执行的插件和插件目标包括……jar:jar。因为默认打包类型为jar。</li>
+<li>安装：<code>mvn clean install</code><br>实际执行的插件和插件目标包括……install:install。项目的输出jar会被安装到Maven本地仓库中，供其他项目使用。</li>
+</ul>
+<p>其实，在测试之前会先编译，在打包之前会先测试，在安装之前会先打包。</p>
+<hr>
+<h2 id="插件-M2Eclipse-配置"><a href="#插件-M2Eclipse-配置" class="headerlink" title="插件 M2Eclipse 配置"></a>插件 M2Eclipse 配置</h2><p>下载安装好 Eclipse 的 Maven 插件 <a href="http://eclipse.org/m2e/" target="_blank" rel="external">m2eclipse</a> （Eclipse 4.4 已集成）</p>
+<p>《Maven实战》2.7.3 为保持IDE和命令行的一致，用外部的 maven。</p>
+<p><img src="http://7vzozf.com1.z0.glb.clouddn.com/2015/04/679791862.png" alt="1.png"></p>
+<p>修改配置文件地址，更新本地仓库地址</p>
+<p><img src="http://7vzozf.com1.z0.glb.clouddn.com/2015/04/2799295714.png" alt="2.png"></p>
+<p>可以导入、新建 Maven Project。创建时不要选择 Create a simple project 选项，就能使用 Maven Archetype。</p>
+<p>对任一 Maven Project 右键 <code>Run As</code> -&gt; <code>Maven build ...</code> 可添加新的命令</p>
+<p><img src="http://7vzozf.com1.z0.glb.clouddn.com/2015/04/1008820388.png" alt="3.png"></p>
+<p>当 <code>Run As</code> -&gt; <code>Maven build</code> 时，会出现新的命令。在 <code>Run Configurations</code>中可进行命令的管理。</p>
+<hr>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ol>
+<li><a href="http://spring.io/guides/gs/maven/" target="_blank" rel="external">Building Java Projects with Maven</a></li>
+<li><a href="http://www.oracle.com/technetwork/cn/community/java/apache-maven-getting-started-1-406235-zhs.html" target="_blank" rel="external">Apache Maven 入门篇(上)</a></li>
+<li><a href="http://www.oracle.com/technetwork/cn/community/java/apache-maven-getting-started-2-405568-zhs.html" target="_blank" rel="external">Apache Maven 入门篇(下)</a></li>
+<li><a href="http://www.cnblogs.com/quanyongan/archive/2013/04/17/3025971.html" target="_blank" rel="external">Maven学习 (一) 搭建Maven环境</a></li>
+<li><a href="http://www.cnblogs.com/zhaoyang/archive/2012/01/07/2315443.html" target="_blank" rel="external">Maven以及其Eclipse插件m2eclipse的安装</a></li>
+<li><a href="http://www.blogjava.net/qileilove/articles/410980.html" target="_blank" rel="external">m2eclipse简单使用</a></li>
+<li><a href="http://blog.csdn.net/topwqp/article/details/8902863" target="_blank" rel="external">Maven下载源码和javadoc命令</a></li>
+</ol>
+  
+	</div>
+		<footer class="article-footer clearfix">
+
+
+
+
+<div class="article-share" id="share">
+
+  <div data-url="http://www.stackess.com/maven/" data-title="Maven 和 M2Eclipse配置 | Stackess" data-tsina="null" class="share clearfix">
+  </div>
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/gnuplot/" title="gnuplot在Java环境下的应用研究">
+  <strong>PREVIOUS:</strong><br/>
+  <span>
+  gnuplot在Java环境下的应用研究</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/svm/"  title="支持向量机SVM">
+ <strong>NEXT:</strong><br/> 
+ <span>支持向量机SVM
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section class="comment">  
+	<div class="ds-thread" data-thread-key="maven/"></div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Maven-概述"><span class="toc-number">1.</span> <span class="toc-text">Maven 概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Maven-下载配置"><span class="toc-number">2.</span> <span class="toc-text">Maven 下载配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#修改本地仓库地址"><span class="toc-number">3.</span> <span class="toc-text">修改本地仓库地址</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#快速起步"><span class="toc-number">4.</span> <span class="toc-text">快速起步</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#插件-M2Eclipse-配置"><span class="toc-number">5.</span> <span class="toc-text">插件 M2Eclipse 配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考"><span class="toc-number">6.</span> <span class="toc-text">参考</span></a></li></ol>
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			<li><a href="/tags/人工智能/" title="人工智能">人工智能<sup>1</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  <div class="rsspart">
+	<a href="null" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  
+  <div class="archiveslist">
+    <p class="asidetitle"><a href="/archives">归档</a></p>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">十月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">九月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">三月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">二月 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">一月 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">十一月 2013</a><span class="archive-list-count">1</span></li></ul>
+  </div>
+
+
+  
+  <div class="tagcloudlist">
+    <p class="asidetitle">标签云</p>
+    <div class="tagcloudlist clearfix">
+       <a href="/tags/人工智能/" style="font-size: 10px;">人工智能</a>
+    </div>
+  </div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+      <li><a href="http://yangjian.me" target="_blank" title="YangJian">Alimon's Blog</a></li>
+      <li><a href="http://hexo.io" target="_blank" title="Hexo">Hexo</a></li>
+    </ul>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font clearfix">
+		
+		<a href="http://weibo.com/5261272169" target="_blank" title="weibo"></a>
+		
+		
+		
+		<a href="https://github.com/cstackess" target="_blank" title="github"></a>
+		
+		
+		
+	</div>
+		<p class="copyright">Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/A-limon/pacman" target="_blank" title="Pacman">Pacman</a> © 2016 
+		
+		<a href="http://www.stackess.com" target="_blank" title="cstackess">cstackess</a>
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.1.0.min.js"></script>
+
+<!--http://mathjax-chinese-doc.readthedocs.org/en/latest/start.html-->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$']]}
+});
+</script>
+<script src="http://cdn.bootcss.com/mathjax/2.6.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+<link href="http://cdn.bootcss.com/highlight.js/8.0/styles/monokai_sublime.min.css" rel="stylesheet">  
+<script src="http://cdn.bootcss.com/highlight.js/8.0/highlight.min.js"></script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#share"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="#textlogo" class="article-back-to-top" title="Top"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="QRcode"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="Weibo"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"stackess"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+  </body>
+</html>

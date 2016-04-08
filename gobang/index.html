@@ -1,0 +1,428 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>基于α-β剪枝算法的智能五子棋 | Stackess</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    
+    <meta name="author" content="cstackess">
+    
+    <meta name="description" content="人工智能的期末大作业，用Java语言实现的基于α-β剪枝算法的智能五子棋，分别进行了棋型确认、落子估值方式、棋局估值、实现搜索算法、算法优化等。">
+    
+    
+    
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/pacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/pacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.svg" alt="Stackess" title="Stackess"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Stackess">Stackess</a></h1>
+				<h2 class="blog-motto">cstackess&#39;s blog</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+					<li>
+					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:www.stackess.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/gobang/" title="基于α-β剪枝算法的智能五子棋" itemprop="url">基于α-β剪枝算法的智能五子棋</a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="http://www.stackess.com" title="cstackess">cstackess</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2013-11-23T03:51:00.000Z" itemprop="datePublished">2013-11-23</time>
+    更新日期:<time datetime="2016-04-08T06:54:49.424Z" itemprop="dateModified">2016-04-08</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一、基本介绍"><span class="toc-number">1.</span> <span class="toc-text">一、基本介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、棋型确定"><span class="toc-number">2.</span> <span class="toc-text">二、棋型确定</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#三、落子估值方式"><span class="toc-number">3.</span> <span class="toc-text">三、落子估值方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#四、棋局估值函数"><span class="toc-number">4.</span> <span class="toc-text">四、棋局估值函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#五、搜索算法"><span class="toc-number">5.</span> <span class="toc-text">五、搜索算法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#六、算法优化"><span class="toc-number">6.</span> <span class="toc-text">六、算法优化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#七、结语"><span class="toc-number">7.</span> <span class="toc-text">七、结语</span></a></li></ol>
+		</div>
+		
+		<p>人工智能的期末大作业，用Java语言实现的基于α-β剪枝算法的智能五子棋，分别进行了棋型确认、落子估值方式、棋局估值、实现搜索算法、算法优化等。</p>
+<a id="more"></a>
+<hr>
+<h2 id="一、基本介绍"><a href="#一、基本介绍" class="headerlink" title="一、基本介绍"></a>一、基本介绍</h2><p><strong>游戏界面：</strong><br>使用了Java Swing进行开发，如图所示。<br><img src="http://7vzozf.com1.z0.glb.clouddn.com/2015/03/3783017801.png" alt="gobang_01.png"></p>
+<p><strong>游戏步骤：</strong></p>
+<ol>
+<li>先设置游戏的参数，可以选择模式（双人、单人、双机），智能（估值函数、估值函数+搜索树），搜索树（层数、每层节点），再开始游戏；</li>
+<li>在棋盘上单击鼠标左键，落下棋子；</li>
+<li>在棋盘上单击鼠标右键，查看该点的估值；</li>
+<li>可以显示落子顺序和悔棋；</li>
+<li>使用搜索树AI时，控制台显示搜索过程；</li>
+<li>某方胜利后，游戏结束。</li>
+</ol>
+<p><strong>源码下载：</strong><br><a href="https://github.com/cstackess/Gobang" target="_blank" rel="external">https://github.com/cstackess/Gobang</a></p>
+<hr>
+<h2 id="二、棋型确定"><a href="#二、棋型确定" class="headerlink" title="二、棋型确定"></a>二、棋型确定</h2><p><strong>问题：</strong></p>
+<ul>
+<li>五子棋棋型的定义十分模糊，如网上对活二、眠三、死四的定义经常自相矛盾。</li>
+<li>在大部分论文中，考虑的棋型非常少，如对活三的典型棋型列举不够完整，且常把眠三当死三。</li>
+</ul>
+<p><strong>正确、完全的棋型：</strong><br>以上问题，令我奔溃了很久，最后对比了N个文献，才确定了比较可信的参考，棋型整理如下：</p>
+<table><br><thead><br><tr><br>  <th>棋型</th><br>  <th>定义</th><br>  <th>表达式（1黑，2白，0空）</th><br>  <th>图例（来自五子棋贴吧）</th><br></tr><br></thead><br><tbody><tr><br>  <td>长连</td><br>  <td>至少五颗同色棋子连在一起</td><br>  <td>11111</td><br>  <td><img src="http://7vzozf.com1.z0.glb.clouddn.com/2015/03/1242254514.png"></td><br></tr><br><tr><br>  <td>活四</td><br>  <td>有两个连五点（即有两个点可以形成五）<br>图中白点即为连五点</td><br>  <td>011112<br>0101110<br>0110110</td><br>  <td><img src="http://7vzozf.com1.z0.glb.clouddn.com/2015/03/4216839461.png"></td><br></tr><br><tr><br>  <td>冲四</td><br>  <td>有一个连五点</td><br>  <td>011112<br>0101110<br>0110110</td><br>  <td><img src="http://7vzozf.com1.z0.glb.clouddn.com/2015/03/801537491.png"></td><br></tr><br><tr><br>  <td>活三</td><br>  <td>可以形成活四的三</td><br>  <td>01110<br>010110</td><br>  <td><img src="http://7vzozf.com1.z0.glb.clouddn.com/2015/03/2750977194.png"></td><br></tr><br><tr><br>  <td>眠三</td><br>  <td>只能够形成冲四的三</td><br>  <td>001112<br>010112<br>011012<br>10011<br>10101<br>2011102</td><br>  <td><img src="http://7vzozf.com1.z0.glb.clouddn.com/2015/03/2386016761.png"></td><br></tr><br><tr><br>  <td>活二</td><br>  <td>能够形成活三的二</td><br>  <td>00110<br>01010<br>010010</td><br>  <td><img src="http://7vzozf.com1.z0.glb.clouddn.com/2015/03/1549839571.png"></td><br></tr><br><tr><br>  <td>眠二</td><br>  <td>能够形成眠三的二</td><br>  <td>000112<br>001012<br>010012<br>10001<br>2010102<br>2011002</td><br>  <td><img src="http://7vzozf.com1.z0.glb.clouddn.com/2015/03/1967059339.png"></td><br></tr><br><tr><br>  <td>死四</td><br>  <td>两头都被封堵的四</td><br>  <td>211112</td><br>  <td>（图缺）</td><br></tr><br><tr><br>  <td>死三</td><br>  <td>两头都被封堵的三</td><br>  <td>21112</td><br>  <td>（图缺）</td><br></tr><br><tr><br>  <td>死二</td><br>  <td>两头都被封堵的二</td><br>  <td>2112</td><br>  <td>（图缺）</td><br></tr><br></tbody></table>
+
+<p><strong>棋型判断：</strong><br>由于棋型比较多，判断起来不太有规律。我就直接取出某点的横、竖、撇、捺四个方向的字串，用正则表达式判断棋型了，这样的效率应该还不错。<br>例如对下图A点，如果放白子，可以在横向形成“20022200000”活三，如果放黑子，可以在捺向形成“00001100000”活二。<br><img src="http://7vzozf.com1.z0.glb.clouddn.com/2015/03/3067242792.png" alt="gobang_02.png"></p>
+<p><img src="http://7vzozf.com1.z0.glb.clouddn.com/2015/03/2383796123.png" alt="gobang_03.png"></p>
+<hr>
+<h2 id="三、落子估值方式"><a href="#三、落子估值方式" class="headerlink" title="三、落子估值方式"></a>三、落子估值方式</h2><p><strong>分析：棋子落在哪里最好？</strong></p>
+<ul>
+<li>需要考虑落下后会在四个方向各形成什么棋型，是否形成组合棋型，然后进行初步打分；</li>
+<li>同时还要考虑落子位置，一般同分情况下越中心的点越好；</li>
+<li>可以分析对攻击效果、防守效果、综合效果。</li>
+</ul>
+<p><strong>初步打分：</strong><br>就是按照威胁程度给每种棋型打分，在理解棋型后，试验了多组估分方式，最后确定效果最好的一组打分方式如下：</p>
+<table class="gridtable"><br><thead><br><tr><br><td>棋型（含组合棋型）</td><td>分值</td><br></tr><br></thead><br><tr><br><td>长连</td><td>100000</td><br></tr><br><tr><br><td>活4、双冲4、冲4活</td><td>10000</td><br></tr><br><tr><br><td>双活3</td><td>5000</td><br></tr><br><tr><br><td>活3眠3</td><td>1000</td><br></tr><br><tr><br><td>眠4</td><td>500</td><br></tr><br><tr><br><td>活3</td><td>200</td><br></tr><br><tr><br><td>双活2</td><td>100</td><br></tr><br><tr><br><td>眠3</td><td>50</td><br></tr><br><tr><br><td>活2眠2</td><td>10</td><br></tr><br><tr><br><td>活2</td><td>5</td><br></tr><br><tr><br><td>眠2</td><td>3</td><br></tr><br><tr><br><td>死4</td><td>-5</td><br></tr><br><tr><br><td>死3</td><td>-5</td><br></tr><br><tr><br><td>死2</td><td>-5</td><br></tr><br></table>
+
+<p>再统计在四个方向各形成什么棋型，是否形成组合棋型，取最高分为初步打分的结果。</p>
+<p><strong>落子位置：</strong><br>根据棋盘分布问题，越中心的点分值应当越高。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span>[][] position = &#123; </span><br><span class="line">    &#123; <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span> &#125;, </span><br><span class="line">    &#123; <span class="number">0</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">0</span> &#125;, </span><br><span class="line">    &#123; <span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">0</span> &#125;,</span><br><span class="line">    &#123; <span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">3</span>, <span class="number">3</span>, <span class="number">3</span>, <span class="number">3</span>, <span class="number">3</span>, <span class="number">3</span>, <span class="number">3</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">0</span> &#125;, </span><br><span class="line">    &#123; <span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">4</span>, <span class="number">4</span>, <span class="number">4</span>, <span class="number">4</span>, <span class="number">4</span>, <span class="number">4</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">0</span> &#125;,</span><br><span class="line">    &#123; <span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">4</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">0</span> &#125;, </span><br><span class="line">    &#123; <span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">6</span>, <span class="number">6</span>, <span class="number">5</span>, <span class="number">4</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">0</span> &#125;, </span><br><span class="line">    &#123; <span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">6</span>, <span class="number">5</span>, <span class="number">4</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">0</span> &#125;, </span><br><span class="line">    &#123; <span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">6</span>, <span class="number">6</span>, <span class="number">5</span>, <span class="number">4</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">0</span> &#125;, </span><br><span class="line">    &#123; <span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">4</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">0</span> &#125;, </span><br><span class="line">    &#123; <span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">4</span>, <span class="number">4</span>, <span class="number">4</span>, <span class="number">4</span>, <span class="number">4</span>, <span class="number">4</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">0</span> &#125;, </span><br><span class="line">    &#123; <span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">3</span>, <span class="number">3</span>, <span class="number">3</span>, <span class="number">3</span>, <span class="number">3</span>, <span class="number">3</span>, <span class="number">3</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">0</span> &#125;, </span><br><span class="line">    &#123; <span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">0</span> &#125;, </span><br><span class="line">    &#123; <span class="number">0</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">0</span> &#125;, </span><br><span class="line">    &#123; <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span> &#125; &#125;;</span><br></pre></td></tr></table></figure></p>
+<p>例如，对下图A点，如果放白子，在四个方向分别会形成活3、活2、眠2，形成两种棋型（组合棋型）活3和活2眠2，最高分为活3对应的200分，再加上位置分值6分，就是206分；如果放黑子，同理是25分。因此，当要在J9落下白子时，可获得攻击分206，防守分25，综合分231。<br><img src="http://7vzozf.com1.z0.glb.clouddn.com/2015/03/3067242792.png" alt="gobang_02.png"></p>
+<p><img src="http://7vzozf.com1.z0.glb.clouddn.com/2015/03/2383796123.png" alt="gobang_03.png"></p>
+<hr>
+<h2 id="四、棋局估值函数"><a href="#四、棋局估值函数" class="headerlink" title="四、棋局估值函数"></a>四、棋局估值函数</h2><p><strong>函数描述：</strong><br>有了落子估值方式后，可以针对某一棋局，分析一定棋盘范围内的各个可落子点的落子估值，将最大综合分作为该棋局的估值。</p>
+<p><strong>简单智能:</strong><br>利用估值函数，即可实现简单智能，即只考虑当前局面下的最佳落子点，并落子。<br>例如，人机对战：<br><img src="http://7vzozf.com1.z0.glb.clouddn.com/2015/03/541836433.png" alt="gobang_06.png"></p>
+<p>优点是速度快，眼前胜利绝不放过，缺点也是显而易见的，对于埋伏了多步的杀法，这种只顾“近忧”的智能无能为力。因此，就需要搜索算法增加“远虑”。</p>
+<hr>
+<h2 id="五、搜索算法"><a href="#五、搜索算法" class="headerlink" title="五、搜索算法"></a>五、搜索算法</h2><p><strong>极大极小搜索：</strong><br>分析：要想得更远的，棋子落在哪里最好？</p>
+<ul>
+<li>在对弈中，可利用棋局估值函数对任何一个局面进行估值，估值越大表明对当前玩家越有利，估分越小则表明越不利；</li>
+<li>选择落子时，要考虑对自己第一步越有利的，对对手下一步越不利的，对自己第二步越有利的，以此类推；</li>
+<li>这样选择落子时就表现为一棵极大极小搜索树，逐层搜索，对自己轮的层就选最大值的局面，对对手轮就选最小值的局面，直到一定深度。</li>
+</ul>
+<p>但测试后发现该算法速度比较慢，对15×15的棋盘，搜索第一层有15×15=225个结点，第二层就约有15×15×15×15=50625个节点，完全是指数爆炸。</p>
+<p><strong>α-β剪枝算法:</strong><br>在搜索的过程中，实际上有搜索很多点是多余的。经过α-β剪枝，可以极大的减少搜索的数量。在查阅资料的过程中，发现α-β剪枝算法是一个基础而经典的算法，还有很多风格、很多变式，值得深入学习。</p>
+<p>伪代码（建立在MinMax算法基础上）：<br><figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alpha</span>-beta(player,board,<span class="keyword">alpha</span>,beta)</span><br><span class="line">    <span class="keyword">if</span>(game over <span class="keyword">in</span> current board position)</span><br><span class="line">        <span class="keyword">return</span> winner</span><br><span class="line">    children = all legal moves <span class="keyword">for</span> player from this board</span><br><span class="line">    <span class="keyword">if</span>(max's turn)</span><br><span class="line">        <span class="keyword">for</span> each child</span><br><span class="line">            <span class="keyword">score</span> = <span class="keyword">alpha</span>-beta(other player,child,<span class="keyword">alpha</span>,beta)</span><br><span class="line">            (we have found a better best <span class="keyword">move</span>....)</span><br><span class="line">           <span class="keyword">if</span> <span class="keyword">score</span> &gt; <span class="keyword">alpha</span> then <span class="keyword">alpha</span> = <span class="keyword">score</span>           (cut off...)</span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">alpha</span> &gt;= beta then <span class="keyword">return</span> <span class="keyword">alpha</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">alpha</span> (this is our best <span class="keyword">move</span>)</span><br><span class="line">    <span class="keyword">else</span> (min's turn)</span><br><span class="line">        <span class="keyword">for</span> each child</span><br><span class="line">            <span class="keyword">score</span> = <span class="keyword">alpha</span>-beta(other player,child,<span class="keyword">alpha</span>,beta)</span><br><span class="line">            (opponent has found a better worse <span class="keyword">move</span>.....)</span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">score</span> &lt; beta then beta = <span class="keyword">score</span></span><br><span class="line">            (cut off....)</span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">alpha</span> &gt;= beta then <span class="keyword">return</span> beta</span><br><span class="line">        <span class="keyword">return</span> beta (this is the opponent's best <span class="keyword">move</span>)</span><br></pre></td></tr></table></figure></p>
+<p>以上述伪代码为原型，我尝试实现五子棋AI的α-β剪枝算法。但是试验后发现该原型还有很多不足，比如速率仍然不快，尤其是开局落子时，比如经常忽视近层的绝杀，还需根据五子棋的特点继续优化算法。</p>
+<hr>
+<h2 id="六、算法优化"><a href="#六、算法优化" class="headerlink" title="六、算法优化"></a>六、算法优化</h2><p><strong>速率提高：</strong></p>
+<ul>
+<li>限制落子范围：在当前棋局的所有棋子的最左、最右、最上、最下点的5格之内，不超过棋盘边界。这样在棋子较少的时候，搜索结点的数量大大减少。</li>
+<li>减少每层的搜索结点：在一方落子后，程序自动对新棋局下的可落子点进行落子估值，保存估值前几名的落子点，在拓展搜索树时，只考虑这些落子点作为新层结点，并进行下一步搜索，大大减少搜索范围。</li>
+</ul>
+<p><strong>近层绝杀：</strong><br>在递归过程中，如果发现某落子后可能形成活4、双冲4、冲4活3这些对方无法防守的棋局，则将该落子点的估分人为设成一个无穷大值，即优先这种走法。同时，如果己方和对方同时出现活4、双冲4、冲4活3的棋局，则以己方的攻击为先。</p>
+<p>综上，最后的α-β算法代码如下（更多详细内容，可见源代码的注解）：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">alpha_beta</span><span class="params">(<span class="keyword">int</span> depth, Board board, <span class="keyword">int</span> alpha, <span class="keyword">int</span> beta)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (depth == level || board.isGameOver() != <span class="number">0</span>) &#123;</span><br><span class="line">		Chess[] sorted = board.getSorted();</span><br><span class="line">		Chess move = board.getData()[sorted[<span class="number">0</span>].x][sorted[<span class="number">0</span>].y];</span><br><span class="line">		<span class="keyword">return</span> move.getSum();<span class="comment">// 局面估分</span></span><br><span class="line">	&#125;</span><br><span class="line">	Board temp = <span class="keyword">new</span> Board(board);</span><br><span class="line">	Chess[] sorted = temp.getSorted();</span><br><span class="line">	<span class="keyword">int</span> score;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; node; i++) &#123;</span><br><span class="line">		<span class="keyword">int</span> x = sorted[i].x;</span><br><span class="line">		<span class="keyword">int</span> y = sorted[i].y;</span><br><span class="line">		<span class="keyword">if</span> (!temp.putChess(x, y))</span><br><span class="line">			<span class="keyword">continue</span>;</span><br><span class="line">		<span class="keyword">if</span> (sorted[i].getOffense() &gt;= Board.Level.ALIVE_4.score) &#123;</span><br><span class="line">			score = INFINITY + <span class="number">1</span>;</span><br><span class="line">		&#125; <span class="keyword">else</span> <span class="keyword">if</span> (sorted[i].getDefence() &gt;= Board.Level.ALIVE_4.score) &#123;</span><br><span class="line">			score = INFINITY;</span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">			score = alpha_beta(depth + <span class="number">1</span>, temp, alpha, beta);</span><br><span class="line">		&#125;</span><br><span class="line">		temp = <span class="keyword">new</span> Board(board);</span><br><span class="line">		<span class="keyword">if</span> (depth % <span class="number">2</span> == <span class="number">0</span>) &#123;<span class="comment">// MAX</span></span><br><span class="line">			<span class="keyword">if</span> (score &gt; alpha) &#123;</span><br><span class="line">				alpha = score;</span><br><span class="line">				<span class="keyword">if</span> (depth == <span class="number">0</span>) &#123;</span><br><span class="line">					movex = x;</span><br><span class="line">					movey = y;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">if</span> (alpha &gt;= beta)</span><br><span class="line">				<span class="keyword">return</span> alpha;</span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;<span class="comment">// MIN</span></span><br><span class="line">			<span class="keyword">if</span> (score &lt; beta)</span><br><span class="line">				beta = score;</span><br><span class="line">			<span class="keyword">if</span> (alpha &gt;= beta)</span><br><span class="line">				<span class="keyword">return</span> beta;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> depth % <span class="number">2</span> == <span class="number">0</span> ? alpha : beta;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>例如，深度为2，每层5个结点，H8黑、I7白后考虑落下黑子，依次拓展落子估值前5大的点G7、H7、I9、I8、H6，根据深度优先搜索，先假设落下G7黑，则再次拓展5个结点I9、F6、J10、E5、K11，其中落子I9白（即共四子）后的棋局（I8是该棋局的最大落子估值点）估值为233，以此类推。根据剪枝原理，最后可得最佳落子点。<br><img src="http://7vzozf.com1.z0.glb.clouddn.com/2015/03/1558823870.png" alt="gobang_07.png"></p>
+<p><strong>更多优化的思考：</strong></p>
+<ul>
+<li>考虑利用多线程，让算法实现并行计算，每个线程负责不同子树，可提高速率；</li>
+<li>落子的影响范围有限，搜索过程中很多点的估值并没有改变，可以考虑把一些点的估值记录下来，以后只要遇到搜索到的节点，就可以直接得到结果，可提高速率；</li>
+<li>由于算法的固定性，所以一担玩家一次获胜，按照相同的走法，必然会再次获胜。但除了必杀招或者必防招，一个局面很多时候没有绝对最好的走法，而是有一些都不错的走法。考虑把这些评分差不多走法汇集起来，然后随机选择它们中的一种走法，避免走法的固定。</li>
+<li>可利用神经网络思想来提高速率，存储结点信息，增加学习功能，避免再次犯错。</li>
+</ul>
+<hr>
+<h2 id="七、结语"><a href="#七、结语" class="headerlink" title="七、结语"></a>七、结语</h2><p><strong>感悟：</strong><br>花了约一周的时间，网上并没有满意的源码参考来作为基础，基本都是自己完成的，挺有成就感，但是也误了时间。<br>整个过程中有几个坎，一是资料混乱，棋型很难确定，二是得弄清楚落子估值和棋局估值函数的联系和区别，这个没有找到明确描述的资料，是我自己分析猜测的，三是写完α-β算法不是万事大吉，要做个高智商的AI还很有欠缺。</p>
+<p><strong>参考：</strong><br>（界面设计）<br><a href="http://slab.sinaapp.com/gomoku/" target="_blank" rel="external">http://slab.sinaapp.com/gomoku/</a><br>（基本棋型、专业术语）<br><a href="http://www.rifchina.com/Article/ShowArticle.asp?ArticleID=1038" target="_blank" rel="external">http://www.rifchina.com/Article/ShowArticle.asp?ArticleID=1038</a><br><a href="http://www.rifchina.com/Article/ShowArticle.asp?ArticleID=1038" target="_blank" rel="external">http://www.rifchina.com/Article/ShowArticle.asp?ArticleID=1038</a><br>（α-β剪枝算法）<br><a href="http://www.cnblogs.com/speeding/archive/2012/09/20/2694704.html" target="_blank" rel="external">http://www.cnblogs.com/speeding/archive/2012/09/20/2694704.html</a><br><a href="http://blog.csdn.net/allenlsy/article/details/5324441" target="_blank" rel="external">http://blog.csdn.net/allenlsy/article/details/5324441</a><br><a href="http://www.xqbase.com/computer/stepbystep3.htm" target="_blank" rel="external">http://www.xqbase.com/computer/stepbystep3.htm</a><br>5d9ee55e0100uuy2.html”&gt;<a href="http://blog.sina.com.cn/s/blog5d9ee55e0100uuy2.html" target="_blank" rel="external">http://blog.sina.com.cn/s/blog5d9ee55e0100uuy2.html</a><br>（相关论文）<br>唐永强,汪波.基于神经网络思想及α-β方法的五子棋算法设计.《电脑应用技术》二零零九总第七十二期<br>简越.基于UML的五子棋人机对弈.本科毕业论文</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/人工智能/">人工智能</a>
+  </div>
+
+
+
+
+<div class="article-share" id="share">
+
+  <div data-url="http://www.stackess.com/gobang/" data-title="基于α-β剪枝算法的智能五子棋 | Stackess" data-tsina="null" class="share clearfix">
+  </div>
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/nodejs/" title="nodejs+npm 在Windows和Linux下安装配置">
+  <strong>PREVIOUS:</strong><br/>
+  <span>
+  nodejs+npm 在Windows和Linux下安装配置</span>
+</a>
+</div>
+
+
+</nav>
+
+	
+<section class="comment">  
+	<div class="ds-thread" data-thread-key="gobang/"></div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一、基本介绍"><span class="toc-number">1.</span> <span class="toc-text">一、基本介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、棋型确定"><span class="toc-number">2.</span> <span class="toc-text">二、棋型确定</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#三、落子估值方式"><span class="toc-number">3.</span> <span class="toc-text">三、落子估值方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#四、棋局估值函数"><span class="toc-number">4.</span> <span class="toc-text">四、棋局估值函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#五、搜索算法"><span class="toc-number">5.</span> <span class="toc-text">五、搜索算法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#六、算法优化"><span class="toc-number">6.</span> <span class="toc-text">六、算法优化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#七、结语"><span class="toc-number">7.</span> <span class="toc-text">七、结语</span></a></li></ol>
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			<li><a href="/tags/人工智能/" title="人工智能">人工智能<sup>1</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  <div class="rsspart">
+	<a href="null" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  
+  <div class="archiveslist">
+    <p class="asidetitle"><a href="/archives">归档</a></p>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">十月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">九月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">三月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">二月 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">一月 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">十一月 2013</a><span class="archive-list-count">1</span></li></ul>
+  </div>
+
+
+  
+  <div class="tagcloudlist">
+    <p class="asidetitle">标签云</p>
+    <div class="tagcloudlist clearfix">
+       <a href="/tags/人工智能/" style="font-size: 10px;">人工智能</a>
+    </div>
+  </div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+      <li><a href="http://yangjian.me" target="_blank" title="YangJian">Alimon's Blog</a></li>
+      <li><a href="http://hexo.io" target="_blank" title="Hexo">Hexo</a></li>
+    </ul>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Larry Page in Google. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font clearfix">
+		
+		<a href="http://weibo.com/5261272169" target="_blank" title="weibo"></a>
+		
+		
+		
+		<a href="https://github.com/cstackess" target="_blank" title="github"></a>
+		
+		
+		
+	</div>
+		<p class="copyright">Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/A-limon/pacman" target="_blank" title="Pacman">Pacman</a> © 2016 
+		
+		<a href="http://www.stackess.com" target="_blank" title="cstackess">cstackess</a>
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.1.0.min.js"></script>
+
+<!--http://mathjax-chinese-doc.readthedocs.org/en/latest/start.html-->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$']]}
+});
+</script>
+<script src="http://cdn.bootcss.com/mathjax/2.6.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+<link href="http://cdn.bootcss.com/highlight.js/8.0/styles/monokai_sublime.min.css" rel="stylesheet">  
+<script src="http://cdn.bootcss.com/highlight.js/8.0/highlight.min.js"></script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#share"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="#textlogo" class="article-back-to-top" title="Top"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="QRcode"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="Weibo"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"stackess"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+  </body>
+</html>
