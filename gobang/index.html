@@ -1,55 +1,76 @@
 
  <!DOCTYPE HTML>
-<html lang="zh-CN">
+<html lang="default">
 <head>
   <meta charset="UTF-8">
   
     <title>基于α-β剪枝算法的智能五子棋 | Stackess</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="cstackess">
     
+
+    
     <meta name="description" content="人工智能的期末大作业，用Java语言实现的基于α-β剪枝算法的智能五子棋，分别进行了棋型确认、落子估值方式、棋局估值、实现搜索算法、算法优化等。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于α-β剪枝算法的智能五子棋">
+<meta property="og:url" content="http://www.stackess.com/gobang/index.html">
+<meta property="og:site_name" content="Stackess">
+<meta property="og:description" content="人工智能的期末大作业，用Java语言实现的基于α-β剪枝算法的智能五子棋，分别进行了棋型确认、落子估值方式、棋局估值、实现搜索算法、算法优化等。">
+<meta property="og:image" content="http://7vzozf.com1.z0.glb.clouddn.com/2015/03/3783017801.png">
+<meta property="og:image" content="http://7vzozf.com1.z0.glb.clouddn.com/2015/03/1242254514.png">
+<meta property="og:image" content="http://7vzozf.com1.z0.glb.clouddn.com/2015/03/4216839461.png">
+<meta property="og:image" content="http://7vzozf.com1.z0.glb.clouddn.com/2015/03/801537491.png">
+<meta property="og:image" content="http://7vzozf.com1.z0.glb.clouddn.com/2015/03/2750977194.png">
+<meta property="og:image" content="http://7vzozf.com1.z0.glb.clouddn.com/2015/03/2386016761.png">
+<meta property="og:image" content="http://7vzozf.com1.z0.glb.clouddn.com/2015/03/1549839571.png">
+<meta property="og:image" content="http://7vzozf.com1.z0.glb.clouddn.com/2015/03/1967059339.png">
+<meta property="og:image" content="http://7vzozf.com1.z0.glb.clouddn.com/2015/03/3067242792.png">
+<meta property="og:image" content="http://7vzozf.com1.z0.glb.clouddn.com/2015/03/2383796123.png">
+<meta property="og:image" content="http://7vzozf.com1.z0.glb.clouddn.com/2015/03/3067242792.png">
+<meta property="og:image" content="http://7vzozf.com1.z0.glb.clouddn.com/2015/03/2383796123.png">
+<meta property="og:image" content="http://7vzozf.com1.z0.glb.clouddn.com/2015/03/541836433.png">
+<meta property="og:image" content="http://7vzozf.com1.z0.glb.clouddn.com/2015/03/1558823870.png">
+<meta property="og:updated_time" content="2016-04-08T16:16:47.438Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="基于α-β剪枝算法的智能五子棋">
+<meta name="twitter:description" content="人工智能的期末大作业，用Java语言实现的基于α-β剪枝算法的智能五子棋，分别进行了棋型确认、落子估值方式、棋局估值、实现搜索算法、算法优化等。">
+<meta name="twitter:image" content="http://7vzozf.com1.z0.glb.clouddn.com/2015/03/3783017801.png">
+
+    
+    <link rel="alternative" href="atom.xml" title="Stackess" type="application/atom+xml">
     
     
+    <link rel="icon" href="/img/blue_S.ico">
     
-    
-    
-    <link rel="icon" href="/img/favicon.ico">
-    
-    
-    <link rel="apple-touch-icon" href="/img/pacman.jpg">
-    <link rel="apple-touch-icon-precomposed" href="/img/pacman.jpg">
     
     <link rel="stylesheet" href="/css/style.css">
 </head>
 
   <body>
     <header>
-      <div>
+      
+<div>
 		
-			<div id="imglogo">
-				<a href="/"><img src="/img/logo.svg" alt="Stackess" title="Stackess"/></a>
-			</div>
-			
 			<div id="textlogo">
 				<h1 class="site-name"><a href="/" title="Stackess">Stackess</a></h1>
-				<h2 class="blog-motto">cstackess&#39;s blog</h2>
+				<h2 class="blog-motto">一个挨踢人，特别想在互联网世界做个小透明</h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
 			</a></div>
 			<nav class="animated">
 				<ul>
-					
+					<ul>
+					 
 						<li><a href="/">Home</a></li>
 					
 						<li><a href="/archives">Archives</a></li>
 					
 					<li>
-					
+ 					
 					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
 						<input type="hidden" name="q" value="site:www.stackess.com">
 					</form>
 					
@@ -57,10 +78,10 @@
 				</ul>
 			</nav>			
 </div>
-
     </header>
     <div id="container">
       <div id="main" class="post" itemscope itemprop="blogPost">
+  
 	<article itemprop="articleBody"> 
 		<header class="article-info clearfix">
   <h1 itemprop="name">
@@ -68,21 +89,21 @@
       <a href="/gobang/" title="基于α-β剪枝算法的智能五子棋" itemprop="url">基于α-β剪枝算法的智能五子棋</a>
   </h1>
   <p class="article-author">By
-    
-      <a href="http://www.stackess.com" title="cstackess">cstackess</a>
-    </p>
+       
+		<a href="/about" title="cstackess" target="_blank" itemprop="author">cstackess</a>
+		
   <p class="article-time">
-    <time datetime="2013-11-23T03:51:00.000Z" itemprop="datePublished">2013-11-23</time>
-    更新日期:<time datetime="2016-04-08T06:54:49.424Z" itemprop="dateModified">2016-04-08</time>
+    <time datetime="2013-11-23T03:51:00.000Z" itemprop="datePublished"> Published 2013-11-23</time>
     
   </p>
 </header>
 	<div class="article-content">
 		
-		
 		<div id="toc" class="toc-article">
-			<strong class="toc-title">文章目录</strong>
-		<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一、基本介绍"><span class="toc-number">1.</span> <span class="toc-text">一、基本介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、棋型确定"><span class="toc-number">2.</span> <span class="toc-text">二、棋型确定</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#三、落子估值方式"><span class="toc-number">3.</span> <span class="toc-text">三、落子估值方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#四、棋局估值函数"><span class="toc-number">4.</span> <span class="toc-text">四、棋局估值函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#五、搜索算法"><span class="toc-number">5.</span> <span class="toc-text">五、搜索算法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#六、算法优化"><span class="toc-number">6.</span> <span class="toc-text">六、算法优化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#七、结语"><span class="toc-number">7.</span> <span class="toc-text">七、结语</span></a></li></ol>
+			<strong class="toc-title">Contents</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一、基本介绍"><span class="toc-number">1.</span> <span class="toc-text">一、基本介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、棋型确定"><span class="toc-number">2.</span> <span class="toc-text">二、棋型确定</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#三、落子估值方式"><span class="toc-number">3.</span> <span class="toc-text">三、落子估值方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#四、棋局估值函数"><span class="toc-number">4.</span> <span class="toc-text">四、棋局估值函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#五、搜索算法"><span class="toc-number">5.</span> <span class="toc-text">五、搜索算法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#六、算法优化"><span class="toc-number">6.</span> <span class="toc-text">六、算法优化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#七、结语"><span class="toc-number">7.</span> <span class="toc-text">七、结语</span></a></li></ol>
+		
 		</div>
 		
 		<p>人工智能的期末大作业，用Java语言实现的基于α-β剪枝算法的智能五子棋，分别进行了棋型确认、落子估值方式、棋局估值、实现搜索算法、算法优化等。</p>
@@ -98,7 +119,8 @@
 <li>使用搜索树AI时，控制台显示搜索过程；</li>
 <li>某方胜利后，游戏结束。</li>
 </ol>
-<p><strong>源码下载：</strong><br><a href="https://github.com/cstackess/Gobang" target="_blank" rel="external">https://github.com/cstackess/Gobang</a></p>
+<p><strong>源码下载：</strong></p>
+<p><a href="https://github.com/cstackess/Gobang" target="_blank" rel="external">https://github.com/cstackess/Gobang</a></p>
 <hr>
 <h2 id="二、棋型确定"><a href="#二、棋型确定" class="headerlink" title="二、棋型确定"></a>二、棋型确定</h2><p><strong>问题：</strong></p>
 <ul>
@@ -106,7 +128,79 @@
 <li>在大部分论文中，考虑的棋型非常少，如对活三的典型棋型列举不够完整，且常把眠三当死三。</li>
 </ul>
 <p><strong>正确、完全的棋型：</strong><br>以上问题，令我奔溃了很久，最后对比了N个文献，才确定了比较可信的参考，棋型整理如下：</p>
-<table><br><thead><br><tr><br>  <th>棋型</th><br>  <th>定义</th><br>  <th>表达式（1黑，2白，0空）</th><br>  <th>图例（来自五子棋贴吧）</th><br></tr><br></thead><br><tbody><tr><br>  <td>长连</td><br>  <td>至少五颗同色棋子连在一起</td><br>  <td>11111</td><br>  <td><img src="http://7vzozf.com1.z0.glb.clouddn.com/2015/03/1242254514.png"></td><br></tr><br><tr><br>  <td>活四</td><br>  <td>有两个连五点（即有两个点可以形成五）<br>图中白点即为连五点</td><br>  <td>011112<br>0101110<br>0110110</td><br>  <td><img src="http://7vzozf.com1.z0.glb.clouddn.com/2015/03/4216839461.png"></td><br></tr><br><tr><br>  <td>冲四</td><br>  <td>有一个连五点</td><br>  <td>011112<br>0101110<br>0110110</td><br>  <td><img src="http://7vzozf.com1.z0.glb.clouddn.com/2015/03/801537491.png"></td><br></tr><br><tr><br>  <td>活三</td><br>  <td>可以形成活四的三</td><br>  <td>01110<br>010110</td><br>  <td><img src="http://7vzozf.com1.z0.glb.clouddn.com/2015/03/2750977194.png"></td><br></tr><br><tr><br>  <td>眠三</td><br>  <td>只能够形成冲四的三</td><br>  <td>001112<br>010112<br>011012<br>10011<br>10101<br>2011102</td><br>  <td><img src="http://7vzozf.com1.z0.glb.clouddn.com/2015/03/2386016761.png"></td><br></tr><br><tr><br>  <td>活二</td><br>  <td>能够形成活三的二</td><br>  <td>00110<br>01010<br>010010</td><br>  <td><img src="http://7vzozf.com1.z0.glb.clouddn.com/2015/03/1549839571.png"></td><br></tr><br><tr><br>  <td>眠二</td><br>  <td>能够形成眠三的二</td><br>  <td>000112<br>001012<br>010012<br>10001<br>2010102<br>2011002</td><br>  <td><img src="http://7vzozf.com1.z0.glb.clouddn.com/2015/03/1967059339.png"></td><br></tr><br><tr><br>  <td>死四</td><br>  <td>两头都被封堵的四</td><br>  <td>211112</td><br>  <td>（图缺）</td><br></tr><br><tr><br>  <td>死三</td><br>  <td>两头都被封堵的三</td><br>  <td>21112</td><br>  <td>（图缺）</td><br></tr><br><tr><br>  <td>死二</td><br>  <td>两头都被封堵的二</td><br>  <td>2112</td><br>  <td>（图缺）</td><br></tr><br></tbody></table>
+<pre>
+<table>
+<thead>
+<tr>
+  <th>棋型</th>
+  <th>定义</th>
+  <th>表达式（1黑，2白，0空）</th>
+  <th>图例（来自五子棋贴吧）</th>
+</tr>
+</thead>
+<tbody><tr>
+  <td>长连</td>
+  <td>至少五颗同色棋子连在一起</td>
+  <td>11111</td>
+  <td><img src="http://7vzozf.com1.z0.glb.clouddn.com/2015/03/1242254514.png"></td>
+</tr>
+<tr>
+  <td>活四</td>
+  <td>有两个连五点（即有两个点可以形成五）<br>图中白点即为连五点</td>
+  <td>011112<br>0101110<br>0110110</td>
+  <td><img src="http://7vzozf.com1.z0.glb.clouddn.com/2015/03/4216839461.png"></td>
+</tr>
+<tr>
+  <td>冲四</td>
+  <td>有一个连五点</td>
+  <td>011112<br>0101110<br>0110110</td>
+  <td><img src="http://7vzozf.com1.z0.glb.clouddn.com/2015/03/801537491.png"></td>
+</tr>
+<tr>
+  <td>活三</td>
+  <td>可以形成活四的三</td>
+  <td>01110<br>010110</td>
+  <td><img src="http://7vzozf.com1.z0.glb.clouddn.com/2015/03/2750977194.png"></td>
+</tr>
+<tr>
+  <td>眠三</td>
+  <td>只能够形成冲四的三</td>
+  <td>001112<br>010112<br>011012<br>10011<br>10101<br>2011102</td>
+  <td><img src="http://7vzozf.com1.z0.glb.clouddn.com/2015/03/2386016761.png"></td>
+</tr>
+<tr>
+  <td>活二</td>
+  <td>能够形成活三的二</td>
+  <td>00110<br>01010<br>010010</td>
+  <td><img src="http://7vzozf.com1.z0.glb.clouddn.com/2015/03/1549839571.png"></td>
+</tr>
+<tr>
+  <td>眠二</td>
+  <td>能够形成眠三的二</td>
+  <td>000112<br>001012<br>010012<br>10001<br>2010102<br>2011002</td>
+  <td><img src="http://7vzozf.com1.z0.glb.clouddn.com/2015/03/1967059339.png"></td>
+</tr>
+<tr>
+  <td>死四</td>
+  <td>两头都被封堵的四</td>
+  <td>211112</td>
+  <td>（图缺）</td>
+</tr>
+<tr>
+  <td>死三</td>
+  <td>两头都被封堵的三</td>
+  <td>21112</td>
+  <td>（图缺）</td>
+</tr>
+<tr>
+  <td>死二</td>
+  <td>两头都被封堵的二</td>
+  <td>2112</td>
+  <td>（图缺）</td>
+</tr>
+</tbody></table>
+</pre>
+
 
 <p><strong>棋型判断：</strong><br>由于棋型比较多，判断起来不太有规律。我就直接取出某点的横、竖、撇、捺四个方向的字串，用正则表达式判断棋型了，这样的效率应该还不错。<br>例如对下图A点，如果放白子，可以在横向形成“20022200000”活三，如果放黑子，可以在捺向形成“00001100000”活二。<br><img src="http://7vzozf.com1.z0.glb.clouddn.com/2015/03/3067242792.png" alt="gobang_02.png"></p>
 <p><img src="http://7vzozf.com1.z0.glb.clouddn.com/2015/03/2383796123.png" alt="gobang_03.png"></p>
@@ -118,7 +212,57 @@
 <li>可以分析对攻击效果、防守效果、综合效果。</li>
 </ul>
 <p><strong>初步打分：</strong><br>就是按照威胁程度给每种棋型打分，在理解棋型后，试验了多组估分方式，最后确定效果最好的一组打分方式如下：</p>
-<table class="gridtable"><br><thead><br><tr><br><td>棋型（含组合棋型）</td><td>分值</td><br></tr><br></thead><br><tr><br><td>长连</td><td>100000</td><br></tr><br><tr><br><td>活4、双冲4、冲4活</td><td>10000</td><br></tr><br><tr><br><td>双活3</td><td>5000</td><br></tr><br><tr><br><td>活3眠3</td><td>1000</td><br></tr><br><tr><br><td>眠4</td><td>500</td><br></tr><br><tr><br><td>活3</td><td>200</td><br></tr><br><tr><br><td>双活2</td><td>100</td><br></tr><br><tr><br><td>眠3</td><td>50</td><br></tr><br><tr><br><td>活2眠2</td><td>10</td><br></tr><br><tr><br><td>活2</td><td>5</td><br></tr><br><tr><br><td>眠2</td><td>3</td><br></tr><br><tr><br><td>死4</td><td>-5</td><br></tr><br><tr><br><td>死3</td><td>-5</td><br></tr><br><tr><br><td>死2</td><td>-5</td><br></tr><br></table>
+<pre>
+<table class="gridtable">
+<thead>
+<tr>
+<td>棋型（含组合棋型）</td><td>分值</td>
+</tr>
+</thead>
+<tr>
+<td>长连</td><td>100000</td>
+</tr>
+<tr>
+<td>活4、双冲4、冲4活</td><td>10000</td>
+</tr>
+<tr>
+<td>双活3</td><td>5000</td>
+</tr>
+<tr>
+<td>活3眠3</td><td>1000</td>
+</tr>
+<tr>
+<td>眠4</td><td>500</td>
+</tr>
+<tr>
+<td>活3</td><td>200</td>
+</tr>
+<tr>
+<td>双活2</td><td>100</td>
+</tr>
+<tr>
+<td>眠3</td><td>50</td>
+</tr>
+<tr>
+<td>活2眠2</td><td>10</td>
+</tr>
+<tr>
+<td>活2</td><td>5</td>
+</tr>
+<tr>
+<td>眠2</td><td>3</td>
+</tr>
+<tr>
+<td>死4</td><td>-5</td>
+</tr>
+<tr>
+<td>死3</td><td>-5</td>
+</tr>
+<tr>
+<td>死2</td><td>-5</td>
+</tr>
+</table>
+</pre>
 
 <p>再统计在四个方向各形成什么棋型，是否形成组合棋型，取最高分为初步打分的结果。</p>
 <p><strong>落子位置：</strong><br>根据棋盘分布问题，越中心的点分值应当越高。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span>[][] position = &#123; </span><br><span class="line">    &#123; <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span> &#125;, </span><br><span class="line">    &#123; <span class="number">0</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">0</span> &#125;, </span><br><span class="line">    &#123; <span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">0</span> &#125;,</span><br><span class="line">    &#123; <span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">3</span>, <span class="number">3</span>, <span class="number">3</span>, <span class="number">3</span>, <span class="number">3</span>, <span class="number">3</span>, <span class="number">3</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">0</span> &#125;, </span><br><span class="line">    &#123; <span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">4</span>, <span class="number">4</span>, <span class="number">4</span>, <span class="number">4</span>, <span class="number">4</span>, <span class="number">4</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">0</span> &#125;,</span><br><span class="line">    &#123; <span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">4</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">0</span> &#125;, </span><br><span class="line">    &#123; <span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">6</span>, <span class="number">6</span>, <span class="number">5</span>, <span class="number">4</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">0</span> &#125;, </span><br><span class="line">    &#123; <span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">6</span>, <span class="number">5</span>, <span class="number">4</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">0</span> &#125;, </span><br><span class="line">    &#123; <span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">6</span>, <span class="number">6</span>, <span class="number">5</span>, <span class="number">4</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">0</span> &#125;, </span><br><span class="line">    &#123; <span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">4</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">0</span> &#125;, </span><br><span class="line">    &#123; <span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">4</span>, <span class="number">4</span>, <span class="number">4</span>, <span class="number">4</span>, <span class="number">4</span>, <span class="number">4</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">0</span> &#125;, </span><br><span class="line">    &#123; <span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">3</span>, <span class="number">3</span>, <span class="number">3</span>, <span class="number">3</span>, <span class="number">3</span>, <span class="number">3</span>, <span class="number">3</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">0</span> &#125;, </span><br><span class="line">    &#123; <span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">0</span> &#125;, </span><br><span class="line">    &#123; <span class="number">0</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">0</span> &#125;, </span><br><span class="line">    &#123; <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span> &#125; &#125;;</span><br></pre></td></tr></table></figure></p>
@@ -161,29 +305,32 @@
   
 	</div>
 		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/人工智能/">人工智能</a>
+</div>
+
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/人工智能/">人工智能</a>
-  </div>
-
-
-
-
-<div class="article-share" id="share">
-
-  <div data-url="http://www.stackess.com/gobang/" data-title="基于α-β剪枝算法的智能五子棋 | Stackess" data-tsina="null" class="share clearfix">
+  <span></span> <a href="/tags/开源/">开源</a><a href="/tags/五子棋/">五子棋</a><a href="/tags/树/">树</a>
   </div>
 
 </div>
-</footer>   	       
+
+
+
+</footer>
+
+   	       
 	</article>
 	
 <nav class="article-nav clearfix">
  
  <div class="prev" >
  <a href="/nodejs/" title="nodejs+npm 在Windows和Linux下安装配置">
-  <strong>PREVIOUS:</strong><br/>
   <span>
   nodejs+npm 在Windows和Linux下安装配置</span>
 </a>
@@ -193,111 +340,120 @@
 </nav>
 
 	
-<section class="comment">  
-	<div class="ds-thread" data-thread-key="gobang/"></div>
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="gobang/" data-title="基于α-β剪枝算法的智能五子棋" data-url="http://www.stackess.com/gobang/"></div>
 </section>
 
+
 </div>  
-      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
 
   <div id="toc" class="toc-aside">
-  <strong class="toc-title">文章目录</strong>
-  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一、基本介绍"><span class="toc-number">1.</span> <span class="toc-text">一、基本介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、棋型确定"><span class="toc-number">2.</span> <span class="toc-text">二、棋型确定</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#三、落子估值方式"><span class="toc-number">3.</span> <span class="toc-text">三、落子估值方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#四、棋局估值函数"><span class="toc-number">4.</span> <span class="toc-text">四、棋局估值函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#五、搜索算法"><span class="toc-number">5.</span> <span class="toc-text">五、搜索算法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#六、算法优化"><span class="toc-number">6.</span> <span class="toc-text">六、算法优化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#七、结语"><span class="toc-number">7.</span> <span class="toc-text">七、结语</span></a></li></ol>
+  <strong class="toc-title">Contents</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一、基本介绍"><span class="toc-number">1.</span> <span class="toc-text">一、基本介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、棋型确定"><span class="toc-number">2.</span> <span class="toc-text">二、棋型确定</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#三、落子估值方式"><span class="toc-number">3.</span> <span class="toc-text">三、落子估值方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#四、棋局估值函数"><span class="toc-number">4.</span> <span class="toc-text">四、棋局估值函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#五、搜索算法"><span class="toc-number">5.</span> <span class="toc-text">五、搜索算法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#六、算法优化"><span class="toc-number">6.</span> <span class="toc-text">六、算法优化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#七、结语"><span class="toc-number">7.</span> <span class="toc-text">七、结语</span></a></li></ol>
+ 
   </div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
 <aside class="clearfix">
-
-  
-
-  
-<div class="tagslist">
-	<p class="asidetitle">标签</p>
-		<ul class="clearfix">
+<div id="authorInfo">
+	
+		<div class="author-img"></div>		
+	
+	<div class="my-social-info" class="clearfix">
 		
-			<li><a href="/tags/人工智能/" title="人工智能">人工智能<sup>1</sup></a></li>
+		<a href="http://weibo.com/5261272169" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/cstackess" target="_blank" class="icon-mygithub" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		<a href="mailto:cstackess@126.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+
+	</div>
+</div>
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">Categories</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/人工智能/" title="人工智能">人工智能<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/其他/" title="其他">其他<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/前端开发/" title="前端开发">前端开发<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/后台开发/" title="后台开发">后台开发<sup>8</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/工具配置/" title="工具配置">工具配置<sup>8</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/机器学习/" title="机器学习">机器学习<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/算法/" title="算法">算法<sup>2</sup></a></li>
+		  
 		
 		</ul>
 </div>
 
 
-  <div class="rsspart">
-	<a href="null" target="_blank" title="rss">RSS 订阅</a>
-</div>
-
-  
-  <div class="archiveslist">
-    <p class="asidetitle"><a href="/archives">归档</a></p>
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">十月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">九月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">三月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">二月 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">一月 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">十一月 2013</a><span class="archive-list-count">1</span></li></ul>
-  </div>
-
-
   
   <div class="tagcloudlist">
-    <p class="asidetitle">标签云</p>
+    <p class="asidetitle">Tag Cloud</p>
     <div class="tagcloudlist clearfix">
-       <a href="/tags/人工智能/" style="font-size: 10px;">人工智能</a>
+       <a href="/tags/Bandwangon/" style="font-size: 10px;">Bandwangon</a> <a href="/tags/Cygwin/" style="font-size: 12.5px;">Cygwin</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Javascript/" style="font-size: 10px;">Javascript</a> <a href="/tags/LaTeX/" style="font-size: 10px;">LaTeX</a> <a href="/tags/Leetcode/" style="font-size: 10px;">Leetcode</a> <a href="/tags/Linux/" style="font-size: 17.5px;">Linux</a> <a href="/tags/M2Eclipse/" style="font-size: 10px;">M2Eclipse</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 10px;">Maven</a> <a href="/tags/Node-js/" style="font-size: 15px;">Node.js</a> <a href="/tags/PhpStorm/" style="font-size: 10px;">PhpStorm</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/SVM/" style="font-size: 10px;">SVM</a> <a href="/tags/ShadowSocks/" style="font-size: 10px;">ShadowSocks</a> <a href="/tags/Shell/" style="font-size: 15px;">Shell</a> <a href="/tags/Socket-IO/" style="font-size: 10px;">Socket.IO</a> <a href="/tags/Spring/" style="font-size: 10px;">Spring</a> <a href="/tags/VPS/" style="font-size: 10px;">VPS</a> <a href="/tags/WinSplit/" style="font-size: 10px;">WinSplit</a> <a href="/tags/awk/" style="font-size: 12.5px;">awk</a> <a href="/tags/gnuplot/" style="font-size: 10px;">gnuplot</a> <a href="/tags/grep/" style="font-size: 10px;">grep</a> <a href="/tags/log4j/" style="font-size: 10px;">log4j</a> <a href="/tags/npm/" style="font-size: 10px;">npm</a> <a href="/tags/五子棋/" style="font-size: 10px;">五子棋</a> <a href="/tags/信息论/" style="font-size: 10px;">信息论</a> <a href="/tags/大数据/" style="font-size: 12.5px;">大数据</a> <a href="/tags/开源/" style="font-size: 15px;">开源</a> <a href="/tags/弹幕/" style="font-size: 10px;">弹幕</a> <a href="/tags/微信公众平台/" style="font-size: 10px;">微信公众平台</a> <a href="/tags/微信支付/" style="font-size: 10px;">微信支付</a> <a href="/tags/机器学习基石/" style="font-size: 10px;">机器学习基石</a> <a href="/tags/树/" style="font-size: 10px;">树</a> <a href="/tags/源码分析/" style="font-size: 12.5px;">源码分析</a> <a href="/tags/熵/" style="font-size: 10px;">熵</a> <a href="/tags/爱好/" style="font-size: 10px;">爱好</a> <a href="/tags/算法导论/" style="font-size: 10px;">算法导论</a> <a href="/tags/闭包/" style="font-size: 10px;">闭包</a>
     </div>
   </div>
 
 
-  <div class="linkslist">
-  <p class="asidetitle">友情链接</p>
-    <ul>
-      <li><a href="http://yangjian.me" target="_blank" title="YangJian">Alimon's Blog</a></li>
-      <li><a href="http://hexo.io" target="_blank" title="Hexo">Hexo</a></li>
-    </ul>
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
 </div>
-
 
 </aside>
 </div>
     </div>
     <footer><div id="footer" >
-	
-	<div class="line">
-		<span></span>
-		<div class="author"></div>
-	</div>
-	
-	
-	<section class="info">
-		<p> Hello ,I&#39;m Larry Page in Google. <br/>
-			This is my blog,believe it or not.</p>
-	</section>
-	 
-	<div class="social-font clearfix">
-		
-		<a href="http://weibo.com/5261272169" target="_blank" title="weibo"></a>
 		
 		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/hsihohuang/kiddochan" target="_blank" title="Kiddochan">Kiddochan</a> © 2016 
 		
-		<a href="https://github.com/cstackess" target="_blank" title="github"></a>
+		<a href="/about" target="_blank" title="cstackess">cstackess</a>
 		
-		
-		
-	</div>
-		<p class="copyright">Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/A-limon/pacman" target="_blank" title="Pacman">Pacman</a> © 2016 
-		
-		<a href="http://www.stackess.com" target="_blank" title="cstackess">cstackess</a>
 		
 		</p>
 </div>
 </footer>
-    <script src="/js/jquery-2.1.0.min.js"></script>
-
-<!--http://mathjax-chinese-doc.readthedocs.org/en/latest/start.html-->
-<script type="text/x-mathjax-config">
-MathJax.Hub.Config({
-  tex2jax: {inlineMath: [['$','$']]}
-});
-</script>
-<script src="http://cdn.bootcss.com/mathjax/2.6.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
-<link href="http://cdn.bootcss.com/highlight.js/8.0/styles/monokai_sublime.min.css" rel="stylesheet">  
-<script src="http://cdn.bootcss.com/highlight.js/8.0/highlight.min.js"></script>
-
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
 
 <script type="text/javascript">
 $(document).ready(function(){ 
@@ -316,20 +472,6 @@ $(document).ready(function(){
       a = $('#asidepart'),
       c = $('.closeaside'),
       o = $('.openaside');
-  $(window).resize(function(){
-    getSize(); 
-    if (myWidth >= 1024) {
-      $('header nav').removeClass('shownav');
-    }else
-    {
-      m.removeClass('moveMain');
-      a.css('display', 'block').removeClass('fadeOut');
-      o.css('display', 'none');
-      
-      $('#toc.toc-aside').css('display', 'none');
-        
-    }
-  });
   c.click(function(){
     a.addClass('fadeOut').css('display', 'none');
     o.css('display', 'block').addClass('fadeIn');
@@ -343,6 +485,20 @@ $(document).ready(function(){
   $(window).scroll(function(){
     o.css("top",Math.max(80,260-$(this).scrollTop()));
   });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
 });
 </script>
 
@@ -351,8 +507,6 @@ $(document).ready(function(){
   var ai = $('.article-content>iframe'),
       ae = $('.article-content>embed'),
       t  = $('#toc'),
-      h  = $('article h2')
-      ah = $('article h2'),
       ta = $('#toc.toc-aside'),
       o  = $('.openaside'),
       c  = $('.closeaside');
@@ -362,19 +516,15 @@ $(document).ready(function(){
   if(ae.length>0){
    ae.wrap('<div class="video-container" />');
   };
-  if(ah.length==0){
-    t.css('display','none');
-  }else{
-    c.click(function(){
-      ta.css('display', 'block').addClass('fadeIn');
-    });
-    o.click(function(){
-      ta.css('display', 'none');
-    });
-    $(window).scroll(function(){
-      ta.css("top",Math.max(140,320-$(this).scrollTop()));
-    });
-  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
 });
 </script>
 
@@ -385,27 +535,49 @@ $(document).ready(function(){
       url = $this.attr('data-url'),
       encodedUrl = encodeURIComponent(url),
       title = $this.attr('data-title'),
-      tsina = $this.attr('data-tsina');
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
   var html = [
-  '<a href="#" class="overlay" id="qrcode"></a>',
-  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#share"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
-  '<a href="#textlogo" class="article-back-to-top" title="Top"></a>',
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
   '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
-  '<a href="#qrcode" class="article-share-qrcode" title="QRcode"></a>',
   '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
-  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="Weibo"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
   '<span title="Share to"></span>'
   ].join('');
   $this.append(html);
-  $('.article-share-qrcode').click(function(){
-    var imgSrc = $('#qrcode-pic').attr('data-src');
-    $('#qrcode-pic').attr('src', imgSrc);
-    $('#qrcode-pic').load(function(){
-        $('.qrcode strong').text(' ');
-    });
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
   });
-});     
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
 </script>
+
 
 
 <script type="text/javascript">
@@ -423,6 +595,66 @@ $(document).ready(function(){
 
 
 
+
+
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="http://cdn.bootcss.com/mathjax/2.6.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
 
   </body>
 </html>

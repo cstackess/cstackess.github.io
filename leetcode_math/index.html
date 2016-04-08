@@ -1,55 +1,65 @@
 
  <!DOCTYPE HTML>
-<html lang="zh-CN">
+<html lang="default">
 <head>
   <meta charset="UTF-8">
   
     <title>Leetcode之Math | Stackess</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="cstackess">
     
+
+    
     <meta name="description" content="Leetcode之Math部分几题：258 Add Digits 各位求和，复杂度O(1)的就是有规律的，能推导出公式的；202 Happy Number 各位求平方和，终止条件会用上HashSet或Floyd（龟兔）判断状态循环；263 Ugly Number 主要涉及分解质约数；204 Count Primes 数素数个数，可巧用埃氏筛法的去除合数来优化。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Leetcode之Math">
+<meta property="og:url" content="http://www.stackess.com/leetcode_math/index.html">
+<meta property="og:site_name" content="Stackess">
+<meta property="og:description" content="Leetcode之Math部分几题：258 Add Digits 各位求和，复杂度O(1)的就是有规律的，能推导出公式的；202 Happy Number 各位求平方和，终止条件会用上HashSet或Floyd（龟兔）判断状态循环；263 Ugly Number 主要涉及分解质约数；204 Count Primes 数素数个数，可巧用埃氏筛法的去除合数来优化。">
+<meta property="og:image" content="http://7vzozf.com1.z0.glb.clouddn.com/2015/10/1447469339.png">
+<meta property="og:image" content="http://7vzozf.com1.z0.glb.clouddn.com/2015/10/3850783611.png">
+<meta property="og:image" content="http://7vzozf.com1.z0.glb.clouddn.com/2015/10/1978793782.png">
+<meta property="og:updated_time" content="2016-04-08T17:06:17.790Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Leetcode之Math">
+<meta name="twitter:description" content="Leetcode之Math部分几题：258 Add Digits 各位求和，复杂度O(1)的就是有规律的，能推导出公式的；202 Happy Number 各位求平方和，终止条件会用上HashSet或Floyd（龟兔）判断状态循环；263 Ugly Number 主要涉及分解质约数；204 Count Primes 数素数个数，可巧用埃氏筛法的去除合数来优化。">
+<meta name="twitter:image" content="http://7vzozf.com1.z0.glb.clouddn.com/2015/10/1447469339.png">
+
+    
+    <link rel="alternative" href="atom.xml" title="Stackess" type="application/atom+xml">
     
     
+    <link rel="icon" href="/img/blue_S.ico">
     
-    
-    
-    <link rel="icon" href="/img/favicon.ico">
-    
-    
-    <link rel="apple-touch-icon" href="/img/pacman.jpg">
-    <link rel="apple-touch-icon-precomposed" href="/img/pacman.jpg">
     
     <link rel="stylesheet" href="/css/style.css">
 </head>
 
   <body>
     <header>
-      <div>
+      
+<div>
 		
-			<div id="imglogo">
-				<a href="/"><img src="/img/logo.svg" alt="Stackess" title="Stackess"/></a>
-			</div>
-			
 			<div id="textlogo">
 				<h1 class="site-name"><a href="/" title="Stackess">Stackess</a></h1>
-				<h2 class="blog-motto">cstackess&#39;s blog</h2>
+				<h2 class="blog-motto">一个挨踢人，特别想在互联网世界做个小透明</h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
 			</a></div>
 			<nav class="animated">
 				<ul>
-					
+					<ul>
+					 
 						<li><a href="/">Home</a></li>
 					
 						<li><a href="/archives">Archives</a></li>
 					
 					<li>
-					
+ 					
 					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
 						<input type="hidden" name="q" value="site:www.stackess.com">
 					</form>
 					
@@ -57,10 +67,10 @@
 				</ul>
 			</nav>			
 </div>
-
     </header>
     <div id="container">
       <div id="main" class="post" itemscope itemprop="blogPost">
+  
 	<article itemprop="articleBody"> 
 		<header class="article-info clearfix">
   <h1 itemprop="name">
@@ -68,21 +78,21 @@
       <a href="/leetcode_math/" title="Leetcode之Math" itemprop="url">Leetcode之Math</a>
   </h1>
   <p class="article-author">By
-    
-      <a href="http://www.stackess.com" title="cstackess">cstackess</a>
-    </p>
+       
+		<a href="/about" title="cstackess" target="_blank" itemprop="author">cstackess</a>
+		
   <p class="article-time">
-    <time datetime="2015-10-11T13:51:00.000Z" itemprop="datePublished">2015-10-11</time>
-    更新日期:<time datetime="2016-04-08T07:28:12.449Z" itemprop="dateModified">2016-04-08</time>
+    <time datetime="2015-10-11T13:51:00.000Z" itemprop="datePublished"> Published 2015-10-11</time>
     
   </p>
 </header>
 	<div class="article-content">
 		
-		
 		<div id="toc" class="toc-article">
-			<strong class="toc-title">文章目录</strong>
-		<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#258-Add-Digits"><span class="toc-number">1.</span> <span class="toc-text">258 Add Digits</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#202-Happy-Number"><span class="toc-number">2.</span> <span class="toc-text">202 Happy Number</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#263-Ugly-Number"><span class="toc-number">3.</span> <span class="toc-text">263 Ugly Number</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#204-Count-Primes"><span class="toc-number">4.</span> <span class="toc-text">204 Count Primes</span></a></li></ol>
+			<strong class="toc-title">Contents</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#258-Add-Digits"><span class="toc-number">1.</span> <span class="toc-text">258 Add Digits</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#202-Happy-Number"><span class="toc-number">2.</span> <span class="toc-text">202 Happy Number</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#263-Ugly-Number"><span class="toc-number">3.</span> <span class="toc-text">263 Ugly Number</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#204-Count-Primes"><span class="toc-number">4.</span> <span class="toc-text">204 Count Primes</span></a></li></ol>
+		
 		</div>
 		
 		<p>Leetcode之Math部分几题：258 Add Digits 各位求和，复杂度O(1)的就是有规律的，能推导出公式的；202 Happy Number 各位求平方和，终止条件会用上HashSet或Floyd（龟兔）判断状态循环；263 Ugly Number 主要涉及分解质约数；204 Count Primes 数素数个数，可巧用埃氏筛法的去除合数来优化。</p>
@@ -102,7 +112,7 @@
 </ul>
 </blockquote>
 <p><img src="http://7vzozf.com1.z0.glb.clouddn.com/2015/10/1447469339.png" alt="2015-10-11_215801.png"></p>
-<p>总结一下，用$dr(n)$表示$n$的数根，则公式有：<br>$$<br>  dr(n) =<br>\begin{cases}<br>0,  &amp; \text{if $n=0$} \<br>9, &amp; \text{if $n\neq 0$ and $n\equiv 0 \pmod 9$}\<br>n\bmod 9, &amp; \text{if $n\not\equiv 0 \pmod 9$}<br>\end{cases}<br>$$<br>其中 $n\equiv 0 \pmod 9$表示$n$和$0$对于模$9$同余，即$n\bmod 9=0\bmod 9=0$。则复杂度$O(1)$的算法代码如下：</p>
+<p>总结一下，用$dr(n)$表示$n$的数根，则公式有：<br>$$<br>  dr(n) =<br>\begin{cases}<br>0,  &amp; \text{if $n=0$} \\<br>9, &amp; \text{if $n\neq 0$ and $n\equiv 0 \pmod 9$}\\<br>n\bmod 9, &amp; \text{if $n\not\equiv 0 \pmod 9$}<br>\end{cases}<br>$$<br>其中 $n\equiv 0 \pmod 9$表示$n$和$0$对于模$9$同余，即$n\bmod 9=0\bmod 9=0$。则复杂度$O(1)$的算法代码如下：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">addDigits</span><span class="params">(<span class="keyword">int</span> num)</span> </span>&#123;</span><br><span class="line">	    <span class="keyword">if</span>(num==<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">	    <span class="keyword">else</span> <span class="keyword">if</span>(num%<span class="number">9</span>==<span class="number">0</span>) <span class="keyword">return</span> <span class="number">9</span>;</span><br><span class="line">	    <span class="keyword">else</span> <span class="keyword">return</span> num%<span class="number">9</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>还可以继续归纳出<br>$$<br> \mbox{dr}(n) = 1\ +\ ((n-1)\ {\rm mod}\ 9)<br> $$<br> 以及<br> $$<br> dr(n)=n-9\left\lfloor\frac{n-1}{9}\right\rfloor.<br> $$</p>
 <hr>
@@ -124,7 +134,7 @@
 <p>算法思想可以用龟兔赛跑的例子来解释，龟兔同时从$S$点出发，如果赛道有环，设环的长度为$l$，且环起始点为$C$，那么快的一方总能追上慢的一方，设相遇点为$P$。如果赛道没环，兔子将一路领先到达终点。</p>
 </li>
 </ul>
-<p>还可以进一步推导，龟兔相遇时（乌龟一旦进入环后一圈内就会相遇）有<br>$$<br>\begin{cases}<br>S_t=|\vec{SC}|+n×l+|\vec{CP}|\<br>S_g=|\vec{SC}|+m×l+|\vec{CP}|\<br>S_t=2×S_g\<br>m=0<br>\end{cases}<br>$$<br>得到$S_g=n×l$，相遇时乌龟总路程，即是兔子多跑的路的长度是兔子跑圈的总长度。</p>
+<p>还可以进一步推导，龟兔相遇时（乌龟一旦进入环后一圈内就会相遇）有<br>$$<br>\begin{cases}<br>S_t=|\vec{SC}|+n×l+|\vec{CP}|\\<br>S_g=|\vec{SC}|+m×l+|\vec{CP}|\\<br>S_t=2×S_g\<br>m=0<br>\end{cases}<br>$$<br>得到$S_g=n×l$，相遇时乌龟总路程，即是兔子多跑的路的长度是兔子跑圈的总长度。</p>
 <p>  <strong>(1) 判断环的存在</strong><br>假设在一个单位时间内，兔子跑2格，乌龟跑1格（两步或多步效果是等价的，只要一个比另一个快就行），同时出发，如果两者在之后的某一点相遇了，那么说明链表有环，否则，如果兔子到达了链表的结尾，那么说明没环。<br>以下图为例：</p>
 <p>  <img src="http://7vzozf.com1.z0.glb.clouddn.com/2015/10/3850783611.png" alt="判圈"></p>
 <p> 因为乌龟进入环后，在一圈之内肯定与兔子相遇，因此时间复杂度$O(|\vec{SC}|+l)$。空间复杂度为$O(1)$，是常数空间的算法。</p>
@@ -148,29 +158,47 @@
 <p>终止条件用的是<code>i * i &lt;= num</code>而不是<code>i &lt;= sqrt(num)</code>，可以比较有效加快速度。将isPrime用于判断每一个小于n的数，这种算法总的时间复杂度是$O(n^{1.5})$。</p>
 <p><code>埃拉托斯特尼筛法</code>（sieve of Eratosthenes），一种更快的简单检定素数的算法。基本思想是筛除掉各个数的倍数，也就是合数，那剩下的就必然都是素数了。</p>
 <p>例如找出30以内的素数。先考虑2，倍数4、6、8、10、12等都不是素数，划去；考虑3，倍数有6、9、12等，划去；考虑4，倍数有8、12等……；考虑29，但倍数都大于30。最后剩下的未被划去的就是30以内的素数。</p>
-<p>代码如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">2</span>; i &lt; n; i++)</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">2</span>; i * j &lt; n; j++)</span><br><span class="line">		primeArr[i * j] = <span class="keyword">false</span>;</span><br><span class="line">``` </span><br><span class="line">空间复杂度$O(n)$，时间复杂度是$O(\frac&#123;n&#125;&#123;<span class="number">2</span>&#125;-<span class="number">1</span>+\frac&#123;n&#125;&#123;<span class="number">3</span>&#125;-<span class="number">1</span>+\ldots+\frac&#123;n&#125;&#123;n-<span class="number">1</span>&#125;-<span class="number">1</span>)$，化简得到$O\big(n(<span class="number">1</span>+\frac&#123;<span class="number">1</span>&#125;&#123;<span class="number">2</span>&#125;+\frac&#123;<span class="number">1</span>&#125;&#123;<span class="number">3</span>&#125;+\ldots+\frac&#123;<span class="number">1</span>&#125;&#123;n-<span class="number">1</span>&#125;)-<span class="number">2</span>n+<span class="number">2</span>\big)$，由欧拉公式得$O\big(n(\ln(n-<span class="number">1</span>)+C)-<span class="number">2</span>n+<span class="number">2</span>\big)$，$C$是欧拉常数，化简后是$O(n\ln&#123;n&#125;)$。</span><br><span class="line"></span><br><span class="line">进一步优化：</span><br><span class="line"><span class="number">1</span>. <span class="number">2</span>的<span class="number">3</span>倍和<span class="number">3</span>的<span class="number">2</span>倍都是<span class="number">6</span>，没有必要两次划去<span class="number">6</span>。因此考虑数$x$时，$x×<span class="number">2</span>,x×<span class="number">3</span>$等可能都被划去，只需要划去倍数$x×x,x×(x+<span class="number">1</span>)$等就可以了。</span><br><span class="line"><span class="number">2</span>. <span class="number">4</span>的倍数实际被<span class="number">2</span>的倍数覆盖，且在考虑<span class="number">2</span>时划去。因此被划去的数就直接跳过。</span><br><span class="line"><span class="number">3</span>. 由优化<span class="number">1</span>产生的，对$x×x$大于<span class="number">30</span>，无需考虑，此时剩下的未被划去的就是<span class="number">30</span>以内的素数。</span><br><span class="line"></span><br><span class="line">![数素数][<span class="number">10</span>]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">埃氏筛法的Java代码如下：</span><br><span class="line">```java</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">countPrimes</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">boolean</span>[] primeArr = <span class="keyword">new</span> <span class="keyword">boolean</span>[n];</span><br><span class="line">        Arrays.fill(primeArr, <span class="keyword">true</span>);</span><br><span class="line">        </span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">2</span>; i * i &lt; n; i++)&#123;         <span class="comment">//优化3</span></span><br><span class="line">			<span class="keyword">if</span>(!primeArr[i]) <span class="keyword">continue</span>;    <span class="comment">//优化2</span></span><br><span class="line">			<span class="keyword">for</span>(<span class="keyword">int</span> j = i; i * j &lt; n; j++)      <span class="comment">//优化1</span></span><br><span class="line">				primeArr[i * j] = <span class="keyword">false</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//数素数个数，也可以放到筛选过程中</span></span><br><span class="line">        <span class="keyword">int</span> count = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">2</span>; i &lt; n; i++) </span><br><span class="line">			<span class="keyword">if</span> (primeArr[i]) count++;</span><br><span class="line">        <span class="keyword">return</span> count;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>代码如下所示：</p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(int <span class="built_in">i</span> = <span class="number">2</span>; <span class="built_in">i</span> &lt; n; <span class="built_in">i</span>++)</span><br><span class="line">	<span class="keyword">for</span>(int <span class="built_in">j</span> = <span class="number">2</span>; <span class="built_in">i</span> * <span class="built_in">j</span> &lt; n; <span class="built_in">j</span>++)</span><br><span class="line">		primeArr[i * j] = false;</span><br></pre></td></tr></table></figure>
+<p>空间复杂度$O(n)$，时间复杂度是$O(\frac{n}{2}-1+\frac{n}{3}-1+\ldots+\frac{n}{n-1}-1)$，化简得到$O\big(n(1+\frac{1}{2}+\frac{1}{3}+\ldots+\frac{1}{n-1})-2n+2\big)$，由欧拉公式得$O\big(n(\ln(n-1)+C)-2n+2\big)$，$C$是欧拉常数，化简后是$O(n\ln{n})$。</p>
+<p>进一步优化：</p>
+<ol>
+<li>2的3倍和3的2倍都是6，没有必要两次划去6。因此考虑数$x$时，$x×2,x×3$等可能都被划去，只需要划去倍数$x×x,x×(x+1)$等就可以了。</li>
+<li>4的倍数实际被2的倍数覆盖，且在考虑2时划去。因此被划去的数就直接跳过。</li>
+<li>由优化1产生的，对$x×x$大于30，无需考虑，此时剩下的未被划去的就是30以内的素数。</li>
+</ol>
+<p><img src="http://7vzozf.com1.z0.glb.clouddn.com/2015/10/1978793782.png" alt="数素数"></p>
+<p>埃氏筛法的Java代码如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">countPrimes</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">boolean</span>[] primeArr = <span class="keyword">new</span> <span class="keyword">boolean</span>[n];</span><br><span class="line">        Arrays.fill(primeArr, <span class="keyword">true</span>);</span><br><span class="line">        </span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">2</span>; i * i &lt; n; i++)&#123;         <span class="comment">//优化3</span></span><br><span class="line">			<span class="keyword">if</span>(!primeArr[i]) <span class="keyword">continue</span>;    <span class="comment">//优化2</span></span><br><span class="line">			<span class="keyword">for</span>(<span class="keyword">int</span> j = i; i * j &lt; n; j++)      <span class="comment">//优化1</span></span><br><span class="line">				primeArr[i * j] = <span class="keyword">false</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//数素数个数，也可以放到筛选过程中</span></span><br><span class="line">        <span class="keyword">int</span> count = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">2</span>; i &lt; n; i++) </span><br><span class="line">			<span class="keyword">if</span> (primeArr[i]) count++;</span><br><span class="line">        <span class="keyword">return</span> count;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>优化后时间复杂度降到$O(n \ln \ln n)$。</p>
   
 	</div>
 		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/算法/">算法</a>
+</div>
 
 
-
-
-<div class="article-share" id="share">
-
-  <div data-url="http://www.stackess.com/leetcode_math/" data-title="Leetcode之Math | Stackess" data-tsina="null" class="share clearfix">
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Leetcode/">Leetcode</a>
   </div>
 
 </div>
-</footer>   	       
+
+
+
+</footer>
+
+   	       
 	</article>
 	
 <nav class="article-nav clearfix">
  
  <div class="prev" >
  <a href="/linux_shell/" title="Linux Shell 笔记">
-  <strong>PREVIOUS:</strong><br/>
   <span>
   Linux Shell 笔记</span>
 </a>
@@ -179,7 +207,6 @@
 
 <div class="next">
 <a href="/ShellED/"  title="ShellED插件：Windows Eclipse支持Linux Shell">
- <strong>NEXT:</strong><br/> 
  <span>ShellED插件：Windows Eclipse支持Linux Shell
 </span>
 </a>
@@ -188,111 +215,120 @@
 </nav>
 
 	
-<section class="comment">  
-	<div class="ds-thread" data-thread-key="leetcode_math/"></div>
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="leetcode_math/" data-title="Leetcode之Math" data-url="http://www.stackess.com/leetcode_math/"></div>
 </section>
 
+
 </div>  
-      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
 
   <div id="toc" class="toc-aside">
-  <strong class="toc-title">文章目录</strong>
-  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#258-Add-Digits"><span class="toc-number">1.</span> <span class="toc-text">258 Add Digits</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#202-Happy-Number"><span class="toc-number">2.</span> <span class="toc-text">202 Happy Number</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#263-Ugly-Number"><span class="toc-number">3.</span> <span class="toc-text">263 Ugly Number</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#204-Count-Primes"><span class="toc-number">4.</span> <span class="toc-text">204 Count Primes</span></a></li></ol>
+  <strong class="toc-title">Contents</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#258-Add-Digits"><span class="toc-number">1.</span> <span class="toc-text">258 Add Digits</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#202-Happy-Number"><span class="toc-number">2.</span> <span class="toc-text">202 Happy Number</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#263-Ugly-Number"><span class="toc-number">3.</span> <span class="toc-text">263 Ugly Number</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#204-Count-Primes"><span class="toc-number">4.</span> <span class="toc-text">204 Count Primes</span></a></li></ol>
+ 
   </div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
 <aside class="clearfix">
-
-  
-
-  
-<div class="tagslist">
-	<p class="asidetitle">标签</p>
-		<ul class="clearfix">
+<div id="authorInfo">
+	
+		<div class="author-img"></div>		
+	
+	<div class="my-social-info" class="clearfix">
 		
-			<li><a href="/tags/人工智能/" title="人工智能">人工智能<sup>1</sup></a></li>
+		<a href="http://weibo.com/5261272169" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/cstackess" target="_blank" class="icon-mygithub" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		<a href="mailto:cstackess@126.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+
+	</div>
+</div>
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">Categories</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/人工智能/" title="人工智能">人工智能<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/其他/" title="其他">其他<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/前端开发/" title="前端开发">前端开发<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/后台开发/" title="后台开发">后台开发<sup>8</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/工具配置/" title="工具配置">工具配置<sup>8</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/机器学习/" title="机器学习">机器学习<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/算法/" title="算法">算法<sup>2</sup></a></li>
+		  
 		
 		</ul>
 </div>
 
 
-  <div class="rsspart">
-	<a href="null" target="_blank" title="rss">RSS 订阅</a>
-</div>
-
-  
-  <div class="archiveslist">
-    <p class="asidetitle"><a href="/archives">归档</a></p>
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">十月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">九月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">三月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">二月 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">一月 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">十一月 2013</a><span class="archive-list-count">1</span></li></ul>
-  </div>
-
-
   
   <div class="tagcloudlist">
-    <p class="asidetitle">标签云</p>
+    <p class="asidetitle">Tag Cloud</p>
     <div class="tagcloudlist clearfix">
-       <a href="/tags/人工智能/" style="font-size: 10px;">人工智能</a>
+       <a href="/tags/Bandwangon/" style="font-size: 10px;">Bandwangon</a> <a href="/tags/Cygwin/" style="font-size: 12.5px;">Cygwin</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Javascript/" style="font-size: 10px;">Javascript</a> <a href="/tags/LaTeX/" style="font-size: 10px;">LaTeX</a> <a href="/tags/Leetcode/" style="font-size: 10px;">Leetcode</a> <a href="/tags/Linux/" style="font-size: 17.5px;">Linux</a> <a href="/tags/M2Eclipse/" style="font-size: 10px;">M2Eclipse</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 10px;">Maven</a> <a href="/tags/Node-js/" style="font-size: 15px;">Node.js</a> <a href="/tags/PhpStorm/" style="font-size: 10px;">PhpStorm</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/SVM/" style="font-size: 10px;">SVM</a> <a href="/tags/ShadowSocks/" style="font-size: 10px;">ShadowSocks</a> <a href="/tags/Shell/" style="font-size: 15px;">Shell</a> <a href="/tags/Socket-IO/" style="font-size: 10px;">Socket.IO</a> <a href="/tags/Spring/" style="font-size: 10px;">Spring</a> <a href="/tags/VPS/" style="font-size: 10px;">VPS</a> <a href="/tags/WinSplit/" style="font-size: 10px;">WinSplit</a> <a href="/tags/awk/" style="font-size: 12.5px;">awk</a> <a href="/tags/gnuplot/" style="font-size: 10px;">gnuplot</a> <a href="/tags/grep/" style="font-size: 10px;">grep</a> <a href="/tags/log4j/" style="font-size: 10px;">log4j</a> <a href="/tags/npm/" style="font-size: 10px;">npm</a> <a href="/tags/五子棋/" style="font-size: 10px;">五子棋</a> <a href="/tags/信息论/" style="font-size: 10px;">信息论</a> <a href="/tags/大数据/" style="font-size: 12.5px;">大数据</a> <a href="/tags/开源/" style="font-size: 15px;">开源</a> <a href="/tags/弹幕/" style="font-size: 10px;">弹幕</a> <a href="/tags/微信公众平台/" style="font-size: 10px;">微信公众平台</a> <a href="/tags/微信支付/" style="font-size: 10px;">微信支付</a> <a href="/tags/机器学习基石/" style="font-size: 10px;">机器学习基石</a> <a href="/tags/树/" style="font-size: 10px;">树</a> <a href="/tags/源码分析/" style="font-size: 12.5px;">源码分析</a> <a href="/tags/熵/" style="font-size: 10px;">熵</a> <a href="/tags/爱好/" style="font-size: 10px;">爱好</a> <a href="/tags/算法导论/" style="font-size: 10px;">算法导论</a> <a href="/tags/闭包/" style="font-size: 10px;">闭包</a>
     </div>
   </div>
 
 
-  <div class="linkslist">
-  <p class="asidetitle">友情链接</p>
-    <ul>
-      <li><a href="http://yangjian.me" target="_blank" title="YangJian">Alimon's Blog</a></li>
-      <li><a href="http://hexo.io" target="_blank" title="Hexo">Hexo</a></li>
-    </ul>
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
 </div>
-
 
 </aside>
 </div>
     </div>
     <footer><div id="footer" >
-	
-	<div class="line">
-		<span></span>
-		<div class="author"></div>
-	</div>
-	
-	
-	<section class="info">
-		<p> Hello ,I&#39;m Larry Page in Google. <br/>
-			This is my blog,believe it or not.</p>
-	</section>
-	 
-	<div class="social-font clearfix">
-		
-		<a href="http://weibo.com/5261272169" target="_blank" title="weibo"></a>
 		
 		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/hsihohuang/kiddochan" target="_blank" title="Kiddochan">Kiddochan</a> © 2016 
 		
-		<a href="https://github.com/cstackess" target="_blank" title="github"></a>
+		<a href="/about" target="_blank" title="cstackess">cstackess</a>
 		
-		
-		
-	</div>
-		<p class="copyright">Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/A-limon/pacman" target="_blank" title="Pacman">Pacman</a> © 2016 
-		
-		<a href="http://www.stackess.com" target="_blank" title="cstackess">cstackess</a>
 		
 		</p>
 </div>
 </footer>
-    <script src="/js/jquery-2.1.0.min.js"></script>
-
-<!--http://mathjax-chinese-doc.readthedocs.org/en/latest/start.html-->
-<script type="text/x-mathjax-config">
-MathJax.Hub.Config({
-  tex2jax: {inlineMath: [['$','$']]}
-});
-</script>
-<script src="http://cdn.bootcss.com/mathjax/2.6.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
-<link href="http://cdn.bootcss.com/highlight.js/8.0/styles/monokai_sublime.min.css" rel="stylesheet">  
-<script src="http://cdn.bootcss.com/highlight.js/8.0/highlight.min.js"></script>
-
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
 
 <script type="text/javascript">
 $(document).ready(function(){ 
@@ -311,20 +347,6 @@ $(document).ready(function(){
       a = $('#asidepart'),
       c = $('.closeaside'),
       o = $('.openaside');
-  $(window).resize(function(){
-    getSize(); 
-    if (myWidth >= 1024) {
-      $('header nav').removeClass('shownav');
-    }else
-    {
-      m.removeClass('moveMain');
-      a.css('display', 'block').removeClass('fadeOut');
-      o.css('display', 'none');
-      
-      $('#toc.toc-aside').css('display', 'none');
-        
-    }
-  });
   c.click(function(){
     a.addClass('fadeOut').css('display', 'none');
     o.css('display', 'block').addClass('fadeIn');
@@ -338,6 +360,20 @@ $(document).ready(function(){
   $(window).scroll(function(){
     o.css("top",Math.max(80,260-$(this).scrollTop()));
   });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
 });
 </script>
 
@@ -346,8 +382,6 @@ $(document).ready(function(){
   var ai = $('.article-content>iframe'),
       ae = $('.article-content>embed'),
       t  = $('#toc'),
-      h  = $('article h2')
-      ah = $('article h2'),
       ta = $('#toc.toc-aside'),
       o  = $('.openaside'),
       c  = $('.closeaside');
@@ -357,19 +391,15 @@ $(document).ready(function(){
   if(ae.length>0){
    ae.wrap('<div class="video-container" />');
   };
-  if(ah.length==0){
-    t.css('display','none');
-  }else{
-    c.click(function(){
-      ta.css('display', 'block').addClass('fadeIn');
-    });
-    o.click(function(){
-      ta.css('display', 'none');
-    });
-    $(window).scroll(function(){
-      ta.css("top",Math.max(140,320-$(this).scrollTop()));
-    });
-  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
 });
 </script>
 
@@ -380,27 +410,49 @@ $(document).ready(function(){
       url = $this.attr('data-url'),
       encodedUrl = encodeURIComponent(url),
       title = $this.attr('data-title'),
-      tsina = $this.attr('data-tsina');
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
   var html = [
-  '<a href="#" class="overlay" id="qrcode"></a>',
-  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#share"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
-  '<a href="#textlogo" class="article-back-to-top" title="Top"></a>',
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
   '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
-  '<a href="#qrcode" class="article-share-qrcode" title="QRcode"></a>',
   '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
-  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="Weibo"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
   '<span title="Share to"></span>'
   ].join('');
   $this.append(html);
-  $('.article-share-qrcode').click(function(){
-    var imgSrc = $('#qrcode-pic').attr('data-src');
-    $('#qrcode-pic').attr('src', imgSrc);
-    $('#qrcode-pic').load(function(){
-        $('.qrcode strong').text(' ');
-    });
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
   });
-});     
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
 </script>
+
 
 
 <script type="text/javascript">
@@ -418,6 +470,66 @@ $(document).ready(function(){
 
 
 
+
+
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="http://cdn.bootcss.com/mathjax/2.6.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
 
   </body>
 </html>

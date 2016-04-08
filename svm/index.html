@@ -1,55 +1,67 @@
 
  <!DOCTYPE HTML>
-<html lang="zh-CN">
+<html lang="default">
 <head>
   <meta charset="UTF-8">
   
     <title>支持向量机SVM | Stackess</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="cstackess">
     
+
+    
     <meta name="description" content="支持向量机SVM学习笔记整理。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="支持向量机SVM">
+<meta property="og:url" content="http://www.stackess.com/svm/index.html">
+<meta property="og:site_name" content="Stackess">
+<meta property="og:description" content="支持向量机SVM学习笔记整理。">
+<meta property="og:image" content="http://7vzozf.com1.z0.glb.clouddn.com/2015/04/613677762.gif">
+<meta property="og:image" content="http://7vzozf.com1.z0.glb.clouddn.com/2015/04/1048240534.png">
+<meta property="og:image" content="http://7vzozf.com1.z0.glb.clouddn.com/2015/04/2067743219.png">
+<meta property="og:image" content="http://7vzozf.com1.z0.glb.clouddn.com/2015/04/2820125685.png">
+<meta property="og:image" content="http://7vzozf.com1.z0.glb.clouddn.com/2015/04/3296738673.png">
+<meta property="og:updated_time" content="2016-04-08T16:56:29.757Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="支持向量机SVM">
+<meta name="twitter:description" content="支持向量机SVM学习笔记整理。">
+<meta name="twitter:image" content="http://7vzozf.com1.z0.glb.clouddn.com/2015/04/613677762.gif">
+
+    
+    <link rel="alternative" href="atom.xml" title="Stackess" type="application/atom+xml">
     
     
+    <link rel="icon" href="/img/blue_S.ico">
     
-    
-    
-    <link rel="icon" href="/img/favicon.ico">
-    
-    
-    <link rel="apple-touch-icon" href="/img/pacman.jpg">
-    <link rel="apple-touch-icon-precomposed" href="/img/pacman.jpg">
     
     <link rel="stylesheet" href="/css/style.css">
 </head>
 
   <body>
     <header>
-      <div>
+      
+<div>
 		
-			<div id="imglogo">
-				<a href="/"><img src="/img/logo.svg" alt="Stackess" title="Stackess"/></a>
-			</div>
-			
 			<div id="textlogo">
 				<h1 class="site-name"><a href="/" title="Stackess">Stackess</a></h1>
-				<h2 class="blog-motto">cstackess&#39;s blog</h2>
+				<h2 class="blog-motto">一个挨踢人，特别想在互联网世界做个小透明</h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
 			</a></div>
 			<nav class="animated">
 				<ul>
-					
+					<ul>
+					 
 						<li><a href="/">Home</a></li>
 					
 						<li><a href="/archives">Archives</a></li>
 					
 					<li>
-					
+ 					
 					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
 						<input type="hidden" name="q" value="site:www.stackess.com">
 					</form>
 					
@@ -57,10 +69,10 @@
 				</ul>
 			</nav>			
 </div>
-
     </header>
     <div id="container">
       <div id="main" class="post" itemscope itemprop="blogPost">
+  
 	<article itemprop="articleBody"> 
 		<header class="article-info clearfix">
   <h1 itemprop="name">
@@ -68,21 +80,21 @@
       <a href="/svm/" title="支持向量机SVM" itemprop="url">支持向量机SVM</a>
   </h1>
   <p class="article-author">By
-    
-      <a href="http://www.stackess.com" title="cstackess">cstackess</a>
-    </p>
+       
+		<a href="/about" title="cstackess" target="_blank" itemprop="author">cstackess</a>
+		
   <p class="article-time">
-    <time datetime="2015-04-14T06:38:00.000Z" itemprop="datePublished">2015-04-14</time>
-    更新日期:<time datetime="2016-04-08T07:27:44.283Z" itemprop="dateModified">2016-04-08</time>
+    <time datetime="2015-04-14T06:38:00.000Z" itemprop="datePublished"> Published 2015-04-14</time>
     
   </p>
 </header>
 	<div class="article-content">
 		
-		
 		<div id="toc" class="toc-article">
-			<strong class="toc-title">文章目录</strong>
-		<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-线性分类"><span class="toc-number">1.</span> <span class="toc-text">1 线性分类</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-magrin"><span class="toc-number">1.1.</span> <span class="toc-text">1.1 magrin</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-优化问题"><span class="toc-number">1.2.</span> <span class="toc-text">1.2 优化问题</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-Lagrangian对偶"><span class="toc-number">2.</span> <span class="toc-text">2 Lagrangian对偶</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-非线性扩展"><span class="toc-number">3.</span> <span class="toc-text">3 非线性扩展</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-映射"><span class="toc-number">3.1.</span> <span class="toc-text">3.1 映射</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-核函数"><span class="toc-number">3.2.</span> <span class="toc-text">3.2 核函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-几个核函数"><span class="toc-number">3.3.</span> <span class="toc-text">3.3 几个核函数</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-异常点"><span class="toc-number">4.</span> <span class="toc-text">4 异常点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-主要参考"><span class="toc-number">5.</span> <span class="toc-text">5 主要参考</span></a></li></ol>
+			<strong class="toc-title">Contents</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-线性分类"><span class="toc-number">1.</span> <span class="toc-text">1 线性分类</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-magrin"><span class="toc-number">1.1.</span> <span class="toc-text">1.1 magrin</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-优化问题"><span class="toc-number">1.2.</span> <span class="toc-text">1.2 优化问题</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-Lagrangian对偶"><span class="toc-number">2.</span> <span class="toc-text">2 Lagrangian对偶</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-非线性扩展"><span class="toc-number">3.</span> <span class="toc-text">3 非线性扩展</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-映射"><span class="toc-number">3.1.</span> <span class="toc-text">3.1 映射</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-核函数"><span class="toc-number">3.2.</span> <span class="toc-text">3.2 核函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-几个核函数"><span class="toc-number">3.3.</span> <span class="toc-text">3.3 几个核函数</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-异常点"><span class="toc-number">4.</span> <span class="toc-text">4 异常点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-主要参考"><span class="toc-number">5.</span> <span class="toc-text">5 主要参考</span></a></li></ol>
+		
 		</div>
 		
 		<p>支持向量机SVM学习笔记整理。<br><img src="http://7vzozf.com1.z0.glb.clouddn.com/2015/04/613677762.gif" alt="overview.gif"><br><a id="more"></a></p>
@@ -92,7 +104,7 @@
 <li>线性分类器：在 $R^m$ 中找到一个超平面（hyperplane）将数据点分为两类</li>
 <li>类别：表示为 $y$，取 +1 或者 -1 </li>
 </ul>
-<p>$R^m$ 的<code>超平面</code>表示为<br>$$\begin{equation}<w,x>+b=w^Tx+b=0\end{equation}$$<br>其中向量 $w=(w^{(1)},w^{(2)},\ldots,w^{(m)})^T$，$<w,x>$ 为向量内积，$w^Tx$ 则是从矩阵角度看，且有 $w^Tw=|w|^2$ 。</w,x></w,x></p>
+<p>$R^m$ 的<code>超平面</code>表示为<br>$$<br>\begin{equation} \langle  w,x \rangle +b=w^Tx+b=0\end{equation}<br>$$<br>其中向量 $w=(w^{(1)},w^{(2)},\ldots,w^{(m)})^T$，$\langlew,x\rangle$ 为向量内积，$w^Tx$ 则是从矩阵角度看，且有 $w^Tw=|w|^2$ 。</p>
 <blockquote>
 <p>回忆起高中的数学知识，二维空间中这样的超平面就是任一直线，表示为$Ax+By+C=0$。因此 $m$ 维空间中的超平面为 $w^Tx+b=w^{(1)}x^{(1)}+w^{(2)}x^{(2)}+\ldots+w^{(m)}x^{(m)}+b=0$。</p>
 </blockquote>
@@ -125,43 +137,43 @@
 <li>如果凸规划的目标函数是严格凸函数，又存在极小点，那么它的极小点是唯一的。</li>
 </ul>
 <p><code>二次规划</code>：是非线性规划中一种特殊情况，目标函数是二次实函数，约束是线性的。</p>
-<p>提供了解决<a href="http://en.wikipedia.org/wiki/Quadratic_programming" target="_blank" rel="external">二次规划</a>问题的包的包括Excel、Matlab、R、SAS等等。</p>
+<p>提供了解决<a href="http://en.wikipedia.org/wiki/Quadratic\_programming" target="_blank" rel="external">二次规划</a>问题的包的包括Excel、Matlab、R、SAS等等。</p>
 </blockquote>
 <hr>
 <h2 id="2-Lagrangian对偶"><a href="#2-Lagrangian对偶" class="headerlink" title="2 Lagrangian对偶"></a>2 Lagrangian对偶</h2><p>注意到目标函数的特殊结构，还可以通过拉格朗日对偶性（Lagrange Duality）变换到对偶变量 (dual variable) 的优化问题，即通过求解与 primal problem（原问题）等价的 dual problem （对偶问题）得到 primal problem 的最优解，这就是线性可分条件下支持向量机的对偶算法，这样做的优点在于：一者对偶问题往往更容易求解；二者可以自然的引入核函数，进而推广到非线性分类问题。</p>
-<p>Lagrangian如下：<br>$$\begin{equation}<br>\mathcal{L}(w,b,\alpha)=\frac{1}{2}|w|^2-\sum_{i=1}^n\alpha_i \left(y_i(w^Tx<em>i+b)-1\right)<br>\end{equation}$$<br>则<br>$$ \begin{equation}<br>\min</em>{w,b} \max_{\alpha<em>i\geq 0} \mathcal{L}(w,b,\alpha)\\ \text{等价于}\min</em>{y_i(w^Tx_i+b)-1\geq 0} \frac{1}{2}|w|^2<br>\end{equation}$$<br>它们被称为<code>primal problem</code>。</p>
+<p>Lagrangian如下：<br>$$\begin{equation}<br>\mathcal{L}(w,b,\alpha)=\frac{1}{2}|w|^2-\sum_{i=1}^n\alpha_i \left(y_i(w^Tx_i+b)-1\right)<br>\end{equation}$$<br>则<br>$$ \begin{equation}<br>\min_{w,b} \max_{\alpha_i\geq 0} \mathcal{L}(w,b,\alpha)\\ \text{等价于}\min_{y_i(w^Tx_i+b)-1\geq 0} \frac{1}{2}|w|^2<br>\end{equation}$$<br>它们被称为<code>primal problem</code>。</p>
 <blockquote>
 <p><strong>证明：</strong><br>对内层的优化问题 $z(w)=$<br>\begin{array}{*{20}{l}}<br>&amp;\max \mathcal{L}(w,b,\alpha) \\<br>s.t.  &amp;\alpha_i\geq 0 ,\quad i=1,2,\ldots,n\\<br>\end{array}<br>可分为两种情况讨论：</p>
 <ul>
 <li>当所有数据点都满足 $y_i(w^Tx_i+b)-1\geq 0$ 的约束时，支持点始终取到 $0$，非支持点大于 $0$，而要达到 $\mathcal{L}(w,b,\alpha)$ 的最大值，则非支持点对应的 $\alpha_i=0$，从而达到最大值，即 $\frac{1}{2}|w|^2$。</li>
 <li>当存在数据点 $y_i(w^Tx_i+b)-1\leq 0$ 时，$\mathcal{L}(w,b,\alpha)$ 的最大值可通过 $\alpha_i\rightarrow+\infty$ 趋近于无穷大。</li>
 </ul>
-<p>因此求 $\min<em>{w,b}z(w)$ 时，满足约束的第一种情况就等价于求 $\min</em>{y_i(w^Tx_i+b)-1\geq 0} \frac{1}{2}|w|^2$，而不满足约束的第二种情况，对无穷大求最小值，自然不会是所要的。</p>
+<p>因此求 $\min_{w,b}z(w)$ 时，满足约束的第一种情况就等价于求 $\min_{y_i(w^Tx_i+b)-1\geq 0} \frac{1}{2}|w|^2$，而不满足约束的第二种情况，对无穷大求最小值，自然不会是所要的。</p>
 </blockquote>
-<p>与之对应的是<code>daul problem</code>：<br>$$\begin{equation}\max_{\alpha<em>i\geq 0} \min</em>{w,b} \mathcal{L}(w,b,\alpha)\end{equation}$$</p>
+<p>与之对应的是<code>daul problem</code>：<br>$$\begin{equation}\max_{\alpha_i\geq 0} \min_{w,b} \mathcal{L}(w,b,\alpha)\end{equation}$$</p>
 <p>记 primal problem 的最小值记为 $p^∗$ ，dual problem 的最大值为 $d^∗$，则<strong>对于所有的优化问题</strong>都有<code>weak duality</code>性质：<br>$$\begin{equation}d^∗\leq p^∗\end{equation}$$<br>而当<strong>某些特殊条件</strong>满足时，有<code>strong duality</code>性质：<br>$$\begin{equation}d^∗= p^∗\end{equation}$$<br>比如 凸规划+<code>KKT条件</code> 或 凸规划+<code>Slater条件</code>。</p>
-<p>primal problem 满足，因此 strong duality 性质成立。优化问题由 primal problem 转换为求解 daul problem $\max_{\alpha<em>i\geq 0} \min</em>{w,b} \mathcal{L}(w,b,\alpha)$。</p>
-<p>对内层 $\min<em>{w,b} \mathcal{L}(w,b,\alpha)$ 的求解可通过：<br>$$\begin{align}<br>\frac{\partial \mathcal{L}}{\partial w}=0 &amp;\Rightarrow w=\sum</em>{i=1}^n \alpha_i y_i x<em>i \\<br>\frac{\partial \mathcal{L}}{\partial b} = 0 &amp;\Rightarrow \sum</em>{i=1}^n \alpha_i y<em>i = 0<br>\end{align}$$<br>代回得<br>$$\begin{equation}<br>\min</em>{w,b} \mathcal{L}(w,b,\alpha)=\sum_{i=1}^n \alpha<em>i-\frac{1}{2}\sum</em>{i,j=1}^n \alpha_i\alpha_j y_iy_j x_i^Tx_j<br>\end{equation}$$</p>
+<p>primal problem 满足，因此 strong duality 性质成立。优化问题由 primal problem 转换为求解 daul problem $\max_{\alpha_i\geq 0} \min_{w,b} \mathcal{L}(w,b,\alpha)$。</p>
+<p>对内层 $\min_{w,b} \mathcal{L}(w,b,\alpha)$ 的求解可通过：<br>$$\begin{align}<br>\frac{\partial \mathcal{L}}{\partial w}=0 &amp;\Rightarrow w=\sum_{i=1}^n \alpha_i y_i x_i \\<br>\frac{\partial \mathcal{L}}{\partial b} = 0 &amp;\Rightarrow \sum_{i=1}^n \alpha_i y_i = 0<br>\end{align}$$<br>代回得<br>$$\begin{equation}<br>\min_{w,b} \mathcal{L}(w,b,\alpha)=\sum_{i=1}^n \alpha_i-\frac{1}{2}\sum_{i,j=1}^n \alpha_i\alpha_j y_iy_j x_i^Tx_j<br>\end{equation}$$</p>
 <blockquote>
-<p><strong>证明：</strong><br>$$\begin{array}{*{20}{lr}}<br>\frac{1}{2}|w|^2-\sum_{i=1}^n\alpha_i \left(y_i(w^Tx<em>i+b)-1\right)&amp;\\<br>=\frac{1}{2}w^Tw-\sum</em>{i=1}^n\alpha_i \left(y_i(w^Tx<em>i+b)-1\right)<br>&amp;(w^Tw=|w|^2)\\<br>=\frac{1}{2}w^T\sum</em>{i=1}^n \alpha_i y_i x<em>i-w^T\sum</em>{i=1}^n \alpha_i y_i x<em>i-\sum</em>{i=1}^n \alpha_i y<em>ib+\sum</em>{i=1}^n \alpha<em>i<br>&amp;(代入w)\\<br>=\sum</em>{i=1}^n \alpha<em>i-\frac{1}{2}w^T\sum</em>{i=1}^n \alpha_i y_i x<em>i<br>&amp;(\sum</em>{i=1}^n \alpha_i y<em>i = 0 )\\<br>=\sum</em>{i=1}^n \alpha<em>i-\frac{1}{2}\left(\sum</em>{i=1}^n \alpha_i y_i x<em>i\right)^T\sum</em>{i=1}^n \alpha_i y_i x<em>i<br>&amp;(代入w^T)\\<br>=\sum</em>{i=1}^n \alpha<em>i-\frac{1}{2}\sum</em>{i=1}^n \alpha_i y_i x<em>i^T\sum</em>{i=1}^n \alpha_i y_i x<em>i<br>&amp;\\<br>=\sum</em>{i=1}^n \alpha<em>i-\frac{1}{2}\sum</em>{i,j=1}^n \alpha_i\alpha_j y_iy_j x_i^Tx_j<br>&amp;(\sum_i a_i\sum_j b<em>j=\sum</em>{i,j} a_ib_j)<br>\end{array} $$</p>
+<p><strong>证明：</strong><br>$$\begin{array}{*{20}{lr}}<br>\frac{1}{2}|w|^2-\sum_{i=1}^n\alpha_i \left(y_i(w^Tx_i+b)-1\right)&amp;\\<br>=\frac{1}{2}w^Tw-\sum_{i=1}^n\alpha_i \left(y_i(w^Tx_i+b)-1\right)<br>&amp;(w^Tw=|w|^2)\\<br>=\frac{1}{2}w^T\sum_{i=1}^n \alpha_i y_i x_i-w^T\sum_{i=1}^n \alpha_i y_i x_i-\sum_{i=1}^n \alpha_i y_ib+\sum_{i=1}^n \alpha_i<br>&amp;(代入w)\\<br>=\sum_{i=1}^n \alpha_i-\frac{1}{2}w^T\sum_{i=1}^n \alpha_i y_i x_i<br>&amp;(\sum_{i=1}^n \alpha_i y_i = 0 )\\<br>=\sum_{i=1}^n \alpha_i-\frac{1}{2}\left(\sum_{i=1}^n \alpha_i y_i x_i\right)^T\sum_{i=1}^n \alpha_i y_i x_i<br>&amp;(代入w^T)\\<br>=\sum_{i=1}^n \alpha_i-\frac{1}{2}\sum_{i=1}^n \alpha_i y_i x_i^T\sum_{i=1}^n \alpha_i y_i x_i<br>&amp;\\<br>=\sum_{i=1}^n \alpha_i-\frac{1}{2}\sum_{i,j=1}^n \alpha_i\alpha_j y_iy_j x_i^Tx_j<br>&amp;(\sum_i a_i\sum_j b_j=\sum_{i,j} a_ib_j)<br>\end{array} $$</p>
 </blockquote>
-<p>即 $\max_{\alpha<em>i\geq 0} \min</em>{w,b} \mathcal{L}(w,b,\alpha)$ 简化为：<br>$$\begin{equation}\begin{array}{*{20}{l}}<br>&amp;\max \sum_{i=1}^n\alpha<em>i – \frac{1}{2}\sum</em>{i,j=1}^n\alpha_i\alpha_jy_iy_jx_i^Tx_j  \\<br>s.t., &amp;\alpha<em>i\geq 0, i=1,\ldots,n \\<br>&amp;\sum</em>{i=1}^n\alpha_iy_i = 0<br>\end{array}\end{equation}$$</p>
-<p>也将 $w=\sum_{i=1}^n \alpha_i y_i x<em>i$ 代入分类函数中<br>$$\begin{equation}<br>f(x)= w^Tx+b=\left(\sum</em>{i=1}^n\alpha_i y_i x<em>i\right)^Tx+b<br> = \sum</em>{i=1}^n\alpha_i y_i  x_i^T x + b<br>\end{equation}$$</p>
-<p>最后，用<code>向量内积</code>形式 $\langle x_i, x\rangle$ 替换 $x<em>i^Tx$。<br>优化问题：<br>$$\begin{equation}\begin{array}{*{20}{l}}<br>&amp;\max \sum</em>{i=1}^n\alpha<em>i – \frac{1}{2}\sum</em>{i,j=1}^n\alpha_i\alpha_jy_iy_j \langle x_i, x_j\rangle   \\<br>s.t., &amp;\alpha<em>i\geq 0, i=1,\ldots,n \\<br>&amp;\sum</em>{i=1}^n\alpha_iy<em>i = 0<br>\end{array}\end{equation}$$<br>分类函数：<br>$$\begin{equation}<br>f(x)=\sum</em>{i=1}^n\alpha_i y_i \langle x_i, x\rangle + b<br>\end{equation}$$</p>
+<p>即 $\max_{\alpha_i\geq 0} \min_{w,b} \mathcal{L}(w,b,\alpha)$ 简化为：<br>$$\begin{equation}\begin{array}{*{20}{l}}<br>&amp;\max \sum_{i=1}^n\alpha_i – \frac{1}{2}\sum_{i,j=1}^n\alpha_i\alpha_jy_iy_jx_i^Tx_j  \\<br>s.t., &amp;\alpha_i\geq 0, i=1,\ldots,n \\<br>&amp;\sum_{i=1}^n\alpha_iy_i = 0<br>\end{array}\end{equation}$$</p>
+<p>也将 $w=\sum_{i=1}^n \alpha_i y_i x_i$ 代入分类函数中<br>$$\begin{equation}<br>f(x)= w^Tx+b=\left(\sum_{i=1}^n\alpha_i y_i x_i\right)^Tx+b<br> = \sum_{i=1}^n\alpha_i y_i  x_i^T x + b<br>\end{equation}$$</p>
+<p>最后，用<code>向量内积</code>形式 $\langle x_i, x\rangle$ 替换 $x_i^Tx$。<br>优化问题：<br>$$\begin{equation}\begin{array}{*{20}{l}}<br>&amp;\max \sum_{i=1}^n\alpha_i – \frac{1}{2}\sum_{i,j=1}^n\alpha_i\alpha_jy_iy_j \langle x_i, x_j\rangle   \\<br>s.t., &amp;\alpha_i\geq 0, i=1,\ldots,n \\<br>&amp;\sum_{i=1}^n\alpha_iy_i = 0<br>\end{array}\end{equation}$$<br>分类函数：<br>$$\begin{equation}<br>f(x)=\sum_{i=1}^n\alpha_i y_i \langle x_i, x\rangle + b<br>\end{equation}$$</p>
 <p>转换为内积带来以下好处：</p>
 <ul>
 <li>对于新点 $x$ 的预测，只需要计算它与训练数据点的内积即可。</li>
 <li>内积可以使用 Kernel 函数进行非线性推广。</li>
 <li>非支持点对应的 $\alpha_i=0$ ，则新点的内积计算实际上只要针对少量的支持点，而不是所有的训练数据点。这就体现了 “Supporting Vector”。</li>
 </ul>
-<p>通过解优化问题（如 SMO 算法），得到 $\alpha<em>i^∗$，代入得 $w^∗=\sum</em>{i=1}^n \alpha_i^∗ y_i x<em>i$，$b^∗=-\frac{\max</em>{y_i=-1}{w^∗}^Tx<em>i+\min</em>{y_i=1}{w^∗}^Tx_i}{2}$。</p>
+<p>通过解优化问题（如 SMO 算法），得到 $\alpha_i^∗$，代入得 $w^∗=\sum_{i=1}^n \alpha_i^∗ y_i x_i$，$b^∗=-\frac{\max_{y_i=-1}{w^∗}^Tx_i+\min_{y_i=1}{w^∗}^Tx_i}{2}$。</p>
 <hr>
 <h2 id="3-非线性扩展"><a href="#3-非线性扩展" class="headerlink" title="3 非线性扩展"></a>3 非线性扩展</h2><h3 id="3-1-映射"><a href="#3-1-映射" class="headerlink" title="3.1 映射"></a>3.1 映射</h3><p>前面介绍了线性情况下的支持向量机，它通过寻找一个线性的超平面来达到对数据进行分类的目的。不过，由于是线性方法，所以对非线性的数据就没有办法处理了。</p>
 <p><img src="http://7vzozf.com1.z0.glb.clouddn.com/2015/04/2820125685.png" alt="1428848645116.png"></p>
-<p>通过映射 $\phi(\cdot)$ 将分类函数 $f(x)=\sum_{i=1}^n\alpha_i y_i \langle x<em>i, x\rangle + b $ 向高维空间映射，可使得其线性可分：<br>$$\begin{equation} f(x) = \sum</em>{i=1}^n\alpha_i y_i \color{red}{\langle \phi(x_i), \phi(x)\rangle} + b\end{equation}$$</p>
-<p>其中的 $\alpha<em>i$通过求解 dual problem 而得：<br>$$\begin{equation}\begin{array}{*{20}{l}}<br>&amp;\max</em>\alpha \sum_{i=1}^n\alpha<em>i – \frac{1}{2}\sum</em>{i,j=1}^n\alpha_i\alpha_jy_iy_j\color{red}{\langle \phi(x_i),\phi(x_j)\rangle} \\<br>s.t., &amp;\alpha<em>i\geq 0, i=1,\ldots,n \\<br>&amp;\sum</em>{i=1}^n\alpha_iy_i = 0<br>\end{array}\end{equation}$$</p>
+<p>通过映射 $\phi(\cdot)$ 将分类函数 $f(x)=\sum_{i=1}^n\alpha_i y_i \langle x_i, x\rangle + b $ 向高维空间映射，可使得其线性可分：<br>$$\begin{equation} f(x) = \sum_{i=1}^n\alpha_i y_i \color{red}{\langle \phi(x_i), \phi(x)\rangle} + b\end{equation}$$</p>
+<p>其中的 $\alpha_i$通过求解 dual problem 而得：<br>$$\begin{equation}\begin{array}{*{20}{l}}<br>&amp;\max_\alpha \sum_{i=1}^n\alpha_i – \frac{1}{2}\sum_{i,j=1}^n\alpha_i\alpha_jy_iy_j\color{red}{\langle \phi(x_i),\phi(x_j)\rangle} \\<br>s.t., &amp;\alpha_i\geq 0, i=1,\ldots,n \\<br>&amp;\sum_{i=1}^n\alpha_iy_i = 0<br>\end{array}\end{equation}$$</p>
 <blockquote>
-<p><strong>例1：</strong><br>$R^2$ 的点表示为 $x(\eta_1,\eta_2)^T$ ，则二次曲线可以写作：<br>$$a_1\eta_1 + a_2\eta_1^2 + a_3 \eta_2 + a_4\eta_2^2 + a_5\eta_1 \eta_2 + a_6 = 0$$<br>通过坐标映射 $\phi:(\eta_1,\eta_2)^T\rightarrow(z_1,z_2,z_3,z_4,z_5)^T$ 到 $R^5$ 中，对应点 $\phi(x)$ 的 $z_1=\eta_1$，$z_2=\eta_1^2$，$z_3=\eta_2$，$z_4=\eta_2^2$，$z_5=\eta_1 \eta<em>2$。那么显然，上面的方程在新的坐标系下可以写作：<br>$$\sum</em>{i=1}^5a_i z_i + a_6 = 0$$<br>从新的坐标 $z_i$ 角度看，这是一个超平面方程。因此， $R^2$ 中需要二次曲线分割（线性不可分）的数据点在 $R^5$ 中将可用超平面分割（线性可分）。</p>
+<p><strong>例1：</strong><br>$R^2$ 的点表示为 $x(\eta_1,\eta_2)^T$ ，则二次曲线可以写作：<br>$$a_1\eta_1 + a_2\eta_1^2 + a_3 \eta_2 + a_4\eta_2^2 + a_5\eta_1 \eta_2 + a_6 = 0$$<br>通过坐标映射 $\phi:(\eta_1,\eta_2)^T\rightarrow(z_1,z_2,z_3,z_4,z_5)^T$ 到 $R^5$ 中，对应点 $\phi(x)$ 的 $z_1=\eta_1$，$z_2=\eta_1^2$，$z_3=\eta_2$，$z_4=\eta_2^2$，$z_5=\eta_1 \eta_2$。那么显然，上面的方程在新的坐标系下可以写作：<br>$$\sum_{i=1}^5a_i z_i + a_6 = 0$$<br>从新的坐标 $z_i$ 角度看，这是一个超平面方程。因此， $R^2$ 中需要二次曲线分割（线性不可分）的数据点在 $R^5$ 中将可用超平面分割（线性可分）。</p>
 <p>高中数学示范， $P(x,y)$ 是圆 $x^2+(y-1)^2=4$ 上的任意一点，即满足 $x^2-2y+y^2-3=0$，通过将原来的$f(x,y)$的二次函数看作 $g(x^2,y,y^2)$ 的线性函数，就可以映射到三维空间中对应的点 $P(x^2,y,y^2)$。</p>
 </blockquote>
 <p>直接向高维映射的方法看似成功，但是问题是：</p>
@@ -173,7 +185,7 @@
 <p><img src="http://7vzozf.com1.z0.glb.clouddn.com/2015/04/3296738673.png" alt="1428895104000.png"></p>
 <p>用 $\kappa(x_i,x)$ 的低维核函数代替 $\langle \phi(x_i), \phi(x)\rangle$ 的高维内积运算，使得分类函数为：</p>
 <p>$$f(x)=\sum_{i=1}^n\alpha_i y_i \color{red}{\kappa(x_i,x)} + b$$</p>
-<p>其中的 $\alpha<em>i$通过求解 dual problem 而得：<br>$$\begin{equation}\begin{array}{*{20}{l}}<br>&amp;\max</em>\alpha\sum_{i=1}^n\alpha<em>i – \frac{1}{2}\sum</em>{i,j=1}^n\alpha_i\alpha_jy_iy_j\color{red}{\kappa(x_i,x_j)} \\<br>s.t., &amp;\alpha<em>i\geq 0, i=1,\ldots,n \\<br>&amp;\sum</em>{i=1}^n\alpha_iy_i = 0<br>\end{array}\end{equation}$$</p>
+<p>其中的 $\alpha_i$通过求解 dual problem 而得：<br>$$\begin{equation}\begin{array}{*{20}{l}}<br>&amp;\max_\alpha\sum_{i=1}^n\alpha_i – \frac{1}{2}\sum_{i,j=1}^n\alpha_i\alpha_jy_iy_j\color{red}{\kappa(x_i,x_j)} \\<br>s.t., &amp;\alpha_i\geq 0, i=1,\ldots,n \\<br>&amp;\sum_{i=1}^n\alpha_iy_i = 0<br>\end{array}\end{equation}$$</p>
 <blockquote>
 <p><strong>例2：</strong><br>设 $R^2$ 有两点 $x_1 = (\eta_1,\eta_2)^T$ 和 $x_2=(\xi_1,\xi_2)^T$，通过例1的映射 $\phi(\cdot)$ 得到 $R^5$ 中的对应点 $\phi(x_1)(\eta_1,\eta_1^2,\eta_2,\eta_2^2,\eta_1\eta_2)^T$，$\phi(x_2)(\xi_1,\xi_1^2,\xi_2,\xi_2^2,\xi_1\xi_2)^T$，映射内积为<br>$$\langle \phi(x_1),\phi(x_2)\rangle = \eta_1\xi_1 + \eta_1^2\xi_1^2 + \eta_2\xi_2 + \eta_2^2\xi_2^2+\eta_1\eta_2\xi_1\xi_2$$<br>令核函数 $\kappa(x_1,x_2)=\left(\langle x_1, x_2\rangle + 1\right)^2$， 则<br>$$\kappa(x_1,x_2)= 2\eta_1\xi_1 + \eta_1^2\xi_1^2 + 2\eta_2\xi_2 + \eta_2^2\xi_2^2 + 2\eta_1\eta_2\xi_1\xi_2 + 1$$<br>与 $\langle \phi’(x_1),\phi’(x_2)\rangle $ 结果相等，其中$\phi’(x_1)(\sqrt{2}\eta_1,\eta_1^2,\sqrt{2}\eta_2,\eta_2^2,\sqrt{2}\eta_1\eta_2,1)$，$\phi’(x_2)(\sqrt{2}\xi_1,\xi_1^2,\sqrt{2}\xi_2,\xi_2^2,\sqrt{2}\xi_1\xi_2,1)$。显然 $\phi’(\cdot)$也就是把 $\phi(\cdot)$ 某几个维度线性缩放一下，然后再加上一个常数维度。</p>
 <p>当然，因为我们这里的例子非常简单，所以我可以手工构造出 $\phi(\cdot)$ 对应的核函数出来，如果对于任意一个映射，想要构造出对应的核函数就很困难了。</p>
@@ -189,35 +201,43 @@
 <hr>
 <h2 id="4-异常点"><a href="#4-异常点" class="headerlink" title="4 异常点"></a>4 异常点</h2><p>SVM 允许数据点在一定程度上偏离一下超平面。</p>
 <p>修改原来的约束条件 $y_i(w^Tx_i+b)\geq 1$ 为：<br>$$y_i(w^Tx_i+b)\geq 1\color{red}{-\xi_i}, \quad i=1,\ldots,n$$</p>
-<p>其中 $\xi_i\geq0$ 称为<code>松弛变量</code> (slack variable) ，对应数据点 $x_i$ 允许偏离的 functional margin 的量。当然，如果我们运行  $\xi_i\geq0$  任意大的话，那任意的超平面都是符合条件的了。所以，我们在原来的目标函数后面加上一项，使得这些  $\xi<em>i\geq0$  的总和也要最小，即<br>$$\min \frac{1}{2}|w|^2\color{red}{+C\sum</em>{i=1}^n \xi_i}$$<br>其中 $C$ 是一个参数，用于控制目标函数中两项（“寻找 margin 最大的超平面”和“保证数据点偏差量最小”）之间的权重。注意，其中 $\xi_i$ 是需要优化的变量（之一），而 $C$ 是一个事先确定好的常量。</p>
+<p>其中 $\xi_i\geq0$ 称为<code>松弛变量</code> (slack variable) ，对应数据点 $x_i$ 允许偏离的 functional margin 的量。当然，如果我们运行  $\xi_i\geq0$  任意大的话，那任意的超平面都是符合条件的了。所以，我们在原来的目标函数后面加上一项，使得这些  $\xi_i\geq0$  的总和也要最小，即<br>$$\min \frac{1}{2}|w|^2\color{red}{+C\sum_{i=1}^n \xi_i}$$<br>其中 $C$ 是一个参数，用于控制目标函数中两项（“寻找 margin 最大的超平面”和“保证数据点偏差量最小”）之间的权重。注意，其中 $\xi_i$ 是需要优化的变量（之一），而 $C$ 是一个事先确定好的常量。</p>
 <p>优化问题：<br>$$\begin{equation}\begin{array}{*{20}{l}}<br>&amp;\min\frac{1}{2}|w|^2 + C\sum_{i=1}^n\xi_i \\<br>s.t., &amp; y_i(w^Tx_i+b)\geq 1-\xi_i, i=1,\ldots,n \\<br>&amp; \xi_i \geq 0, i=1,\ldots,n<br>\end{array}\end{equation}$$</p>
-<p> Lagrangian：<br>$$\mathcal{L}(w,b,\xi,\alpha,r)=\frac{1}{2}|w|^2 + C\sum_{i=1}^n\xi<em>i – \sum</em>{i=1}^n\alpha_i \left(y_i(w^Tx_i+b)-1+\xi<em>i\right) – \sum</em>{i=1}^n r_i\xi_i$$</p>
-<p>解 $\min<em>{w,b,\xi}\mathcal{L}(w,b,\xi,\alpha,r)$：<br>$$\begin{align}<br>\frac{\partial \mathcal{L}}{\partial w}=0 &amp;\Rightarrow w=\sum</em>{i=1}^n \alpha_i y_i x<em>i \\<br>\frac{\partial \mathcal{L}}{\partial b} = 0 &amp;\Rightarrow \sum</em>{i=1}^n \alpha_i y_i = 0 \\<br>\frac{\partial \mathcal{L}}{\partial \xi_i} = 0 &amp;\Rightarrow C-\alpha_i-r_i=0, \quad i=1,\ldots,n<br>\end{align}$$<br>注意到 $C−\alpha_i−r_i=0$ ，又有 $r_i\geq 0$ （作为 Lagrange multiplier 的条件），因此有 $\alpha_i\leq C$ 。</p>
-<p>代回依然得<br>$$\begin{equation}<br>\min<em>{w,b,\xi}\mathcal{L}(w,b,\xi,\alpha,r)=\sum</em>{i=1}^n \alpha<em>i-\frac{1}{2}\sum</em>{i,j=1}^n \alpha_i\alpha_j y_iy_j \langle x_i,x_j\rangle<br>\end{equation}$$</p>
-<p>即 $\max_{\alpha_i\geq 0,r<em>i\geq 0} \min</em>{w,b,\xi}\mathcal{L}(w,b,\xi,\alpha,r)$ 简化为：<br>$$\begin{equation}\begin{array}{*{20}{l}}<br>&amp;\max \sum_{i=1}^n\alpha<em>i – \frac{1}{2}\sum</em>{i,j=1}^n\alpha_i\alpha_jy_iy_j\langle x_i,x_j\rangle\\<br>s.t., &amp; 0 \leq \alpha<em>i \color{red}{\leq C}, i=1,\ldots,n\\<br>&amp;\sum</em>{i=1}^n\alpha_iy_i = 0<br>\end{array}\end{equation}$$<br>可见，目标函数不变，只有 $\alpha_i$ 多了一个上限 $C$。而 Kernel 化的非线性形式也是一样的，只要把 $\langle x_i,x_j \rangle$ 换成 $\kappa(x_i,x_j)$ 即可。这样一来，一个完整的，可以处理线性和非线性并能容忍噪音和 outliers 的支持向量机才终于介绍完毕了。 </p>
+<p> Lagrangian：<br>$$\mathcal{L}(w,b,\xi,\alpha,r)=\frac{1}{2}|w|^2 + C\sum_{i=1}^n\xi_i – \sum_{i=1}^n\alpha_i \left(y_i(w^Tx_i+b)-1+\xi_i\right) – \sum_{i=1}^n r_i\xi_i$$</p>
+<p>解 $\min_{w,b,\xi}\mathcal{L}(w,b,\xi,\alpha,r)$：<br>$$\begin{align}<br>\frac{\partial \mathcal{L}}{\partial w}=0 &amp;\Rightarrow w=\sum_{i=1}^n \alpha_i y_i x_i \\<br>\frac{\partial \mathcal{L}}{\partial b} = 0 &amp;\Rightarrow \sum_{i=1}^n \alpha_i y_i = 0 \\<br>\frac{\partial \mathcal{L}}{\partial \xi_i} = 0 &amp;\Rightarrow C-\alpha_i-r_i=0, \quad i=1,\ldots,n<br>\end{align}$$<br>注意到 $C−\alpha_i−r_i=0$ ，又有 $r_i\geq 0$ （作为 Lagrange multiplier 的条件），因此有 $\alpha_i\leq C$ 。</p>
+<p>代回依然得<br>$$\begin{equation}<br>\min_{w,b,\xi}\mathcal{L}(w,b,\xi,\alpha,r)=\sum_{i=1}^n \alpha_i-\frac{1}{2}\sum_{i,j=1}^n \alpha_i\alpha_j y_iy_j \langle x_i,x_j\rangle<br>\end{equation}$$</p>
+<p>即 $\max_{\alpha_i\geq 0,r_i\geq 0} \min_{w,b,\xi}\mathcal{L}(w,b,\xi,\alpha,r)$ 简化为：<br>$$\begin{equation}\begin{array}{*{20}{l}}<br>&amp;\max \sum_{i=1}^n\alpha_i – \frac{1}{2}\sum_{i,j=1}^n\alpha_i\alpha_jy_iy_j\langle x_i,x_j\rangle\\<br>s.t., &amp; 0 \leq \alpha_i \color{red}{\leq C}, i=1,\ldots,n\\<br>&amp;\sum_{i=1}^n\alpha_iy_i = 0<br>\end{array}\end{equation}$$<br>可见，目标函数不变，只有 $\alpha_i$ 多了一个上限 $C$。而 Kernel 化的非线性形式也是一样的，只要把 $\langle x_i,x_j \rangle$ 换成 $\kappa(x_i,x_j)$ 即可。这样一来，一个完整的，可以处理线性和非线性并能容忍噪音和 outliers 的支持向量机才终于介绍完毕了。 </p>
 <hr>
-<h2 id="5-主要参考"><a href="#5-主要参考" class="headerlink" title="5 主要参考"></a>5 主要参考</h2><p><a href="http://blog.csdn.net/v_july_v/article/details/7624837" target="_blank" rel="external">july-支持向量机通俗导论（理解SVM的三层境界）</a><br><a href="http://blog.pluskid.org/?page_id=683" target="_blank" rel="external">pluskid-支持向量机系列</a></p>
+<h2 id="5-主要参考"><a href="#5-主要参考" class="headerlink" title="5 主要参考"></a>5 主要参考</h2><p><a href="http://blog.csdn.net/v\_july\_v/article/details/7624837" target="_blank" rel="external">july-支持向量机通俗导论（理解SVM的三层境界）</a><br><a href="http://blog.pluskid.org/?page\_id=683" target="_blank" rel="external">pluskid-支持向量机系列</a></p>
   
 	</div>
 		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/机器学习/">机器学习</a>
+</div>
 
 
-
-
-<div class="article-share" id="share">
-
-  <div data-url="http://www.stackess.com/svm/" data-title="支持向量机SVM | Stackess" data-tsina="null" class="share clearfix">
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/SVM/">SVM</a>
   </div>
 
 </div>
-</footer>   	       
+
+
+
+</footer>
+
+   	       
 	</article>
 	
 <nav class="article-nav clearfix">
  
  <div class="prev" >
  <a href="/maven/" title="Maven 和 M2Eclipse配置">
-  <strong>PREVIOUS:</strong><br/>
   <span>
   Maven 和 M2Eclipse配置</span>
 </a>
@@ -226,7 +246,6 @@
 
 <div class="next">
 <a href="/ml_note/"  title="机器学习的可行性">
- <strong>NEXT:</strong><br/> 
  <span>机器学习的可行性
 </span>
 </a>
@@ -235,111 +254,120 @@
 </nav>
 
 	
-<section class="comment">  
-	<div class="ds-thread" data-thread-key="svm/"></div>
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="svm/" data-title="支持向量机SVM" data-url="http://www.stackess.com/svm/"></div>
 </section>
 
+
 </div>  
-      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
 
   <div id="toc" class="toc-aside">
-  <strong class="toc-title">文章目录</strong>
-  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-线性分类"><span class="toc-number">1.</span> <span class="toc-text">1 线性分类</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-magrin"><span class="toc-number">1.1.</span> <span class="toc-text">1.1 magrin</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-优化问题"><span class="toc-number">1.2.</span> <span class="toc-text">1.2 优化问题</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-Lagrangian对偶"><span class="toc-number">2.</span> <span class="toc-text">2 Lagrangian对偶</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-非线性扩展"><span class="toc-number">3.</span> <span class="toc-text">3 非线性扩展</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-映射"><span class="toc-number">3.1.</span> <span class="toc-text">3.1 映射</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-核函数"><span class="toc-number">3.2.</span> <span class="toc-text">3.2 核函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-几个核函数"><span class="toc-number">3.3.</span> <span class="toc-text">3.3 几个核函数</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-异常点"><span class="toc-number">4.</span> <span class="toc-text">4 异常点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-主要参考"><span class="toc-number">5.</span> <span class="toc-text">5 主要参考</span></a></li></ol>
+  <strong class="toc-title">Contents</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-线性分类"><span class="toc-number">1.</span> <span class="toc-text">1 线性分类</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-magrin"><span class="toc-number">1.1.</span> <span class="toc-text">1.1 magrin</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-优化问题"><span class="toc-number">1.2.</span> <span class="toc-text">1.2 优化问题</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-Lagrangian对偶"><span class="toc-number">2.</span> <span class="toc-text">2 Lagrangian对偶</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-非线性扩展"><span class="toc-number">3.</span> <span class="toc-text">3 非线性扩展</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-映射"><span class="toc-number">3.1.</span> <span class="toc-text">3.1 映射</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-核函数"><span class="toc-number">3.2.</span> <span class="toc-text">3.2 核函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-几个核函数"><span class="toc-number">3.3.</span> <span class="toc-text">3.3 几个核函数</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-异常点"><span class="toc-number">4.</span> <span class="toc-text">4 异常点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-主要参考"><span class="toc-number">5.</span> <span class="toc-text">5 主要参考</span></a></li></ol>
+ 
   </div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
 <aside class="clearfix">
-
-  
-
-  
-<div class="tagslist">
-	<p class="asidetitle">标签</p>
-		<ul class="clearfix">
+<div id="authorInfo">
+	
+		<div class="author-img"></div>		
+	
+	<div class="my-social-info" class="clearfix">
 		
-			<li><a href="/tags/人工智能/" title="人工智能">人工智能<sup>1</sup></a></li>
+		<a href="http://weibo.com/5261272169" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/cstackess" target="_blank" class="icon-mygithub" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		<a href="mailto:cstackess@126.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+
+	</div>
+</div>
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">Categories</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/人工智能/" title="人工智能">人工智能<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/其他/" title="其他">其他<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/前端开发/" title="前端开发">前端开发<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/后台开发/" title="后台开发">后台开发<sup>8</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/工具配置/" title="工具配置">工具配置<sup>8</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/机器学习/" title="机器学习">机器学习<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/算法/" title="算法">算法<sup>2</sup></a></li>
+		  
 		
 		</ul>
 </div>
 
 
-  <div class="rsspart">
-	<a href="null" target="_blank" title="rss">RSS 订阅</a>
-</div>
-
-  
-  <div class="archiveslist">
-    <p class="asidetitle"><a href="/archives">归档</a></p>
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">十月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">九月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">六月 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">三月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">二月 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">一月 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">十一月 2013</a><span class="archive-list-count">1</span></li></ul>
-  </div>
-
-
   
   <div class="tagcloudlist">
-    <p class="asidetitle">标签云</p>
+    <p class="asidetitle">Tag Cloud</p>
     <div class="tagcloudlist clearfix">
-       <a href="/tags/人工智能/" style="font-size: 10px;">人工智能</a>
+       <a href="/tags/Bandwangon/" style="font-size: 10px;">Bandwangon</a> <a href="/tags/Cygwin/" style="font-size: 12.5px;">Cygwin</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Javascript/" style="font-size: 10px;">Javascript</a> <a href="/tags/LaTeX/" style="font-size: 10px;">LaTeX</a> <a href="/tags/Leetcode/" style="font-size: 10px;">Leetcode</a> <a href="/tags/Linux/" style="font-size: 17.5px;">Linux</a> <a href="/tags/M2Eclipse/" style="font-size: 10px;">M2Eclipse</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Maven/" style="font-size: 10px;">Maven</a> <a href="/tags/Node-js/" style="font-size: 15px;">Node.js</a> <a href="/tags/PhpStorm/" style="font-size: 10px;">PhpStorm</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/SVM/" style="font-size: 10px;">SVM</a> <a href="/tags/ShadowSocks/" style="font-size: 10px;">ShadowSocks</a> <a href="/tags/Shell/" style="font-size: 15px;">Shell</a> <a href="/tags/Socket-IO/" style="font-size: 10px;">Socket.IO</a> <a href="/tags/Spring/" style="font-size: 10px;">Spring</a> <a href="/tags/VPS/" style="font-size: 10px;">VPS</a> <a href="/tags/WinSplit/" style="font-size: 10px;">WinSplit</a> <a href="/tags/awk/" style="font-size: 12.5px;">awk</a> <a href="/tags/gnuplot/" style="font-size: 10px;">gnuplot</a> <a href="/tags/grep/" style="font-size: 10px;">grep</a> <a href="/tags/log4j/" style="font-size: 10px;">log4j</a> <a href="/tags/npm/" style="font-size: 10px;">npm</a> <a href="/tags/五子棋/" style="font-size: 10px;">五子棋</a> <a href="/tags/信息论/" style="font-size: 10px;">信息论</a> <a href="/tags/大数据/" style="font-size: 12.5px;">大数据</a> <a href="/tags/开源/" style="font-size: 15px;">开源</a> <a href="/tags/弹幕/" style="font-size: 10px;">弹幕</a> <a href="/tags/微信公众平台/" style="font-size: 10px;">微信公众平台</a> <a href="/tags/微信支付/" style="font-size: 10px;">微信支付</a> <a href="/tags/机器学习基石/" style="font-size: 10px;">机器学习基石</a> <a href="/tags/树/" style="font-size: 10px;">树</a> <a href="/tags/源码分析/" style="font-size: 12.5px;">源码分析</a> <a href="/tags/熵/" style="font-size: 10px;">熵</a> <a href="/tags/爱好/" style="font-size: 10px;">爱好</a> <a href="/tags/算法导论/" style="font-size: 10px;">算法导论</a> <a href="/tags/闭包/" style="font-size: 10px;">闭包</a>
     </div>
   </div>
 
 
-  <div class="linkslist">
-  <p class="asidetitle">友情链接</p>
-    <ul>
-      <li><a href="http://yangjian.me" target="_blank" title="YangJian">Alimon's Blog</a></li>
-      <li><a href="http://hexo.io" target="_blank" title="Hexo">Hexo</a></li>
-    </ul>
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
 </div>
-
 
 </aside>
 </div>
     </div>
     <footer><div id="footer" >
-	
-	<div class="line">
-		<span></span>
-		<div class="author"></div>
-	</div>
-	
-	
-	<section class="info">
-		<p> Hello ,I&#39;m Larry Page in Google. <br/>
-			This is my blog,believe it or not.</p>
-	</section>
-	 
-	<div class="social-font clearfix">
-		
-		<a href="http://weibo.com/5261272169" target="_blank" title="weibo"></a>
 		
 		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/hsihohuang/kiddochan" target="_blank" title="Kiddochan">Kiddochan</a> © 2016 
 		
-		<a href="https://github.com/cstackess" target="_blank" title="github"></a>
+		<a href="/about" target="_blank" title="cstackess">cstackess</a>
 		
-		
-		
-	</div>
-		<p class="copyright">Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/A-limon/pacman" target="_blank" title="Pacman">Pacman</a> © 2016 
-		
-		<a href="http://www.stackess.com" target="_blank" title="cstackess">cstackess</a>
 		
 		</p>
 </div>
 </footer>
-    <script src="/js/jquery-2.1.0.min.js"></script>
-
-<!--http://mathjax-chinese-doc.readthedocs.org/en/latest/start.html-->
-<script type="text/x-mathjax-config">
-MathJax.Hub.Config({
-  tex2jax: {inlineMath: [['$','$']]}
-});
-</script>
-<script src="http://cdn.bootcss.com/mathjax/2.6.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
-<link href="http://cdn.bootcss.com/highlight.js/8.0/styles/monokai_sublime.min.css" rel="stylesheet">  
-<script src="http://cdn.bootcss.com/highlight.js/8.0/highlight.min.js"></script>
-
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
 
 <script type="text/javascript">
 $(document).ready(function(){ 
@@ -358,20 +386,6 @@ $(document).ready(function(){
       a = $('#asidepart'),
       c = $('.closeaside'),
       o = $('.openaside');
-  $(window).resize(function(){
-    getSize(); 
-    if (myWidth >= 1024) {
-      $('header nav').removeClass('shownav');
-    }else
-    {
-      m.removeClass('moveMain');
-      a.css('display', 'block').removeClass('fadeOut');
-      o.css('display', 'none');
-      
-      $('#toc.toc-aside').css('display', 'none');
-        
-    }
-  });
   c.click(function(){
     a.addClass('fadeOut').css('display', 'none');
     o.css('display', 'block').addClass('fadeIn');
@@ -385,6 +399,20 @@ $(document).ready(function(){
   $(window).scroll(function(){
     o.css("top",Math.max(80,260-$(this).scrollTop()));
   });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
 });
 </script>
 
@@ -393,8 +421,6 @@ $(document).ready(function(){
   var ai = $('.article-content>iframe'),
       ae = $('.article-content>embed'),
       t  = $('#toc'),
-      h  = $('article h2')
-      ah = $('article h2'),
       ta = $('#toc.toc-aside'),
       o  = $('.openaside'),
       c  = $('.closeaside');
@@ -404,19 +430,15 @@ $(document).ready(function(){
   if(ae.length>0){
    ae.wrap('<div class="video-container" />');
   };
-  if(ah.length==0){
-    t.css('display','none');
-  }else{
-    c.click(function(){
-      ta.css('display', 'block').addClass('fadeIn');
-    });
-    o.click(function(){
-      ta.css('display', 'none');
-    });
-    $(window).scroll(function(){
-      ta.css("top",Math.max(140,320-$(this).scrollTop()));
-    });
-  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
 });
 </script>
 
@@ -427,27 +449,49 @@ $(document).ready(function(){
       url = $this.attr('data-url'),
       encodedUrl = encodeURIComponent(url),
       title = $this.attr('data-title'),
-      tsina = $this.attr('data-tsina');
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
   var html = [
-  '<a href="#" class="overlay" id="qrcode"></a>',
-  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#share"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
-  '<a href="#textlogo" class="article-back-to-top" title="Top"></a>',
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
   '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
-  '<a href="#qrcode" class="article-share-qrcode" title="QRcode"></a>',
   '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
-  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="Weibo"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
   '<span title="Share to"></span>'
   ].join('');
   $this.append(html);
-  $('.article-share-qrcode').click(function(){
-    var imgSrc = $('#qrcode-pic').attr('data-src');
-    $('#qrcode-pic').attr('src', imgSrc);
-    $('#qrcode-pic').load(function(){
-        $('.qrcode strong').text(' ');
-    });
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
   });
-});     
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
 </script>
+
 
 
 <script type="text/javascript">
@@ -465,6 +509,66 @@ $(document).ready(function(){
 
 
 
+
+
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="http://cdn.bootcss.com/mathjax/2.6.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
 
   </body>
 </html>
