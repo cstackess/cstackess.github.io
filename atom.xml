@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>Stackess</title>
-  <subtitle>一个想在互联网世界做只小透明的挨踢人</subtitle>
+  <subtitle>在互联网世界做只小透明</subtitle>
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.stackess.com/"/>
