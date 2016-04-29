@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.stackess.com/"/>
-  <updated>2016-04-08T17:09:49.554Z</updated>
+  <updated>2016-04-29T07:23:11.868Z</updated>
   <id>http://www.stackess.com/</id>
   
   <author>
@@ -14,6 +14,57 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>李航《统计学习方法》笔记（1）</title>
+    <link href="http://www.stackess.com/lihang_1/"/>
+    <id>http://www.stackess.com/lihang_1/</id>
+    <published>2016-04-29T07:20:00.000Z</published>
+    <updated>2016-04-29T07:23:11.868Z</updated>
+    
+    <content type="html">&lt;p&gt;《统计学习方法》第一章统计学习方法概述笔记。&lt;/p&gt;
+&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+&lt;p&gt;书中着重于离散变量（数据分为连续变量和离散变量表示的类型）、监督学习。&lt;/p&gt;
+&lt;p&gt;一些基本定义：&lt;br&gt;&lt;img src=&quot;http://7vzozf.com1.z0.glb.clouddn.com/2016-04-29_112751.png&quot; alt=&quot;Alt text&quot;&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;输入和输出：模型的输入和输出。也看作是定义在输入空间与输出空间上的随机变量$X$和$Y$，所取的值为$x$和$y$。&lt;/li&gt;
+&lt;li&gt;输入空间和输出空间：输入和输出所有可能取值的集合，记作$\mathcal{X}$和$\mathcal{Y}$，有$x\in \mathcal{X} \subseteq R^n $。&lt;/li&gt;
+&lt;li&gt;实例：每个具体的输入，通常由特征向量表示 $x=(x^{(1)},x^{(2)},\ldots,x^{(n)})^T$。注意，$x^{(i)}$表示$x$的第$i$个特征，另用$x_i$表示多个输入变量中的第$i$个。&lt;/li&gt;
+&lt;li&gt;特征空间：所有特征向量存在的空间。特征空间的每一维对应于一个特征。有时不予区分输入空间和特征空间。&lt;/li&gt;
+&lt;li&gt;样本或样本点：输入与输出对$(x,y)$。&lt;/li&gt;
+&lt;li&gt;训练集：是给定的、有限的、用于学习的，且假设数据依联合概率分布$P(X,Y)$独立同分布产生。记作$T=\{(x_1,y_1),(x_2,y_2),\ldots,(x_N,y_N)\}$。&lt;/li&gt;
+&lt;li&gt;假设空间：包含所有可能的模型的集合，用$\mathcal{F}$表示。即是输入空间$\mathcal{X}$到输出空间$\mathcal{Y}$的映射的集合，映射（或模型）可以是概率模型（条件概率分布）$P(Y|X)$或非概率模型（决策函数）$Y=f(X)$，对应参数向量决定的分布族$\mathcal{F}=\{P|P_\theta (Y|X),\theta \in R^n\}$和函数族$\mathcal{F}=\{f|Y=f_\theta (X),\theta \in R^n\}$，其中参数向量$\theta$取值于$n$维欧式空间。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;统计学习方法：&lt;br&gt;对训练集，从&lt;strong&gt;假设空间&lt;/strong&gt;中根据某个&lt;strong&gt;评价准则&lt;/strong&gt;用&lt;strong&gt;算法&lt;/strong&gt;学习一个最优模型，使它对训练集和测试集在这个评价准则下有最优的预测。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://7vzozf.com1.z0.glb.clouddn.com/2016-04-29_151741.png&quot; alt=&quot;Alt text&quot;&gt;&lt;/p&gt;
+&lt;p&gt;评价准则&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;损失函数：度量模型一次预测的好坏，是预测值和真实值的非负实值函数，记作$L(Y,f(X))$。包括0-1损失函数、平方损失函数、绝对损失函数、对数损失函数。&lt;/li&gt;
+&lt;li&gt;期望损失（或风险函数、期望风险）：度量平均意义下模型预测的好坏，是损失函数的期望。由于$X$和$Y$遵循联合分布$P(X,Y)$，所以期望损失$R(f)=E_P[L(Y,f(X))]=\int_{\mathcal{X},\mathcal{Y}} L(y,f(x)) P(x,y) dxdy$，学习的目标就是选择该值最小的模型，但$P(x,y)$实际难以得到。&lt;/li&gt;
+&lt;li&gt;经验损失（或经验风险）：是模型关于训练集的平均损失$\hat{R}(f)=\frac{1}{N}\sum_{i=1}^N L(y_i,f(x_i))$，根据大数定律，当样本容量$N$趋于无穷时，经验损失趋近于期望损失。但是现实中训练样本数量有限，需要对经验损失进行一定的矫正。&lt;ul&gt;
+&lt;li&gt;经验风险最小化： $\min_{f\in \mathcal{F}} \frac{1}{N}\sum_{i=1}^N L(y_i,f(x_i))$，样本容量足够大时采用，如极大似然估计。&lt;/li&gt;
+&lt;li&gt;结构风险最小化：$\min_{f\in \mathcal{F}} \frac{1}{N}\sum_{i=1}^N L(y_i,f(x_i))+\lambda J(f)$，样本容量很小时，加入代表模型复杂度的惩罚项防止过拟合，如最大后验概率估计。&lt;/li&gt;
+&lt;li&gt;监督学习问题转换为经验风险或结构风险函数的最优化问题。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;泛化误差：所学到的模型的期望风险$R(\hat{f})=E_P[L(Y,\hat{f}(X))]=\int_{\mathcal{X},\mathcal{Y}} L(y,\hat{f}(x)) P(x,y) dxdy$&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;《统计学习方法》第一章统计学习方法概述笔记。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="机器学习" scheme="http://www.stackess.com/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    
+    
+      <category term="机器学习" scheme="http://www.stackess.com/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    
+      <category term="统计学习方法" scheme="http://www.stackess.com/tags/%E7%BB%9F%E8%AE%A1%E5%AD%A6%E4%B9%A0%E6%96%B9%E6%B3%95/"/>
+    
+  </entry>
   
   <entry>
     <title>算法导论笔记：渐近大于和多项式大于</title>
@@ -1607,73 +1658,6 @@
     
     
       <category term="SVM" scheme="http://www.stackess.com/tags/SVM/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>机器学习的可行性</title>
-    <link href="http://www.stackess.com/ml_note/"/>
-    <id>http://www.stackess.com/ml_note/</id>
-    <published>2015-04-07T06:47:00.000Z</published>
-    <updated>2016-04-08T16:48:25.916Z</updated>
-    
-    <content type="html">&lt;p&gt;笔记整理：以罐抓小球为例，推广到机器学习问题，并分为有限的H和无限的H两种情况。&lt;br&gt;&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;本文基于以下内容整理：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;台大林轩田老师的开放课程-&lt;a href=&quot;https://www.coursera.org/course/ntumlone&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;机器学习基石&lt;/a&gt;，其中&lt;a href=&quot;http://pan.baidu.com/s/1mgt4D3y&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;课程视频&lt;/a&gt;。&lt;/li&gt;
-&lt;li&gt;参考笔记beader-&lt;a href=&quot;http://beader.me/mlnotebook/section2/is-learning-feasible.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;机器学习的可行性&lt;/a&gt;的2.1-2.3部分，包括了详细的推导细节。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;主要在于抓住脉络，即：&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;以罐抓小球为例，推广到机器学习问题，并分为有限的H和无限的H两种情况。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;hr&gt;
-&lt;h2 id=&quot;以罐抓小球为例&quot;&gt;&lt;a href=&quot;#以罐抓小球为例&quot; class=&quot;headerlink&quot; title=&quot;以罐抓小球为例&quot;&gt;&lt;/a&gt;以罐抓小球为例&lt;/h2&gt;&lt;p&gt;对某一固定罐子，其中有橙色、绿色的小球，要估算其中橙色小球的比例（$u$）。可以通过抽样一部分样本，计算橙色的比例（$v$）来估算。&lt;/p&gt;
-&lt;p&gt;当抽样数量$N$足够大时，$v\rightarrow u$，根据Hoeffding’s Inequality，有$P(|v-u|&amp;gt;\epsilon)\leq 2\exp(-2\epsilon^2N)$ 。&lt;/p&gt;
-&lt;hr&gt;
-&lt;h2 id=&quot;类比到learning问题&quot;&gt;&lt;a href=&quot;#类比到learning问题&quot; class=&quot;headerlink&quot; title=&quot;类比到learning问题&quot;&gt;&lt;/a&gt;类比到learning问题&lt;/h2&gt;&lt;p&gt;对某一固定$h$，当$N$足够大且$x_n$独立同分布时，有$P[h(\vec x_n)=y_n]\rightarrow P[h(\vec x)=f(\vec x)]$。同时$P[h(\vec x_n)=y_n]$越大越好。&lt;/p&gt;
-&lt;p&gt;也就是$P[h(\vec x_n)\neq y_n]\rightarrow P[h(\vec x)\neq f(\vec x)]$。两者的差距要越小越好，用一个上界可以限制。同时$P[h(\vec x_n)\neq y_n]$越小越好。&lt;/p&gt;
-&lt;p&gt;再分别用 $E_{in}(h)=\frac{1}{N}\sum^N_{n=1}[h(\vec x_n)\neq y_n]$ 和 $E_{out}(h)=E_{\vec x\sim P}[h(\vec x)\neq f(\vec x)]$ 替换掉。&lt;/p&gt;
-&lt;p&gt;另外，$A$还要能自由选择$h$。&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;综上，要令$E_{in}(h)$和$E_{out}(h)$接近，差距可以用上界控制，且$E_{in}(h)$很小。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h3 id=&quot;有限的H&quot;&gt;&lt;a href=&quot;#有限的H&quot; class=&quot;headerlink&quot; title=&quot;有限的H&quot;&gt;&lt;/a&gt;有限的H&lt;/h3&gt;&lt;p&gt;$E_{in}(h)$和$E_{out}(h)$的差距会受$D$的影响。如果样本糟糕，可能令多个$h$的$|E_{in}(h)-E_{out}(h)|$偏差。&lt;/p&gt;
-&lt;p&gt;$|E_{in}(h)-E_{out}(h)|&amp;gt;\epsilon \Leftrightarrow   \text{Bad Sample for } h$&lt;/p&gt;
-&lt;p&gt;对有限的$H$，$N$足够大，由union bound，设$M=|H|$，使得&lt;br&gt;$$P|E_{in}(h)-E_{out}(h)|&amp;gt;\epsilon)=P(   \text{Bad Sample for } h) \leq 2M\exp(-2\epsilon^2N)$$成立，也就是用上界限制住了。&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;因此，对有限的$H$，$N$足够大，成立。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h3 id=&quot;无限的H&quot;&gt;&lt;a href=&quot;#无限的H&quot; class=&quot;headerlink&quot; title=&quot;无限的H&quot;&gt;&lt;/a&gt;无限的H&lt;/h3&gt;&lt;p&gt;(1) 对无限的$H$，union bound无效，考虑替换$M$。&lt;/p&gt;
-&lt;p&gt;$h$作用于$N$个样本，产生的判定结果（0或1）最多有$2^N$种，这个不能做上界。实际上，结果常常没有$2^N$种。&lt;/p&gt;
-&lt;p&gt;$N$个样本的每一种结果称为一个&lt;code&gt;dichotomy&lt;/code&gt;，dichotomy集合为$H(\vec x_1,\vec x_2,\ldots,\vec x_N)$，与具体的$\vec x_1,\vec x_2,\ldots,\vec x_N$有关。&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;shatter&lt;/code&gt;指对$N$个样本，存在一组$\vec x_1,\vec x_2,\ldots,\vec x_N$，使得$H(\vec x_1,\vec x_2,\ldots,\vec x_N)$可以包括样本的所有情况$2^N$。也就是最多种结果=$2^N$。&lt;/p&gt;
-&lt;p&gt;用&lt;code&gt;成长函数&lt;/code&gt;表示最多有多少种结果，定义为&lt;/p&gt;
-&lt;p&gt;$$&lt;br&gt;m_H(N)=max_{\vec x_1,\vec x_2,\ldots,\vec x_N\in X}|H(\vec x_1,\vec x_2,\ldots,\vec x_N)|,&lt;br&gt;$$&lt;/p&gt;
-&lt;p&gt;与具体的$\vec x_1,\vec x_2,\ldots,\vec x_N$无关。&lt;code&gt;shatter&lt;/code&gt;就是$m_H(N)=2^N$。&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;&lt;p&gt;猜测可以用$m_H(N)$替换$M$，找$m_H(N)$的上界。&lt;/p&gt;
-&lt;p&gt; 对$N$个样本，如$H$不能shatter，则$N$就是&lt;code&gt;break point&lt;/code&gt;。已知存在$k$为break point，&lt;br&gt; $$&lt;br&gt; m_H(N)\leq B(N,k)=\sum_{i=0}^{k-1}C^i_n\leq N^{k-1}.&lt;br&gt; $$&lt;/p&gt;
-&lt;p&gt; &lt;code&gt;VC维&lt;/code&gt;定义为$d_{vc}=k-1$，$m_H(N)\leq N^{d_{vc}}$。&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;改动$m_H(N)$可替换$M$。&lt;br&gt; $$&lt;br&gt; P|E_{in}(h)-E_{out}(h)|&amp;gt;\epsilon)=P(   \text{Bad Sample for } h) \leq 4(2N)^{d_{vc}} \exp(-1/8 \epsilon^2 N)&lt;br&gt; .$$&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ol&gt;
-&lt;blockquote&gt;
-&lt;p&gt;因此，对无限的$H$，$N$足够大，且$m_H(N)$有break point时，成立。&lt;/p&gt;
-&lt;/blockquote&gt;
-</content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;笔记整理：以罐抓小球为例，推广到机器学习问题，并分为有限的H和无限的H两种情况。&lt;br&gt;
-    
-    </summary>
-    
-      <category term="机器学习" scheme="http://www.stackess.com/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
-    
-    
-      <category term="机器学习基石" scheme="http://www.stackess.com/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%9F%B3/"/>
     
   </entry>
   
